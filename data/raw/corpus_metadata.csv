@@ -1,0 +1,306 @@
+shame_id,author_and_title,original_id,author,author_fname,author_lname,time_period,author_gender,title,word_count,publ_year,doc_link,source_corpus
+SHAME_001,Albin Prepeluh  - Mina,KDSP199,Albin Prepeluh,Albin,Prepeluh,Realism,M,Mina,33237,1910,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10022.xml,KDSP
+SHAME_002,Alojz Kraigher  - Kontrolor Škrobar,KDSP234,Alojz Kraigher,Alojz,Kraigher,Modernism,M,Kontrolor Škrobar,136107,1914,https://www.dlib.si/details/URN:NBN:SI:DOC-KCBULTUI,KDSP
+SHAME_003,Alojz Kraigher  - Mlada ljubezen,KDSP254,Alojz Kraigher,Alojz,Kraigher,Modernism,M,Mlada ljubezen,78813,1917,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00355.xml,KDSP
+SHAME_004,Alojzij Kokalj  - Cerkvene miši,KDSP227,Alojzij Kokalj,Alojzij,Kokalj,Realism,M,Cerkvene miši,86176,1913,https://sl.wikisource.org/wiki/Cerkvene_mi%C5%A1i,KDSP
+SHAME_005,Alojzij Remec  - Veliki punt,KDSP185,Alojzij Remec,Alojzij,Remec,Modernism,M,Veliki punt,53897,1909,https://www.dlib.si/details/URN:NBN:SI:DOC-WAIJ1NXL,KDSP
+SHAME_006,Andrej Budal  - Križev pot Petra Kupljenika,KDSP202,Andrej Budal,Andrej,Budal,Realism,M,Križev pot Petra Kupljenika,23289,1911,https://sl.wikisource.org/wiki/Kri%C5%BEev_pot_Petra_Kupljenika,KDSP
+SHAME_007,Anonymous Anonymous  - Ada,KDSP170,Anonymous Anonymous,Anonymous,Anonymous,unknown,unknown,Ada,23319,1908,https://sl.wikisource.org/wiki/Ada_(Slovenski_narod) ,KDSP
+SHAME_008,Anonymous Anonymous  - Carska zločinstva,KDSP187,Anonymous Anonymous,Anonymous,Anonymous,unknown,unknown,Carska zločinstva,41539,1910,https://www.dlib.si/details/URN:NBN:SI:DOC-ZFGISEHW,KDSP
+SHAME_009,"Anonymous Anonymous  - Izidor, brumni kmet",Neznani_Izidor1835,Anonymous Anonymous,Anonymous,Anonymous,unknown,unknown,"Izidor, brumni kmet",13428,1835,,PriLit
+SHAME_010,Anonymous Anonymous  - Odlomki iz dnevnika,KDSP251,Anonymous Anonymous,Anonymous,Anonymous,unknown,unknown,Odlomki iz dnevnika,22580,1917,https://sl.wikisource.org/wiki/Odlomki_iz_dnevnika_(Slovenec),KDSP
+SHAME_011,Anonymous Anonymous  - Poštena Bohinčeka v Benetkah,,Anonymous Anonymous,Anonymous,Anonymous,unknown,unknown,Poštena Bohinčeka v Benetkah,18929,1857,https://lit.ijs.si/bohinceka.html,Wikivir - leposlovje
+SHAME_012,Anonymous Anonymous  - Vihar,KDSP201,Anonymous Anonymous,Anonymous,Anonymous,unknown,unknown,Vihar,19879,1911,https://sl.wikisource.org/wiki/Vihar_(Slovenec),KDSP
+SHAME_013,Anton Bartel  - Pomladanski vetrovi,KDSP036,Anton Bartel,Anton,Bartel,Realism,M,Pomladanski vetrovi,65225,1881,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00094.xml,KDSP
+SHAME_014,Anton Funtek  - Iz spominov mlade žene,KDSP056,Anton Funtek,Anton,Funtek,Realism,M,Iz spominov mlade žene,38633,1887,https://sl.wikisource.org/wiki/Iz_spominov_mlade_%C5%BEene,KDSP
+SHAME_015,Anton Koder  - Kmetski triumvirat,KDSP045,Anton Koder,Anton,Koder,Realism,M,Kmetski triumvirat,43221,1884,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10012.xml,KDSP
+SHAME_016,Anton Koder  - Luteranci,KDSP043,Anton Koder,Anton,Koder,Realism,M,Luteranci,42381,1883,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00098.xml,KDSP
+SHAME_017,Anton Koder  - Marjetica,KDSP029,Anton Koder,Anton,Koder,Realism,M,Marjetica,61987,1877,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00099.xml,KDSP
+SHAME_018,Anton Koder  - Na naših gorah,KDSP030,Anton Koder,Anton,Koder,Realism,M,Na naših gorah,23379,1877,https://sl.wikisource.org/wiki/Na_na%C5%A1ih_gorah,KDSP
+SHAME_019,Anton Koder  - V gorskem zakotji,KDSP042,Anton Koder,Anton,Koder,Realism,M,V gorskem zakotji,23069,1883,https://sl.wikisource.org/wiki/V_gorskem_zakotji,KDSP
+SHAME_020,Anton Koder  - Zvezdana,KDSP041,Anton Koder,Anton,Koder,Realism,M,Zvezdana,31107,1883,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00103.xml,KDSP
+SHAME_021,Anton Mahnič  - Zadnji samotar,KDSP050,Anton Mahnič,Anton,Mahnič,Realism,M,Zadnji samotar,75393,1885,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10016.xml,KDSP
+SHAME_022,Emil Vodeb  - Libera nos a malo,KDSP214,Emil Vodeb,Emil,Vodeb,Realism,M,Libera nos a malo,36292,1911,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10027.xml,KDSP
+SHAME_023,Engelbert Gangl  - Trije rodovi,KDSP190,Engelbert Gangl,Engelbert,Gangl,Realism,M,Trije rodovi,124034,1910,https://www.dlib.si/details/URN:NBN:SI:DOC-JSHV4SVQ,KDSP
+SHAME_024,Engelbert Gangl  - Veliki trgovec,KDSP119,Engelbert Gangl,Engelbert,Gangl,Realism,M,Veliki trgovec,83999,1902,https://sl.wikisource.org/wiki/Veliki_trgovec,KDSP
+SHAME_025,Etbin Kristan  - Pertinčarjevo pomlajenje,KDSP235,Etbin Kristan,Etbin,Kristan,Modernism,M,Pertinčarjevo pomlajenje,55171,1914,https://www.dlib.si/details/URN:NBN:SI:DOC-GVQ6VTKK,KDSP
+SHAME_026,Etbin Kristan  - Savičev pesimizem,KDSP192,Etbin Kristan,Etbin,Kristan,Modernism,M,Savičev pesimizem,19735,1910,https://www.dlib.si/details/URN:NBN:SI:DOC-CCHHHB3I,KDSP
+SHAME_027,Fedor Gradišnik  - Institutka,KDSP207,Fedor Gradišnik,Fedor,Gradišnik,Realism,M,Institutka,45400,1911,https://www.dlib.si/details/URN:NBN:SI:DOC-IWR2QMON,KDSP
+SHAME_028,Ferdo Kočevar  - Mlinarjev Janez,KDSP002,Ferdo Kočevar,Ferdo,Kočevar,Realism,M,Mlinarjev Janez,31837,1858,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV20001.xml,KDSP
+SHAME_029,Fran Detela  - Delo in denar,KDSP188,Fran Detela,Fran,Detela,Realism,M,Delo in denar,74284,1910,https://www.dlib.si/details/URN:NBN:SI:DOC-3H4O0R9D,KDSP
+SHAME_030,Fran Detela  - Gospod Lisec,KDSP078,Fran Detela,Fran,Detela,Realism,M,Gospod Lisec,39773,1894,https://sl.wikisource.org/wiki/Gospod_Lisec,KDSP
+SHAME_031,Fran Detela  - Malo življenje,KDSP038,Fran Detela,Fran,Detela,Realism,M,Malo življenje,56511,1882,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00363.xml,KDSP
+SHAME_032,Fran Detela  - Novo življenje,KDSP173,Fran Detela,Fran,Detela,Realism,M,Novo življenje,43465,1908,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00364.xml,KDSP
+SHAME_033,Fran Detela  - Pegam in Lambergar,KDSP069,Fran Detela,Fran,Detela,Realism,M,Pegam in Lambergar,62297,1891,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00111.xml,KDSP
+SHAME_034,Fran Detela  - Prihajač,KDSP059,Fran Detela,Fran,Detela,Realism,M,Prihajač,38485,1888,https://sl.wikisource.org/wiki/Prihaja%C4%8D,KDSP
+SHAME_035,Fran Detela  - Rodoljubje na deželi,KDSP174,Fran Detela,Fran,Detela,Realism,M,Rodoljubje na deželi,54015,1908,https://sl.wikisource.org/wiki/Rodoljubje_na_de%C5%BEeli,KDSP
+SHAME_036,Fran Detela  - Sošolci,KDSP204,Fran Detela,Fran,Detela,Realism,M,Sošolci,53659,1911,https://sl.wikisource.org/wiki/So%C5%A1olci_(Fran_Detela),KDSP
+SHAME_037,Fran Detela  - Svetloba in senca,KDSP245,Fran Detela,Fran,Detela,Realism,M,Svetloba in senca,67772,1916,https://sl.wikisource.org/wiki/Svetloba_in_senca,KDSP
+SHAME_038,Fran Detela  - Trojka,KDSP097,Fran Detela,Fran,Detela,Realism,M,Trojka,78671,1897,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00278.xml,KDSP
+SHAME_039,Fran Detela  - Tujski promet,KDSP217,Fran Detela,Fran,Detela,Realism,M,Tujski promet,56748,1912,https://sl.wikisource.org/wiki/Tujski_promet,KDSP
+SHAME_040,Fran Detela  - Veliki grof,KDSP048,Fran Detela,Fran,Detela,Realism,M,Veliki grof,45376,1885,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00112.xml,KDSP
+SHAME_041,Fran Gestrin  - Iz arhiva,KDSP064,Fran Gestrin,Fran,Gestrin,Realism,M,Iz arhiva,25979,1890,https://sl.wikisource.org/wiki/Iz_arhiva,KDSP
+SHAME_042,Fran Govekar  - Ljubezen in rodoljubje,KDSP092,Fran Govekar,Fran,Govekar,Modernism,M,Ljubezen in rodoljubje,32097,1896,https://sl.wikisource.org/wiki/Ljubezen_in_rodoljubje,KDSP
+SHAME_043,Fran Govekar  - Svitanje,SLV10030,Fran Govekar,Fran,Govekar,Modernism,M,Svitanje,123801,1921,,ELTeC
+SHAME_044,Fran Govekar  - V krvi,KDSP091,Fran Govekar,Fran,Govekar,Modernism,M,V krvi,51472,1896,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00048.xml,KDSP
+SHAME_045,Fran Jaklič  - Iz našega kota,KDSP102,Fran Jaklič,Fran,Jaklič,Realism,M,Iz našega kota,27290,1898,https://sl.wikisource.org/wiki/Iz_na%C5%A1ega_kota,KDSP
+SHAME_046,Fran Jaklič  - Lepi Tonček,KDSP084,Fran Jaklič,Fran,Jaklič,Realism,M,Lepi Tonček,22056,1895,https://sl.wikisource.org/wiki/Lepi_Ton%C4%8Dek,KDSP
+SHAME_047,Fran Jaklič  - Ljudska osveta,KDSP072,Fran Jaklič,Fran,Jaklič,Realism,M,Ljudska osveta,31610,1892,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00126.xml,KDSP
+SHAME_048,Fran Jaklič  - Luka Vrbec,KDSP065,Fran Jaklič,Fran,Jaklič,Realism,M,Luka Vrbec,21773,1890,https://sl.wikisource.org/wiki/Luka_Vrbec,KDSP
+SHAME_049,Fran Jaklič  - Na Samovcu,KDSP070,Fran Jaklič,Fran,Jaklič,Realism,M,Na Samovcu,22870,1891,https://sl.wikisource.org/wiki/Na_Samovcu,KDSP
+SHAME_050,Fran Jaklič  - Od hiše do hiše,KDSP115,Fran Jaklič,Fran,Jaklič,Realism,M,Od hiše do hiše,27654,1901,https://sl.wikisource.org/wiki/Od_hi%C5%A1e_do_hi%C5%A1e,KDSP
+SHAME_051,Fran Knaflič  - Ob Balkanu,KDSP103,Fran Knaflič,Fran,Knaflič,Realism,M,Ob Balkanu,74542,1898,https://sl.wikisource.org/wiki/Ob_Balkanu,KDSP
+SHAME_052,Fran Maselj Podlimbarski  - Gorski potoki,KDSP085,Fran Maselj Podlimbarski,Fran,Maselj Podlimbarski,Realism,M,Gorski potoki,34686,1895,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00132.xml,KDSP
+SHAME_053,Fran Maselj Podlimbarski  - Gospodin Franjo,KDSP230,Fran Maselj Podlimbarski,Fran,Maselj Podlimbarski,Realism,M,Gospodin Franjo,173960,1913,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10018.xml,KDSP
+SHAME_054,Fran Maselj Podlimbarski  - Iz starih zapiskov,KDSP176,Fran Maselj Podlimbarski,Fran,Maselj Podlimbarski,Realism,M,Iz starih zapiskov,27484,1908,https://sl.wikisource.org/wiki/Iz_starih_zapiskov,KDSP
+SHAME_055,Fran Maselj Podlimbarski  - Potresna povest,KDSP127,Fran Maselj Podlimbarski,Fran,Maselj Podlimbarski,Realism,M,Potresna povest,36766,1903,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00310.xml,KDSP
+SHAME_056,Fran Maselj Podlimbarski  - Povest Ivana Polaja,KDSP183,Fran Maselj Podlimbarski,Fran,Maselj Podlimbarski,Realism,M,Povest Ivana Polaja,48224,1909,https://sl.wikisource.org/wiki/Povest_Ivana_Polaja,KDSP
+SHAME_057,Fran Milčinski  - Gospodična Mici,KDSP247,Fran Milčinski,Fran,Milčinski,Modernism,M,Gospodična Mici,22119,1916,https://sl.wikisource.org/wiki/Gospodi%C4%8Dna_Mici,KDSP
+SHAME_058,Fran Milčinski  - Ptički brez gnezda,KDSP260,Fran Milčinski,Fran,Milčinski,Modernism,M,Ptički brez gnezda,79061,1918,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10019.xml,KDSP
+SHAME_059,Fran Saleški Finžgar  - Dekla Ančka,KDSP226,Fran Saleški Finžgar,Fran,Saleški Finžgar,Modernism,M,Dekla Ančka,26118,1913,https://sl.wikisource.org/wiki/Dekla_An%C4%8Dka,KDSP
+SHAME_060,Fran Saleški Finžgar  - Iz modernega sveta,KDSP134,Fran Saleški Finžgar,Fran,Saleški Finžgar,Modernism,M,Iz modernega sveta,61967,1904,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00496.xml,KDSP
+SHAME_061,Fran Saleški Finžgar  - Moja duša vasuje,SLV00497,Fran Saleški Finžgar,Fran,Saleški Finžgar,Modernism,M,Moja duša vasuje,31967,1903,,ELTeC
+SHAME_062,Fran Saleški Finžgar  - Pod svobodnim soncem,KDSP163,Fran Saleški Finžgar,Fran,Saleški Finžgar,Modernism,M,Pod svobodnim soncem,139672,1907,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10005.xml,KDSP
+SHAME_063,Fran Saleški Finžgar  - Sama,KDSP221,Fran Saleški Finžgar,Fran,Saleški Finžgar,Modernism,M,Sama,50286,1912,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00498.xml,KDSP
+SHAME_064,Fran Saleški Finžgar  - Strici,,Fran Saleški Finžgar,Fran,Saleški Finžgar,Modernism,M,Strici,15762,1927,https://lit.ijs.si/strici.html,Wikivir - leposlovje
+SHAME_065,Fran Zbašnik  - Boj za pravico,KDSP238,Fran Zbašnik,Fran,Zbašnik,Realism,M,Boj za pravico,79602,1914,https://sl.wikisource.org/wiki/Boj_za_pravico,KDSP
+SHAME_066,Fran Zbašnik  - Na krivih potih,KDSP077,Fran Zbašnik,Fran,Zbašnik,Realism,M,Na krivih potih,58211,1893,https://sl.wikisource.org/wiki/Na_krivih_potih,KDSP
+SHAME_067,Fran Zbašnik  - Pisana mati,KDSP186,Fran Zbašnik,Fran,Zbašnik,Realism,M,Pisana mati,70062,1909,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00391.xml,KDSP
+SHAME_068,Fran Zbašnik  - Prijateljstvo in ljubezen,KDSP140,Fran Zbašnik,Fran,Zbašnik,Realism,M,Prijateljstvo in ljubezen,44660,1904,https://sl.wikisource.org/wiki/Prijateljstvo_in_ljubezen,KDSP
+SHAME_069,Fran Zbašnik  - Vas Kot,KDSP096,Fran Zbašnik,Fran,Zbašnik,Realism,M,Vas Kot,29717,1896,https://sl.wikisource.org/wiki/Vas_Kot,KDSP
+SHAME_070,Fran Zbašnik  - Z viharja v zavetje,KDSP111,Fran Zbašnik,Fran,Zbašnik,Realism,M,Z viharja v zavetje,90382,1900,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10032.xml,KDSP
+SHAME_071,Fran Zbašnik  - Žrtve,KDSP117,Fran Zbašnik,Fran,Zbašnik,Realism,M,Žrtve,56260,1901,https://sl.wikisource.org/wiki/%C5%BDrtve_(Fran_Zba%C5%A1nik),KDSP
+SHAME_072,Franc Ksaver Meško  - Na Poljani,KDSP164,Franc Ksaver Meško,Franc,Ksaver Meško,Modernism,M,Na Poljani,61168,1907,https://www.dlib.si/details/URN:NBN:SI:DOC-3RCE94D0,KDSP
+SHAME_073,Franc Rant  - Na rodnih tleh,KDSP177,Franc Rant,Franc,Rant,Realism,M,Na rodnih tleh,43178,1908,https://sl.wikisource.org/wiki/Na_rodnih_tleh,KDSP
+SHAME_074,Franc Slemenik  - Izdajavec,KDSP016,Franc Slemenik,Franc,Slemenik,Realism,M,Izdajavec,47585,1873,https://sl.wikisource.org/wiki/Izdajavec,KDSP
+SHAME_075,Franc Slemenik  - Križem sveta,KDSP031,Franc Slemenik,Franc,Slemenik,Realism,M,Križem sveta,30261,1877,https://sl.wikisource.org/wiki/Kri%C5%BEem_sveta,KDSP
+SHAME_076,Franc Veriti  - Popotnik široke in vozke poti,Veriti_Popotnik1828,Franc Veriti,Franc,Veriti,Realism,M,Popotnik široke in vozke poti,37675,1828,,PriLit
+SHAME_077,Franc Veriti  - Življenje svetnikov in prestavni godovi I.,Veriti_SvetnikiI1828,Franc Veriti,Franc,Veriti,Realism,M,Življenje svetnikov in prestavni godovi I.,114750,1828,,PriLit
+SHAME_078,France Bevk  - Človek brez krinke,,France Bevk,France,Bevk,Realism,M,Človek brez krinke,35293,1934,https://sl.wikisource.org/wiki/Človek_brez_krinke ,Wikisource
+SHAME_079,France Bevk  - Povest male Dore,,France Bevk,France,Bevk,Realism,M,Povest male Dore,26312,1926,https://sl.wikisource.org/wiki/Povest_male_Dore,Wikisource
+SHAME_080,Frank Tauchar  - Slovenec - glavar Indijancev,KDSP257,Frank Tauchar,Frank,Tauchar,Realism,M,Slovenec - glavar Indijancev,57325,1917,https://sl.wikisource.org/wiki/Slovenec_%E2%80%93_glavar_Indijancev,KDSP
+SHAME_081,Ivan Cankar  - Aleš iz Razora,KDSP162,Ivan Cankar,Ivan,Cankar,Modernism,M,Aleš iz Razora,21294,1907,https://sl.wikisource.org/wiki/Ale%C5%A1_iz_Razora,KDSP
+SHAME_082,Ivan Cankar  - Gospa Judit,KDSP132,Ivan Cankar,Ivan,Cankar,Modernism,M,Gospa Judit,28749,1904,https://sl.wikisource.org/wiki/Gospa_Judit,KDSP
+SHAME_083,Ivan Cankar  - Grešnik Lenart,,Ivan Cankar,Ivan,Cankar,Modernism,M,Grešnik Lenart,24587,1921,https://sl.wikisource.org/wiki/Gre%C5%A1nik_Lenart_(Ivan_Cankar),Wikisource
+SHAME_084,Ivan Cankar  - Hiša Marije Pomočnice,KDSP131,Ivan Cankar,Ivan,Cankar,Modernism,M,Hiša Marije Pomočnice,30111,1904,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10001.xml,KDSP
+SHAME_085,Ivan Cankar  - Hlapec Jernej in njegova pravica,,Ivan Cankar,Ivan,Cankar,Modernism,M,Hlapec Jernej in njegova pravica,18528,1907,https://lit.ijs.si/hlapec.html ,Wikivir - leposlovje
+SHAME_086,Ivan Cankar  - Jesenske noči,,Ivan Cankar,Ivan,Cankar,Modernism,M,Jesenske noči,10012,1900,https://sl.wikisource.org/wiki/Jesenske_no%C4%8Di,Wikisource
+SHAME_087,Ivan Cankar  - Knjiga za lahkomiselne ljudi,,Ivan Cankar,Ivan,Cankar,Modernism,M,Knjiga za lahkomiselne ljudi,46913,1901,https://sl.wikisource.org/wiki/Knjiga_za_lahkomiselne_ljudi,Wikisource
+SHAME_088,Ivan Cankar  - Krčmar Elija,KDSP203,Ivan Cankar,Ivan,Cankar,Modernism,M,Krčmar Elija,22079,1911,https://sl.wikisource.org/wiki/Troje_povesti,KDSP
+SHAME_089,Ivan Cankar  - Križ na gori,KDSP133,Ivan Cankar,Ivan,Cankar,Modernism,M,Križ na gori,38677,1904,https://sl.wikisource.org/wiki/Kri%C5%BE_na_gori,KDSP
+SHAME_090,Ivan Cankar  - Kurent,,Ivan Cankar,Ivan,Cankar,Modernism,M,Kurent,17725,1909,https://sl.wikisource.org/wiki/Kurent,Wikisource
+SHAME_091,Ivan Cankar  - Martin Kačur,KDSP161,Ivan Cankar,Ivan,Cankar,Modernism,M,Martin Kačur,40766,1907,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00398.xml,KDSP
+SHAME_092,Ivan Cankar  - Milan in Milena,KDSP224,Ivan Cankar,Ivan,Cankar,Modernism,M,Milan in Milena,24578,1913,https://sl.wikisource.org/wiki/Milan_in_Milena,KDSP
+SHAME_093,Ivan Cankar  - Mimo življenja,,Ivan Cankar,Ivan,Cankar,Modernism,M,Mimo življenja,54091,1921,https://sl.wikisource.org/wiki/Mimo_%C5%BEivljenja,Wikisource
+SHAME_094,Ivan Cankar  - Na klancu,KDSP118,Ivan Cankar,Ivan,Cankar,Modernism,M,Na klancu,59611,1902,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00401.xml,KDSP
+SHAME_095,Ivan Cankar  - Nina,KDSP150,Ivan Cankar,Ivan,Cankar,Modernism,M,Nina,24780,1906,https://sl.wikisource.org/wiki/Nina_(Ivan_Cankar),KDSP
+SHAME_096,Ivan Cankar  - Novela doktorja Grudna,,Ivan Cankar,Ivan,Cankar,Modernism,M,Novela doktorja Grudna,13700,1903,https://sl.wikisource.org/wiki/Novela_doktorja_Grudna,Wikisource
+SHAME_097,Ivan Cankar  - Novo življenje,KDSP172,Ivan Cankar,Ivan,Cankar,Modernism,M,Novo življenje,31642,1908,https://sl.wikisource.org/wiki/Novo_%C5%BEivljenje_(Ivan_Cankar),KDSP
+SHAME_098,Ivan Cankar  - Ob zori,,Ivan Cankar,Ivan,Cankar,Modernism,M,Ob zori,36327,1903,https://sl.wikisource.org/wiki/Ob_zori,Wikisource
+SHAME_099,Ivan Cankar  - Polikarp,,Ivan Cankar,Ivan,Cankar,Modernism,M,Polikarp,16519,1905,https://sl.wikisource.org/wiki/Polikarp,Wikisource
+SHAME_100,Ivan Cankar  - Popotovanje Nikolaja Nikiča,,Ivan Cankar,Ivan,Cankar,Modernism,M,Popotovanje Nikolaja Nikiča,14031,1900,https://sl.wikisource.org/wiki/Popotovanje_Nikolaja_Niki%C4%8Da,Wikisource
+SHAME_101,Ivan Cankar  - Potepuh Marko in kralj Matjaž,KDSP141,Ivan Cankar,Ivan,Cankar,Modernism,M,Potepuh Marko in kralj Matjaž,26651,1905,https://sl.wikisource.org/wiki/Potepuh_Marko_in_kralj_Matja%C5%BE,KDSP
+SHAME_102,Ivan Cankar  - Smrt in pogreb Jakoba Nesreče,,Ivan Cankar,Ivan,Cankar,Modernism,M,Smrt in pogreb Jakoba Nesreče,12476,1906,https://sl.wikisource.org/wiki/Smrt_in_pogreb_Jakoba_Nesreče,Wikisource
+SHAME_103,Ivan Cankar  - Smrt kontrolorja Stepnika,,Ivan Cankar,Ivan,Cankar,Modernism,M,Smrt kontrolorja Stepnika,10191,1900,https://sl.wikisource.org/wiki/Smrt_kontrolorja_Stepnika,Wikisource
+SHAME_104,Ivan Cankar  - Sosed Luka,,Ivan Cankar,Ivan,Cankar,Modernism,M,Sosed Luka,12354,1909,https://sl.wikisource.org/wiki/Sosed_Luka,Wikisource
+SHAME_105,Ivan Cankar  - Tujci,KDSP113,Ivan Cankar,Ivan,Cankar,Modernism,M,Tujci,44259,1901,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00410.xml,KDSP
+SHAME_106,Ivan Cankar  - V samoti,,Ivan Cankar,Ivan,Cankar,Modernism,M,V samoti,10776,1908,https://sl.wikisource.org/wiki/V_samoti,Wikisource
+SHAME_107,Ivan Cankar  - Volja in moč,,Ivan Cankar,Ivan,Cankar,Modernism,M,Volja in moč,27159,1911,https://sl.wikisource.org/wiki/Volja_in_mo%C4%8D,Wikisource
+SHAME_108,Ivan Cankar  - Za križem,,Ivan Cankar,Ivan,Cankar,Modernism,M,Za križem,55525,1909,https://sl.wikisource.org/wiki/Za_kri%C5%BEem,Wikisource
+SHAME_109,Ivan Cankar  - Zgodba o dveh mladih ljudeh,,Ivan Cankar,Ivan,Cankar,Modernism,M,Zgodba o dveh mladih ljudeh,19473,1911,https://lit.ijs.si/troje1.html ,Wikivir - leposlovje
+SHAME_110,Ivan Cankar  - Zgodba o Šimnu Sirotniku,,Ivan Cankar,Ivan,Cankar,Modernism,M,Zgodba o Šimnu Sirotniku,13586,1911,https://lit.ijs.si/troje3.html ,Wikivir - leposlovje
+SHAME_111,Ivan Cankar  - Zgodbe iz doline šentflorjanske,,Ivan Cankar,Ivan,Cankar,Modernism,M,Zgodbe iz doline šentflorjanske,39661,1908,https://sl.wikisource.org/wiki/Zgodbe_iz_doline_%C5%A1entflorjanske,Wikisource
+SHAME_112,Ivan Cankar  - Življenje in smrt Petra Novljana,KDSP123,Ivan Cankar,Ivan,Cankar,Modernism,M,Življenje in smrt Petra Novljana,25706,1903,https://sl.wikisource.org/wiki/%C5%BDivljenje_in_smrt_Petra_Novljana,KDSP
+SHAME_113,Ivan Fajdiga  - Deset let v peklu,KDSP205,Ivan Fajdiga,Ivan,Fajdiga,Realism,M,Deset let v peklu,28864,1911,https://www.dlib.si/details/URN:NBN:SI:DOC-DPLK58XI,KDSP
+SHAME_114,Ivan Fajdiga  - Nebesa,KDSP142,Ivan Fajdiga,Ivan,Fajdiga,Realism,M,Nebesa,38268,1905,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10004.xml,KDSP
+SHAME_115,Ivan Janežič  - Gospa s pristave,KDSP079,Ivan Janežič,Ivan,Janežič,unknown,M,Gospa s pristave,96449,1894,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00135.xml,KDSP
+SHAME_116,Ivan Lah  - Brambovci,KDSP193,Ivan Lah,Ivan,Lah,Realism,M,Brambovci,141605,1910,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10031.xml,KDSP
+SHAME_117,Ivan Lah  - Iz časov romantike,KDSP152,Ivan Lah,Ivan,Lah,Realism,M,Iz časov romantike,27398,1906,https://sl.wikisource.org/wiki/Iz_%C4%8Dasov_romantike,KDSP
+SHAME_118,Ivan Lah  - Uporniki,KDSP153,Ivan Lah,Ivan,Lah,Realism,M,Uporniki,82751,1906,https://sl.wikisource.org/wiki/Uporniki_(Ivan_Lah),KDSP
+SHAME_119,Ivan Lah  - Vaška kronika,KDSP166,Ivan Lah,Ivan,Lah,Realism,M,Vaška kronika,51190,1907,https://www.dlib.si/details/URN:NBN:SI:DOC-ULMI26LD,KDSP
+SHAME_120,Ivan Pregelj  - Mlada Breda,KDSP231,Ivan Pregelj,Ivan,Pregelj,Realism,M,Mlada Breda,84671,1913,https://sl.wikisource.org/wiki/Mlada_Breda_(Ivan_Pregelj),KDSP
+SHAME_121,Ivan Pregelj  - Tlačani,KDSP248,Ivan Pregelj,Ivan,Pregelj,Realism,M,Tlačani,71580,1916,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00417.xml,KDSP
+SHAME_122,Ivan Pregelj  - Zadnji upornik,KDSP261,Ivan Pregelj,Ivan,Pregelj,Realism,M,Zadnji upornik,30752,1918,https://sl.wikisource.org/wiki/Zadnji_upornik,KDSP
+SHAME_123,Ivan Štrukelj  - Prve hiše,KDSP095,Ivan Štrukelj,Ivan,Štrukelj,Realism,M,Prve hiše,27604,1896,https://sl.wikisource.org/wiki/Prve_hi%C5%A1e,KDSP
+SHAME_124,Ivan Štrukelj  - Spletke,KDSP081,Ivan Štrukelj,Ivan,Štrukelj,Realism,M,Spletke,38577,1894,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00090.xml,KDSP
+SHAME_125,"Ivan Štrukelj  - Vrt, vrt!",KDSP109,Ivan Štrukelj,Ivan,Štrukelj,Realism,M,"Vrt, vrt!",27074,1899,"https://sl.wikisource.org/wiki/Vrt,_vrt!",KDSP
+SHAME_126,Ivan Štrukelj  - Zmota in povrat,KDSP074,Ivan Štrukelj,Ivan,Štrukelj,Realism,M,Zmota in povrat,33293,1892,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00092.xml,KDSP
+SHAME_127,Ivan Tavčar  - 4000,KDSP071,Ivan Tavčar,Ivan,Tavčar,Realism,M,4000,34185,1891,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00136.xml,KDSP
+SHAME_128,Ivan Tavčar  - Cvetje v jeseni,KDSP258,Ivan Tavčar,Ivan,Tavčar,Realism,M,Cvetje v jeseni,26475,1917,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00324.xml,KDSP
+SHAME_129,Ivan Tavčar  - Ivan Slavelj,KDSP026,Ivan Tavčar,Ivan,Tavčar,Realism,M,Ivan Slavelj,21187,1876,https://sl.wikisource.org/wiki/Ivan_Slavelj,KDSP
+SHAME_130,Ivan Tavčar  - Izza kongresa,KDSP159,Ivan Tavčar,Ivan,Tavčar,Realism,M,Izza kongresa,94978,1906,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00406.xml,KDSP
+SHAME_131,Ivan Tavčar  - Janez Solnce,KDSP055,Ivan Tavčar,Ivan,Tavčar,Realism,M,Janez Solnce,52171,1886,https://sl.wikisource.org/wiki/Janez_Solnce,KDSP
+SHAME_132,Ivan Tavčar  - Mrtva srca,KDSP122,Ivan Tavčar,Ivan,Tavčar,Realism,M,Mrtva srca,47631,1902,https://sl.wikisource.org/wiki/Mrtva_srca_(1902),KDSP
+SHAME_133,Ivan Tavčar  - V Zali,KDSP082,Ivan Tavčar,Ivan,Tavčar,Realism,M,V Zali,37692,1894,https://sl.wikisource.org/wiki/V_Zali,KDSP
+SHAME_134,Ivan Tavčar  - Visoška kronika,SLV10026,Ivan Tavčar,Ivan,Tavčar,Realism,M,Visoška kronika,59065,1919,,ELTeC
+SHAME_135,Ivan Vuk  - Zorislava,KDSP233,Ivan Vuk,Ivan,Vuk,Realism,M,Zorislava,38198,1913,https://www.dlib.si/details/URN:NBN:SI:DOC-QQQSKCVY,KDSP
+SHAME_136,Ivan Zorec  - Izgnani menihi: Povest iz druge polovice 18. stoletja,,Ivan Zorec,Ivan,Zorec,Realism,M,Izgnani menihi: Povest iz druge polovice 18. stoletja,50330,1932,https://lit.ijs.si/menihi.html ,Wikivir - leposlovje
+SHAME_137,Ivo Kovačič  - Mladi gozdar,KDSP125,Ivo Kovačič,Ivo,Kovačič,Realism,M,Mladi gozdar,25941,1903,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10013.xml,KDSP
+SHAME_138,Ivo Šorli  - Človek in pol,KDSP130,Ivo Šorli,Ivo,Šorli,Modernism,M,Človek in pol,42181,1903,https://www.dlib.si/details/URN:NBN:SI:DOC-EIIQ4WSW,KDSP
+SHAME_139,Ivo Šorli  - Gospa Silvija,,Ivo Šorli,Ivo,Šorli,Modernism,M,Gospa Silvija,37967,1920,https://sl.wikisource.org/wiki/Gospa_Silvija,Wikisource
+SHAME_140,Ivo Šorli  - Krščen denar,KDSP262,Ivo Šorli,Ivo,Šorli,Modernism,M,Krščen denar,32752,1918,https://sl.wikisource.org/wiki/Kr%C5%A1%C4%8Den_denar,KDSP
+SHAME_141,Ivo Šorli  - Milan Mrak,KDSP242,Ivo Šorli,Ivo,Šorli,Modernism,M,Milan Mrak,31535,1915,https://www.dlib.si/details/URN:NBN:SI:DOC-LUF08A2J,KDSP
+SHAME_142,Ivo Šorli  - Plameni,KDSP148,Ivo Šorli,Ivo,Šorli,Modernism,M,Plameni,41757,1905,https://www.dlib.si/details/URN:NBN:SI:DOC-ABDY26Q9,KDSP
+SHAME_143,Ivo Šorli  - Pot za razpotjem,KDSP158,Ivo Šorli,Ivo,Šorli,Modernism,M,Pot za razpotjem,35294,1906,https://www.dlib.si/details/URN:NBN:SI:DOC-5WIBBRNQ,KDSP
+SHAME_144,Ivo Šorli  - Romantiki življenja,KDSP157,Ivo Šorli,Ivo,Šorli,Modernism,M,Romantiki življenja,27758,1906,https://sl.wikisource.org/wiki/Romantiki_%C5%BEivljenja,KDSP
+SHAME_145,Ivo Šorli  - Štefan Zaplotnik,KDSP249,Ivo Šorli,Ivo,Šorli,Modernism,M,Štefan Zaplotnik,33921,1916,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00325.xml,KDSP
+SHAME_146,Ivo Trošt  - Dve svatbi,KDSP088,Ivo Trošt,Ivo,Trošt,Realism,M,Dve svatbi,24678,1895,https://sl.wikisource.org/wiki/Dve_svatbi,KDSP
+SHAME_147,Ivo Trošt  - Pod Robom,KDSP243,Ivo Trošt,Ivo,Trošt,Realism,M,Pod Robom,22405,1915,https://sl.wikisource.org/wiki/Pod_Robom,KDSP
+SHAME_148,Ivo Trošt  - Smodin,KDSP089,Ivo Trošt,Ivo,Trošt,Realism,M,Smodin,29833,1895,https://www.dlib.si/details/URN:NBN:SI:DOC-SXPXI2NA,KDSP
+SHAME_149,Ivo Trošt  - Temni oblaki,KDSP087,Ivo Trošt,Ivo,Trošt,Realism,M,Temni oblaki,32348,1895,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00421.xml,KDSP
+SHAME_150,Ivo Trošt  - V srca globini,KDSP149,Ivo Trošt,Ivo,Trošt,Realism,M,V srca globini,24755,1905,https://www.dlib.si/details/URN:NBN:SI:DOC-UNW4AEPK,KDSP
+SHAME_151,Izidor Cankar  - S poti,KDSP225,Izidor Cankar,Izidor,Cankar,Modernism,M,S poti,27042,1913,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV30001.xml,KDSP
+SHAME_152,Jakob Alešovec  - Bankovčar,KDSP035,Jakob Alešovec,Jakob,Alešovec,Realism,M,Bankovčar,33475,1880,https://sl.wikisource.org/wiki/Bankov%C4%8Dar,KDSP
+SHAME_153,Jakob Alešovec  - Kako sem se jaz likal,,Jakob Alešovec,Jakob,Alešovec,Realism,M,Kako sem se jaz likal,106027,1884,https://sl.wikisource.org/wiki/Kako_sem_se_jaz_likal,Wikisource
+SHAME_154,Jakob Alešovec  - Ljubljanske slike,KDSP033,Jakob Alešovec,Jakob,Alešovec,Realism,M,Ljubljanske slike,63414,1879,https://sl.wikisource.org/wiki/Ljubljanske_slike,KDSP
+SHAME_155,Jakob Alešovec  - Ne v Ameriko!,KDSP039,Jakob Alešovec,Jakob,Alešovec,Realism,M,Ne v Ameriko!,61379,1883,https://sl.wikisource.org/wiki/Ne_v_Ameriko,KDSP
+SHAME_156,Jakob Alešovec  - Petelinov Janez,KDSP034,Jakob Alešovec,Jakob,Alešovec,Realism,M,Petelinov Janez,34772,1880,https://sl.wikisource.org/wiki/Petelinov_Janez,KDSP
+SHAME_157,Jakob Bedenek  - Od pluga do krone,KDSP068,Jakob Bedenek,Jakob,Bedenek,Realism,M,Od pluga do krone,81174,1891,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00024.xml,KDSP
+SHAME_158,Jakob Bedenek  - Sonce in senca,KDSP067,Jakob Bedenek,Jakob,Bedenek,Realism,M,Sonce in senca,28169,1891,https://sl.wikisource.org/wiki/Solnce_in_senca,KDSP
+SHAME_159,Jakob Sket  - Miklova Zala,KDSP047,Jakob Sket,Jakob,Sket,Realism,M,Miklova Zala,34143,1884,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV20002.xml,KDSP
+SHAME_160,Jakob Sket  - Milko Vogrin,KDSP044,Jakob Sket,Jakob,Sket,Realism,M,Milko Vogrin,76462,1883,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00172.xml,KDSP
+SHAME_161,Janez Cigler  - Deteljica ali življenje treh kranjskih bratov francoskih soldatov,KDSP003,Janez Cigler,Janez,Cigler,Realism,M,Deteljica ali življenje treh kranjskih bratov francoskih soldatov,34743,1863,https://sl.wikisource.org/wiki/Deteljica_ali_%C5%BEivljenje_treh_kranjskih_bratov_francoskih_soldatov,KDSP
+SHAME_162,"Janez Cigler  - Kortonica, koroška deklica",Cigler_Kortonica1866,Janez Cigler,Janez,Cigler,Realism,M,"Kortonica, koroška deklica",25734,1866,,PriLit
+SHAME_163,Janez Cigler  - Sreča v nesreči,KDSP001,Janez Cigler,Janez,Cigler,Realism,M,Sreča v nesreči,33829,1836,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10003.xml,KDSP
+SHAME_164,"Janez Cigler  - Živlenje s. Heme, brumne koroške grafine",Cigler_Hema1839,Janez Cigler,Janez,Cigler,Realism,M,"Živlenje s. Heme, brumne koroške grafine",8978,1839,https://books.google.si/books/about/Shivlenje_S_Heme_brumne_koroshke_grafine.html?id=DZ9bAAAAcAAJ&redir_esc=y,PriLit
+SHAME_165,Janez Mencinger  - Abadon,KDSP076,Janez Mencinger,Janez,Mencinger,Realism,M,Abadon,94320,1893,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00174.xml,KDSP
+SHAME_166,Janez Mencinger  - Moja hoja na Triglav,KDSP098,Janez Mencinger,Janez,Mencinger,Realism,M,Moja hoja na Triglav,55905,1897,https://sl.wikisource.org/wiki/Moja_hoja_na_Triglav,KDSP
+SHAME_167,Janko Kersnik  - Agitator,KDSP049,Janko Kersnik,Janko,Kersnik,Realism,M,Agitator,26559,1885,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00187.xml,KDSP
+SHAME_168,Janko Kersnik  - Ciklamen,KDSP040,Janko Kersnik,Janko,Kersnik,Realism,M,Ciklamen,37436,1883,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00058.xml,KDSP
+SHAME_169,Janko Kersnik  - Jara gospoda,KDSP075,Janko Kersnik,Janko,Kersnik,Realism,M,Jara gospoda,19354,1893,https://sl.wikisource.org/wiki/Jara_gospoda,KDSP
+SHAME_170,Janko Kersnik  - Lutrski ljudje,,Janko Kersnik,Janko,Kersnik,Realism,M,Lutrski ljudje,14912,1882,https://sl.wikisource.org/wiki/Lutrski_ljudje,Wikisource
+SHAME_171,Janko Kersnik  - Na Žerinjah,KDSP023,Janko Kersnik,Janko,Kersnik,Realism,M,Na Žerinjah,32756,1876,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00194.xml,KDSP
+SHAME_172,Janko Kersnik  - Očetov greh,KDSP080,Janko Kersnik,Janko,Kersnik,Realism,M,Očetov greh,21018,1894,https://sl.wikisource.org/wiki/O%C4%8Detov_greh,KDSP
+SHAME_173,Janko Kersnik  - Rošlin in Vrjanko,KDSP061,Janko Kersnik,Janko,Kersnik,Realism,M,Rošlin in Vrjanko,31535,1889,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10029.xml,KDSP
+SHAME_174,Jernej Dolžan  - Mati božja dobrega sveta ali bratovska ljubezen,KDSP008,Jernej Dolžan,Jernej,Dolžan,Realism,M,Mati božja dobrega sveta ali bratovska ljubezen,38502,1868,https://sl.wikisource.org/wiki/Mati_Bo%C5%BEja_dobrega_sveta_ali_bratovska_ljubezen,KDSP
+SHAME_175,Josip Gruden  - Na vojvodskem prestolu,KDSP114,Josip Gruden,Josip,Gruden,Realism,M,Na vojvodskem prestolu,32787,1901,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00425.xml,KDSP
+SHAME_176,Josip Jurčič  - Cvet in sad,KDSP027,Josip Jurčič,Josip,Jurčič,Realism,M,Cvet in sad,50546,1877,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00279.xml,KDSP
+SHAME_177,Josip Jurčič  - Deseti brat,KDSP007,Josip Jurčič,Josip,Jurčič,Realism,M,Deseti brat,66801,1866,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10007.xml,KDSP
+SHAME_178,Josip Jurčič  - Doktor Zober,KDSP022,Josip Jurčič,Josip,Jurčič,Realism,M,Doktor Zober,34494,1876,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10009.xml,KDSP
+SHAME_179,Josip Jurčič  - Domen,KDSP004,Josip Jurčič,Josip,Jurčič,Realism,M,Domen,23522,1864,https://sl.wikisource.org/wiki/Domen,KDSP
+SHAME_180,Josip Jurčič  - Ivan Erazem Tatenbach,KDSP015,Josip Jurčič,Josip,Jurčič,Realism,M,Ivan Erazem Tatenbach,22555,1873,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10010.xml,KDSP
+SHAME_181,"Josip Jurčič  - Jurij Kozjak, slovenski janičar",KDSP005,Josip Jurčič,Josip,Jurčič,Realism,M,"Jurij Kozjak, slovenski janičar",28773,1864,https://sl.wikisource.org/wiki/Jurij_Kozjak,KDSP
+SHAME_182,Josip Jurčič  - Lepa Vida,KDSP028,Josip Jurčič,Josip,Jurčič,Realism,M,Lepa Vida,21121,1877,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10011.xml,KDSP
+SHAME_183,Josip Jurčič  - Med dvema stoloma,KDSP021,Josip Jurčič,Josip,Jurčič,Realism,M,Med dvema stoloma,21556,1876,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10008.xml,KDSP
+SHAME_184,Josip Jurčič  - Nemški valpet,,Josip Jurčič,Josip,Jurčič,Realism,M,Nemški valpet,7998,1867,https://lit.ijs.si/nem_valp.html ,Wikivir - leposlovje
+SHAME_185,Josip Jurčič  - Rokovnjači,KDSP037,Josip Jurčič,Josip,Jurčič,Realism,M,Rokovnjači,49664,1881,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00216.xml,KDSP
+SHAME_186,Josip Jurčič  - Slovenski svetec in učitelj,KDSP053,Josip Jurčič,Josip,Jurčič,Realism,M,Slovenski svetec in učitelj,43279,1886,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00217.xml,KDSP
+SHAME_187,Josip Jurčič  - Sosedov sin,,Josip Jurčič,Josip,Jurčič,Realism,M,Sosedov sin,18729,1868,https://lit.ijs.si/sosedovs.html ,Wikivir - leposlovje
+SHAME_188,Josip Jurčič  - Tihotapec,KDSP006,Josip Jurčič,Josip,Jurčič,Realism,M,Tihotapec,20050,1865,https://sl.wikisource.org/wiki/Tihotapec_(Josip_Jur%C4%8Di%C4%8D),KDSP
+SHAME_189,Josip Kostanjevec  - Ella,KDSP124,Josip Kostanjevec,Josip,Kostanjevec,Realism,M,Ella,29118,1903,https://sl.wikisource.org/wiki/Ella,KDSP
+SHAME_190,Josip Kostanjevec  - Gojko Knafeljc,KDSP108,Josip Kostanjevec,Josip,Kostanjevec,Realism,M,Gojko Knafeljc,51062,1899,https://sl.wikisource.org/wiki/Gojko_Knafeljc,KDSP
+SHAME_191,Josip Kostanjevec  - Gozdarjevi spomini,KDSP240,Josip Kostanjevec,Josip,Kostanjevec,Realism,M,Gozdarjevi spomini,22547,1915,https://sl.wikisource.org/wiki/Gozdarjevi_spomini,KDSP
+SHAME_192,Josip Kostanjevec  - Iz življenja Tomaža Križaja,KDSP208,Josip Kostanjevec,Josip,Kostanjevec,Realism,M,Iz življenja Tomaža Križaja,27157,1911,https://sl.wikisource.org/wiki/Iz_%C5%BEivljenja_Toma%C5%BEa_Kri%C5%BEaja,KDSP
+SHAME_193,Josip Kostanjevec  - Kotanjska elita,KDSP104,Josip Kostanjevec,Josip,Kostanjevec,Realism,M,Kotanjska elita,34975,1898,https://sl.wikisource.org/wiki/Kotanjska_elita,KDSP
+SHAME_194,Josip Kostanjevec  - Na sončnih tleh,KDSP241,Josip Kostanjevec,Josip,Kostanjevec,Realism,M,Na sončnih tleh,39478,1915,https://sl.wikisource.org/wiki/Na_soln%C4%8Dnih_tleh,KDSP
+SHAME_195,Josip Kostanjevec  - Noč,KDSP120,Josip Kostanjevec,Josip,Kostanjevec,Realism,M,Noč,51665,1902,https://sl.wikisource.org/wiki/No%C4%8D_(Josip_Kostanjevec),KDSP
+SHAME_196,Josip Kostanjevec  - Oče in sin,KDSP222,Josip Kostanjevec,Josip,Kostanjevec,Realism,M,Oče in sin,20708,1912,https://sl.wikisource.org/wiki/O%C4%8De_in_sin_(Josip_Kostanjevec),KDSP
+SHAME_197,Josip Kostanjevec  - Pošteni ljudje,KDSP144,Josip Kostanjevec,Josip,Kostanjevec,Realism,M,Pošteni ljudje,24249,1905,https://sl.wikisource.org/wiki/Po%C5%A1teni_ljudje,KDSP
+SHAME_198,Josip Kostanjevec  - Zadnji prameni,KDSP246,Josip Kostanjevec,Josip,Kostanjevec,Realism,M,Zadnji prameni,27017,1916,https://sl.wikisource.org/wiki/Zadnji_prameni,KDSP
+SHAME_199,Josip Kostanjevec  - Življenja trnjeva pot,KDSP165,Josip Kostanjevec,Josip,Kostanjevec,Realism,M,Življenja trnjeva pot,43082,1907,https://sl.wikisource.org/wiki/%C5%BDivljenja_trnjeva_pot,KDSP
+SHAME_200,Josip Ogrinec  - Čast in sramota,,Josip Ogrinec,Josip,Ogrinec,Realism,M,Čast in sramota,18236,1876,https://sl.wikisource.org/wiki/%C4%8Cast_in_sramota,Wikisource
+SHAME_201,Josip Ogrinec  - Setev in žetev,KDSP018,Josip Ogrinec,Josip,Ogrinec,Realism,M,Setev in žetev,26449,1875,https://sl.wikisource.org/wiki/Setev_in_%C5%BEetev,KDSP
+SHAME_202,Josip Ogrinec  - Vojnimir ali poganstvo in krst,KDSP014,Josip Ogrinec,Josip,Ogrinec,Realism,M,Vojnimir ali poganstvo in krst,26604,1871,https://sl.wikisource.org/wiki/Vojnimir_ali_poganstvo_in_krst,KDSP
+SHAME_203,Josip Podmilšak  - Miha Brtoncelj in njegove čudovite dogodbe po svetu,KDSP011,Josip Podmilšak,Josip,Podmilšak,Realism,M,Miha Brtoncelj in njegove čudovite dogodbe po svetu,23293,1870,https://sl.wikisource.org/wiki/Miha_Brtoncelj_in_njegove_%C4%8Dudovite_dogodbe_po_svetu,KDSP
+SHAME_204,"Josip Podmilšak  - Sabinka, slovenska junakinja",KDSP024,Josip Podmilšak,Josip,Podmilšak,Realism,M,"Sabinka, slovenska junakinja",50137,1876,"https://sl.wikisource.org/wiki/Sabinka,_slovenska_junakinja",KDSP
+SHAME_205,Josip Podmilšak  - Žalost in veselje,KDSP010,Josip Podmilšak,Josip,Podmilšak,Realism,M,Žalost in veselje,77348,1870,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00122.xml,KDSP
+SHAME_206,Josip Premk  - Krona v višavi,KDSP223,Josip Premk,Josip,Premk,Realism,M,Krona v višavi,29259,1912,https://sl.wikisource.org/wiki/Krona_v_vi%C5%A1avi,KDSP
+SHAME_207,Josip Premk  - Letoviščarji,KDSP232,Josip Premk,Josip,Premk,Realism,M,Letoviščarji,20969,1913,https://sl.wikisource.org/wiki/Letovi%C5%A1%C4%8Darji,KDSP
+SHAME_208,Josip Stare  - Lisjakova hči,KDSP073,Josip Stare,Josip,Stare,Realism,M,Lisjakova hči,38544,1892,https://sl.wikisource.org/wiki/Lisjakova_h%C4%8Di,KDSP
+SHAME_209,Josip Stare  - Prvi sneg,KDSP054,Josip Stare,Josip,Stare,Realism,M,Prvi sneg,26511,1886,https://sl.wikisource.org/wiki/Prvi_sneg_(Josip_Stare),KDSP
+SHAME_210,Josip Stare  - Vanda,KDSP060,Josip Stare,Josip,Stare,Realism,M,Vanda,37604,1888,https://sl.wikisource.org/wiki/Vanda_(Josip_Stare),KDSP
+SHAME_211,Josip Stare  - Zadruga,KDSP066,Josip Stare,Josip,Stare,Realism,M,Zadruga,29751,1890,https://sl.wikisource.org/wiki/Z%C3%A1druga,KDSP
+SHAME_212,Josip Stritar  - Gospod Mirodolski,KDSP025,Josip Stritar,Josip,Stritar,Realism,M,Gospod Mirodolski,54731,1876,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10025.xml,KDSP
+SHAME_213,Josip Stritar  - Rosana,,Josip Stritar,Josip,Stritar,Realism,M,Rosana,18428,1877,https://lit.ijs.si/rosana.html ,Wikivir - leposlovje
+SHAME_214,Josip Stritar  - Sodnikovi,KDSP032,Josip Stritar,Josip,Stritar,Realism,M,Sodnikovi,51175,1878,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10024.xml,KDSP
+SHAME_215,Josip Stritar  - Zorin,KDSP012,Josip Stritar,Josip,Stritar,Realism,M,Zorin,28147,1870,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10023.xml,KDSP
+SHAME_216,Josip Vandot  - Begunci,KDSP250,Josip Vandot,Josip,Vandot,Realism,M,Begunci,47405,1916,https://sl.wikisource.org/wiki/Begunci_(Josip_Vandot),KDSP
+SHAME_217,Josip Vandot  - Razor,KDSP237,Josip Vandot,Josip,Vandot,Realism,M,Razor,51770,1914,https://sl.wikisource.org/wiki/Razor_(Josip_Vandot),KDSP
+SHAME_218,Josip Vandot  - Vitranec,KDSP213,Josip Vandot,Josip,Vandot,Realism,M,Vitranec,21091,1911,https://sl.wikisource.org/wiki/Vitranec,KDSP
+SHAME_219,Josip Vošnjak  - Pobratimi,KDSP063,Josip Vošnjak,Josip,Vošnjak,Realism,M,Pobratimi,53913,1889,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10028.xml,KDSP
+SHAME_220,Jože Ambrožič  - Ljubezen in sovraštvo,KDSP200,Jože Ambrožič,Jože,Ambrožič,Realism,M,Ljubezen in sovraštvo,38856,1911,https://sl.wikisource.org/wiki/Ljubezen_in_sovra%C5%A1tvo,KDSP
+SHAME_221,Jože Ambrožič  - Prekrščevalec,KDSP244,Jože Ambrožič,Jože,Ambrožič,Realism,M,Prekrščevalec,36521,1916,https://sl.wikisource.org/wiki/Prekr%C5%A1%C4%8Devalec,KDSP
+SHAME_222,Jurij Vranič  - Helena,KDSP017,Jurij Vranič,Jurij,Vranič,Realism,M,Helena,25142,1874,https://sl.wikisource.org/wiki/Helena_(Jurij_Vrani%C4%8D),KDSP
+SHAME_223,Jurij Vranič  - Mahmud,KDSP013,Jurij Vranič,Jurij,Vranič,Realism,M,Mahmud,21906,1870,https://sl.wikisource.org/wiki/Mahmud,KDSP
+SHAME_224,K. Oblak  - Stara devica,KDSP171,K. Oblak,K.,Oblak,Realism,unknown,Stara devica,22540,1908,https://sl.wikisource.org/wiki/Stara_devica,KDSP
+SHAME_225,Ksaver Meško  - Kam plovemo,KDSP099,Ksaver Meško,Ksaver,Meško,Realism,M,Kam plovemo,71073,1897,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00072.xml,KDSP
+SHAME_226,Lea Fatur  - Biseri,KDSP175,Lea Fatur,Lea,Fatur,Realism,F,Biseri,66480,1908,https://sl.wikisource.org/wiki/Biseri_(Lea_Fatur),KDSP
+SHAME_227,Lea Fatur  - Črtomir in Bogomila,KDSP218,Lea Fatur,Lea,Fatur,Realism,F,Črtomir in Bogomila,20209,1912,https://sl.wikisource.org/wiki/%C4%8Crtomir_in_Bogomila,KDSP
+SHAME_228,Lea Fatur  - Iz naših dni,KDSP206,Lea Fatur,Lea,Fatur,Realism,F,Iz naših dni,39485,1911,https://sl.wikisource.org/wiki/Iz_na%C5%A1ih_dni_(Lea_Fatur),KDSP
+SHAME_229,Lea Fatur  - Junakinja zvestobe,KDSP220,Lea Fatur,Lea,Fatur,Realism,F,Junakinja zvestobe,43229,1912,https://sl.wikisource.org/wiki/Junakinja_zvestobe,KDSP
+SHAME_230,Lea Fatur  - Komisarjeva hči,KDSP189,Lea Fatur,Lea,Fatur,Realism,F,Komisarjeva hči,59253,1910,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00352.xml,KDSP
+SHAME_231,Lea Fatur  - Matjažek,,Lea Fatur,Lea,Fatur,Realism,F,Matjažek,14652,1927,https://sl.wikisource.org/wiki/Matja%C5%BEek,Wikisource
+SHAME_232,Lea Fatur  - Pod Učko goro,KDSP253,Lea Fatur,Lea,Fatur,Realism,F,Pod Učko goro,23858,1917,https://sl.wikisource.org/wiki/Pod_U%C4%8Dko_goro,KDSP
+SHAME_233,Lea Fatur  - V burji in strasti,KDSP143,Lea Fatur,Lea,Fatur,Realism,F,V burji in strasti,35522,1905,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00502.xml,KDSP
+SHAME_234,Lea Fatur  - Vilemir,KDSP151,Lea Fatur,Lea,Fatur,Realism,F,Vilemir,51962,1906,https://sl.wikisource.org/wiki/Vilemir,KDSP
+SHAME_235,Lea Fatur  - Vislavina odpoved,KDSP219,Lea Fatur,Lea,Fatur,Realism,F,Vislavina odpoved,27866,1912,https://sl.wikisource.org/wiki/Vislavina_odpoved,KDSP
+SHAME_236,Lea Fatur  - Za Adrijo,KDSP178,Lea Fatur,Lea,Fatur,Realism,F,Za Adrijo,102405,1909,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00506.xml,KDSP
+SHAME_237,Leopold Lenard  - Izpod Kuma,KDSP198,Leopold Lenard,Leopold,Lenard,Realism,M,Izpod Kuma,37227,1910,https://sl.wikisource.org/wiki/Izpod_Kuma,KDSP
+SHAME_238,Luiza Pesjak  - Beatin dnevnik,KDSP057,Luiza Pesjak,Luiza,Pesjak,Realism,F,Beatin dnevnik,30104,1887,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00227.xml,KDSP
+SHAME_239,Lukovič Carli  - Zadnji dnevi v Ogleju,KDSP019,Lukovič Carli,Lukovič,Carli,Realism,M,Zadnji dnevi v Ogleju,35991,1876,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10002.xml,KDSP
+SHAME_240,M. Senčar  - Čez trnje do sreče,KDSP169,M. Senčar,M.,Senčar,Realism,unknown,Čez trnje do sreče,36186,1908,https://sl.wikisource.org/wiki/%C4%8Cez_trnje_do_sre%C4%8De,KDSP
+SHAME_241,Marica Nadlišek Bartol  - Fata morgana,KDSP105,Marica Nadlišek Bartol,Marica,Nadlišek Bartol,Realism,F,Fata morgana,42261,1898,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10020.xml,KDSP
+SHAME_242,Marica Nadlišek Bartol  - Iz življenja mlade umetnice,,Marica Nadlišek Bartol,Marica,Nadlišek Bartol,Realism,F,Iz življenja mlade umetnice,8954,1890,https://sl.wikisource.org/wiki/Iz_%C5%BEivljenja_mlade_umetnice,Wikisource
+SHAME_243,Marica Nadlišek Bartol  - Na obali,,Marica Nadlišek Bartol,Marica,Nadlišek Bartol,Realism,F,Na obali,8263,1891,https://sl.wikisource.org/wiki/Na_obali,Wikisource
+SHAME_244,Marica Nadlišek Bartol  - Pod streho,,Marica Nadlišek Bartol,Marica,Nadlišek Bartol,Realism,F,Pod streho,13202,1897,https://sl.wikisource.org/wiki/Pod_streho,Wikisource
+SHAME_245,Marica Nadlišek Bartol  - Slike in sličice iz življenja,,Marica Nadlišek Bartol,Marica,Nadlišek Bartol,Realism,F,Slike in sličice iz življenja,8005,1896,https://sl.wikisource.org/wiki/Slike_in_sli%C4%8Dice_iz_%C5%BEivljenja,Wikisource
+SHAME_246,Marija Kmet  - V metežu,,Marija Kmet,Marija,Kmet,Realism,F,V metežu,49960,1923,https://sl.wikisource.org/wiki/V_mete%C5%BEu,Wikisource
+SHAME_247,Marijana Željeznov Kokalj  - Darinka,,Marijana Željeznov Kokalj,Marijana,Željeznov Kokalj,Modernism,F,Darinka,17498,1930,https://sl.wikisource.org/wiki/Darinka_(Marijana_%C5%BDeljeznov_Kokalj),Wikisource
+SHAME_248,Matija Prelesnik  - Naš stari greh,KDSP129,Matija Prelesnik,Matija,Prelesnik,Realism,M,Naš stari greh,63617,1903,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00452.xml,KDSP
+SHAME_249,Matija Prelesnik  - Nesrečno zlato,KDSP121,Matija Prelesnik,Matija,Prelesnik,Realism,M,Nesrečno zlato,52421,1902,https://sl.wikisource.org/wiki/Nesre%C4%8Dno_zlato,KDSP
+SHAME_250,Matija Prelesnik  - V smrtni senci,KDSP139,Matija Prelesnik,Matija,Prelesnik,Realism,M,V smrtni senci,71145,1904,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00454.xml,KDSP
+SHAME_251,Matija Rode  - Brat Justin,KDSP147,Matija Rode,Matija,Rode,Realism,M,Brat Justin,25591,1905,https://sl.wikisource.org/wiki/Brat_Justin,KDSP
+SHAME_252,Matija Rode  - Prava in neprava ljubezen,KDSP212,Matija Rode,Matija,Rode,Realism,M,Prava in neprava ljubezen,56175,1911,https://sl.wikisource.org/wiki/Prava_in_neprava_ljubezen,KDSP
+SHAME_253,Milan Pugelj  - Franc Koritnik in njegova družina,KDSP156,Milan Pugelj,Milan,Pugelj,Modernism,M,Franc Koritnik in njegova družina,27831,1906,https://sl.wikisource.org/wiki/Franc_Koritnik_in_njegova_dru%C5%BEina,KDSP
+SHAME_254,Miroslav Malovrh  - Gospa Angela,KDSP145,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Gospa Angela,20274,1905,https://sl.wikisource.org/wiki/Gospa_Angela,KDSP
+SHAME_255,Miroslav Malovrh  - Koristka,KDSP146,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Koristka,52455,1905,https://sl.wikisource.org/wiki/Koristka,KDSP
+SHAME_256,Miroslav Malovrh  - Kralj Matjaž,KDSP136,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Kralj Matjaž,62079,1904,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00455.xml,KDSP
+SHAME_257,Miroslav Malovrh  - Ljubezen in junaštva strahopetnega praporščaka,KDSP196,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Ljubezen in junaštva strahopetnega praporščaka,31245,1910,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00456.xml,KDSP
+SHAME_258,Miroslav Malovrh  - Ljubezen Končanove Klare,KDSP197,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Ljubezen Končanove Klare,45781,1910,https://sl.wikisource.org/wiki/Ljubezen_Kon%C4%8Danove_Klare,KDSP
+SHAME_259,Miroslav Malovrh  - Na devinski skali,KDSP229,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Na devinski skali,56994,1913,https://sl.wikisource.org/wiki/Na_devinski_skali,KDSP
+SHAME_260,Miroslav Malovrh  - Na robu prepada,KDSP195,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Na robu prepada,38942,1910,https://sl.wikisource.org/wiki/Na_robu_prepada,KDSP
+SHAME_261,Miroslav Malovrh  - Opatov praporščak,KDSP126,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Opatov praporščak,53036,1903,https://sl.wikisource.org/wiki/Opatov_prapor%C5%A1%C4%8Dak,KDSP
+SHAME_262,Miroslav Malovrh  - Osvetnik,KDSP155,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Osvetnik,88857,1906,https://sl.wikisource.org/wiki/Osvetnik,KDSP
+SHAME_263,Miroslav Malovrh  - Pod novim orlom,KDSP137,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Pod novim orlom,66783,1904,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00458.xml,KDSP
+SHAME_264,Miroslav Malovrh  - Skušnjave Tomaža Krmežljavčka,KDSP210,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Skušnjave Tomaža Krmežljavčka,88693,1911,https://sl.wikisource.org/wiki/Sku%C5%A1njave_Toma%C5%BEa_Krme%C5%BEljav%C4%8Dka,KDSP
+SHAME_265,Miroslav Malovrh  - Strahovalci dveh kron,KDSP168,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Strahovalci dveh kron,92351,1907,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00459.xml,KDSP
+SHAME_266,Miroslav Malovrh  - Tolovajski glavar Črni Jurij in njegovi divji tovariši,SLV10017,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Tolovajski glavar Črni Jurij in njegovi divji tovariši,273964,1903,,ELTeC
+SHAME_267,Miroslav Malovrh  - V hiši žalosti,KDSP154,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,V hiši žalosti,22804,1906,https://sl.wikisource.org/wiki/V_hi%C5%A1i_%C5%BEalosti,KDSP
+SHAME_268,Miroslav Malovrh  - V študentskih ulicah,KDSP181,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,V študentskih ulicah,49111,1909,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00460.xml,KDSP
+SHAME_269,Miroslav Malovrh  - Zadnji rodovine Benalja,KDSP182,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Zadnji rodovine Benalja,40323,1909,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00461.xml,KDSP
+SHAME_270,Miroslav Malovrh  - Zaljubljeni kapucin,KDSP194,Miroslav Malovrh,Miroslav,Malovrh,Realism,M,Zaljubljeni kapucin,32481,1910,https://sl.wikisource.org/wiki/Zaljubljeni_kapucin,KDSP
+SHAME_271,Pavel Perko  - Rotijin Blaže,KDSP128,Pavel Perko,Pavel,Perko,Realism,M,Rotijin Blaže,27894,1903,https://sl.wikisource.org/wiki/Rotijin_Bla%C5%BEe,KDSP
+SHAME_272,Pavlina Pajk  - Arabela,KDSP051,Pavlina Pajk,Pavlina,Pajk,Realism,F,Arabela,39059,1885,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00231.xml,KDSP
+SHAME_273,Pavlina Pajk  - Blagodejna zvezdica,,Pavlina Pajk,Pavlina,Pajk,Realism,F,Blagodejna zvezdica,14378,1881,https://sl.wikisource.org/wiki/Blagodejna_zvezdica,Wikisource
+SHAME_274,Pavlina Pajk  - Domačija nad vse,KDSP062,Pavlina Pajk,Pavlina,Pajk,Realism,F,Domačija nad vse,23880,1889,https://sl.wikisource.org/wiki/Doma%C4%8Dija_nad_vse,KDSP
+SHAME_275,Pavlina Pajk  - Dora,KDSP052,Pavlina Pajk,Pavlina,Pajk,Realism,F,Dora,30540,1885,https://sl.wikisource.org/wiki/Dora ,KDSP
+SHAME_276,Pavlina Pajk  - Dušne borbe,KDSP093,Pavlina Pajk,Pavlina,Pajk,Realism,F,Dušne borbe,26145,1896,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00234.xml,KDSP
+SHAME_277,Pavlina Pajk  - Judita,KDSP094,Pavlina Pajk,Pavlina,Pajk,Realism,F,Judita,23024,1896,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10021.xml,KDSP
+SHAME_278,Pavlina Pajk  - Mačeha,,Pavlina Pajk,Pavlina,Pajk,Realism,F,Mačeha,22724,1883,https://sl.wikisource.org/wiki/Ma%C4%8Deha,Wikisource
+SHAME_279,Pavlina Pajk  - Planinska idila,KDSP116,Pavlina Pajk,Pavlina,Pajk,Realism,F,Planinska idila,20031,1901,https://sl.wikisource.org/wiki/Planinska_idila_(Pajk),KDSP
+SHAME_280,Pavlina Pajk  - Roka in srce,,Pavlina Pajk,Pavlina,Pajk,Realism,F,Roka in srce,11803,1881,https://sl.wikisource.org/wiki/Roka_in_srce,Wikisource
+SHAME_281,Pavlina Pajk  - Slučaji usode,KDSP100,Pavlina Pajk,Pavlina,Pajk,Realism,F,Slučaji usode,58278,1897,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00240.xml,KDSP
+SHAME_282,Peter Bohinjec  - Glagoljaš Štipko,KDSP215,Peter Bohinjec,Peter,Bohinjec,Realism,M,Glagoljaš Štipko,23429,1912,https://sl.wikisource.org/wiki/Glagolja%C5%A1_%C5%A0tipko,KDSP
+SHAME_283,Peter Bohinjec  - Jarem pregrehe,KDSP083,Peter Bohinjec,Peter,Bohinjec,Realism,M,Jarem pregrehe,27841,1895,https://sl.wikisource.org/wiki/Jarem_pregrehe,KDSP
+SHAME_284,Peter Bohinjec  - Kovač in njegov sin,KDSP160,Peter Bohinjec,Peter,Bohinjec,Realism,M,Kovač in njegov sin,24042,1907,https://sl.wikisource.org/wiki/Kova%C4%8D_in_njegov_sin,KDSP
+SHAME_285,Peter Bohinjec  - Najmlajši mojster,KDSP090,Peter Bohinjec,Peter,Bohinjec,Realism,M,Najmlajši mojster,36543,1896,https://sl.wikisource.org/wiki/Najmlaj%C5%A1i_mojster,KDSP
+SHAME_286,Peter Bohinjec  - Svetobor,KDSP252,Peter Bohinjec,Peter,Bohinjec,Realism,M,Svetobor,57886,1917,https://sl.wikisource.org/wiki/Svetobor,KDSP
+SHAME_287,Peter Bohinjec  - Za poklicem,KDSP216,Peter Bohinjec,Peter,Bohinjec,Realism,M,Za poklicem,29793,1912,https://sl.wikisource.org/wiki/Za_poklicem,KDSP
+SHAME_288,Peter Bohinjec  - Za staro pravdo,KDSP112,Peter Bohinjec,Peter,Bohinjec,Realism,M,Za staro pravdo,48999,1901,https://www.dlib.si/details/URN:NBN:SI:DOC-JZXRWUXD,KDSP
+SHAME_289,Prežihov Voranc  - Samorastniki,,Prežihov Voranc,Prežihov,Voranc,Realism,M,Samorastniki,12999,1940,https://lit.ijs.si/samorast.html ,Wikivir - leposlovje
+SHAME_290,Rado Murnik  - Groga in drugi,KDSP086,Rado Murnik,Rado,Murnik,Realism,M,Groga in drugi,68405,1895,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00473.xml,KDSP
+SHAME_291,Rado Murnik  - Hči grofa Blagaja,KDSP211,Rado Murnik,Rado,Murnik,Realism,M,Hči grofa Blagaja,112936,1911,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00526.xml,KDSP
+SHAME_292,Rado Murnik  - Matajev Matija,KDSP184,Rado Murnik,Rado,Murnik,Realism,M,Matajev Matija,36262,1909,https://sl.wikisource.org/wiki/Matajev_Matija,KDSP
+SHAME_293,Rado Murnik  - Na Bledu,KDSP256,Rado Murnik,Rado,Murnik,Realism,M,Na Bledu,34402,1917,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00476.xml,KDSP
+SHAME_294,Rajko Perušek  - Mara Rendića,KDSP101,Rajko Perušek,Rajko,Perušek,Realism,M,Mara Rendića,20985,1897,https://sl.wikisource.org/wiki/Mara_Rendi%C4%87a,KDSP
+SHAME_295,Silvester Košutnik  - Turki pred Dunajem,KDSP209,Silvester Košutnik,Silvester,Košutnik,Realism,M,Turki pred Dunajem,24625,1911,https://www.dlib.si/details/URN:NBN:SI:DOC-4ENYYRIH,KDSP
+SHAME_296,Valentin Bernik  - Iz burkaste preteklosti Mihe Gorenjskega,KDSP058,Valentin Bernik,Valentin,Bernik,Realism,M,Iz burkaste preteklosti Mihe Gorenjskega,23033,1888,https://sl.wikisource.org/wiki/Iz_burkaste_preteklosti_Mihe_Gorenjskega,KDSP
+SHAME_297,Vatroslav Holc  - Idealist,KDSP020,Vatroslav Holc,Vatroslav,Holc,Realism,M,Idealist,19425,1876,https://www.dlib.si/details/URN:NBN:SI:DOC-R7R8ADI9,KDSP
+SHAME_298,Vitomir Jelenc  - Žena,KDSP191,Vitomir Jelenc,Vitomir,Jelenc,Realism,M,Žena,37968,1910,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10006.xml,KDSP
+SHAME_299,Vladimir Levstik  - Blagorodje doktor Ambrož Čander,KDSP180,Vladimir Levstik,Vladimir,Levstik,Modernism,M,Blagorodje doktor Ambrož Čander,50218,1909,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00345.xml,KDSP
+SHAME_300,Vladimir Levstik  - Gadje gnezdo,KDSP259,Vladimir Levstik,Vladimir,Levstik,Modernism,M,Gadje gnezdo,38470,1918,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00478.xml,KDSP
+SHAME_301,Vladimir Levstik  - V Babilonu svobode,KDSP167,Vladimir Levstik,Vladimir,Levstik,Modernism,M,V Babilonu svobode,20123,1907,https://sl.wikisource.org/wiki/V_Babilonu_svobode,KDSP
+SHAME_302,Vladimir Levstik  - Za svobodo in ljubezen,KDSP228,Vladimir Levstik,Vladimir,Levstik,Modernism,M,Za svobodo in ljubezen,126242,1913,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV00483.xml,KDSP
+SHAME_303,Vladimir Levstik  - Zapiski Tine Gramontove,,Vladimir Levstik,Vladimir,Levstik,Modernism,M,Zapiski Tine Gramontove,48687,1919,https://sl.wikisource.org/wiki/Zapiski_Tine_Gramontove,Wikisource
+SHAME_304,Zofka Kveder  - Nada,KDSP135,Zofka Kveder,Zofka,Kveder,Modernism,F,Nada,42113,1904,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10014.xml,KDSP
+SHAME_305,Zofka Kveder  - Njeno življenje,KDSP236,Zofka Kveder,Zofka,Kveder,Modernism,F,Njeno življenje,58749,1914,https://github.com/COST-ELTeC/ELTeC-slv/blob/v0.7.1/level1/SLV10015.xml,KDSP
