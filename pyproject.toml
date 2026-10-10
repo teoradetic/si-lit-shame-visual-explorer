@@ -1,0 +1,42 @@
+[project]
+name = "emotion-explorer"
+version = "0.1.0"
+description = "Interactive explorer of LLM-detected emotion passages (first case: shame) in Slovene novels, 1828-1940"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.13,<3.14"
+# Runtime dependencies of the Streamlit app only. The app reads precomputed
+# parquet files and never runs NLP, so keep this list small.
+dependencies = [
+    "altair>=5.5",
+    "pandas>=2.3",
+    "pyarrow>=21",
+    "streamlit>=1.50",
+]
+
+[dependency-groups]
+# Data preparation: reads the raw entry points and writes the compact
+# outputs in data/processed.
+prep = [
+    "zstandard>=0.25",
+]
+dev = [
+    "pre-commit>=4.3",
+    "pytest>=8.4",
+    "ruff>=0.13",
+]
+
+[tool.uv]
+default-groups = ["prep", "dev"]
+
+[build-system]
+requires = ["uv_build>=0.8,<0.13"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+extend-exclude = ["data"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "PTH", "RUF"]
