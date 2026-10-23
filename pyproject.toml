@@ -40,3 +40,5 @@ extend-exclude = ["data"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "SIM", "PTH", "RUF"]
+# En dashes are intended in user-facing text (year ranges such as 1828–1940).
+allowed-confusables = ["–"]

@@ -65,9 +65,9 @@ Every chart leads to the passages behind it.
 ⏰ = needed for the 30.10 review.
 
 ### Setup
-- [ ] **SET-01 Create the repo and environment** ⏰
+- [x] **SET-01 Create the repo and environment** ⏰
   - uv (dependency groups: app runtime / `prep` / `dev`), Python 3.13 managed by uv, ruff, pre-commit, and a commit-msg hook for strict Conventional Commits.
-  - Feature branches only; `main` is protected by a pre-commit hook.
+  - Commit straight to `main`; every message must be a strict Conventional Commit.
   - Commit the two entry points to `data/raw/`.
   - *Gotcha:* the app repo must stay small enough to deploy, so data prep scripts write only compact outputs into it.
 - [ ] **SET-02 Deploy an empty app to Community Cloud** ⏰
