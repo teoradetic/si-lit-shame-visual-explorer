@@ -15,6 +15,7 @@ ANNOTATIONS_JSON_ZST = RAW_DIR / "main_shame_annotations.json.zst"
 # Outputs, in build order. The app reads only these.
 META_JSON = PROCESSED_DIR / "meta.json"
 PARAGRAPHS = PROCESSED_DIR / "paragraphs.parquet"
+COMPARISON = PROCESSED_DIR / "comparison.parquet"
 EXCERPTS = PROCESSED_DIR / "excerpts.parquet"
 TEXTS = PROCESSED_DIR / "texts.parquet"
 NOVELS = PROCESSED_DIR / "novels.parquet"

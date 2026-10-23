@@ -9,13 +9,23 @@ from collections.abc import Callable
 
 import pandas as pd
 
+from emotion_explorer.comparison import build_comparison, summarize_comparison
 from emotion_explorer.emotion import SHAME
+from emotion_explorer.excerpts import CONTEXT, build_excerpts, excerpt_texts
 from emotion_explorer.meta import write_meta_section
 from emotion_explorer.paragraphs import OVER_CONTEXT_CHARS, build_paragraphs
-from emotion_explorer.paths import PARAGRAPHS, PROCESSED_DIR
+from emotion_explorer.paths import (
+    COMPARISON,
+    EXCERPTS,
+    PARAGRAPHS,
+    PROCESSED_DIR,
+    TEXTS,
+)
 from emotion_explorer.raw import load_annotations, load_metadata
 
 EMOTION = SHAME
+# The tier the comparison set is matched to, and the app's default tier.
+MATCHED_TIER = "broad"
 
 
 def write_parquet(df: pd.DataFrame, path) -> None:
@@ -53,8 +63,40 @@ def step_paragraphs() -> None:
     )
 
 
+def step_comparison() -> None:
+    paragraphs = pd.read_parquet(PARAGRAPHS)
+    comparison = build_comparison(paragraphs, MATCHED_TIER)
+    write_parquet(comparison, COMPARISON)
+    write_meta_section(
+        "comparison", summarize_comparison(paragraphs, comparison, MATCHED_TIER)
+    )
+
+
+def step_excerpts() -> None:
+    paragraphs = pd.read_parquet(PARAGRAPHS)
+    cols = ["novel_id", "para_id"]
+    sets = {tier: paragraphs.loc[paragraphs[tier], cols] for tier in EMOTION.tiers}
+    sets["comparison"] = pd.read_parquet(COMPARISON)[cols]
+    excerpts = build_excerpts(paragraphs, sets)
+    write_parquet(excerpts, EXCERPTS)
+    texts = excerpt_texts(load_annotations(), excerpts)
+    write_parquet(texts, TEXTS)
+    by_set = excerpts.groupby("set", observed=True)
+    write_meta_section(
+        "excerpts",
+        {
+            "context": CONTEXT,
+            "n_excerpts": by_set.size().to_dict(),
+            "n_chars": by_set["n_chars"].sum().astype(int).to_dict(),
+            "n_text_paragraphs": len(texts),
+        },
+    )
+
+
 STEPS: dict[str, Callable[[], None]] = {
     "paragraphs": step_paragraphs,
+    "comparison": step_comparison,
+    "excerpts": step_excerpts,
 }
 
 

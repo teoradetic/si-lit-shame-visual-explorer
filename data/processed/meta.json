@@ -1,4 +1,33 @@
 {
+  "comparison": {
+    "exclusion_radius": 2,
+    "matched_to": "broad",
+    "max_length_ratio": 2.0,
+    "median_abs_log2_length_ratio": 0.234147444396639,
+    "median_chars_comparison": 261.0,
+    "median_chars_tagged": 381.0,
+    "median_chars_tagged_matched": 322.0,
+    "n_matched": 15675,
+    "n_novels_with_pairs": 294,
+    "n_tagged": 18386,
+    "n_unmatched": 2711,
+    "seed": 20261030,
+    "share_within_25pct_length": 0.5386921850079744
+  },
+  "excerpts": {
+    "context": 2,
+    "n_chars": {
+      "broad": 23611508,
+      "comparison": 15769580,
+      "core": 8263063
+    },
+    "n_excerpts": {
+      "broad": 11416,
+      "comparison": 10355,
+      "core": 3593
+    },
+    "n_text_paragraphs": 130177
+  },
   "paragraphs": {
     "emotion": "shame",
     "low": {
