@@ -75,5 +75,28 @@
       1828,
       1940
     ]
+  },
+  "style": {
+    "features": [
+      "sentence_words",
+      "mattr",
+      "repetition",
+      "exclamation_per_1k",
+      "question_per_1k",
+      "semicolon_per_1k",
+      "comma_per_1k",
+      "ellipsis_per_1k",
+      "dash_per_1k"
+    ],
+    "mattr_window": 100,
+    "repeat_window": 10
+  },
+  "words": {
+    "method": "weighted log-odds, informative Dirichlet prior (Monroe 2008)",
+    "min_count": 10,
+    "n_names_removed": 38832,
+    "name_capital_share": 0.5,
+    "prior": "word counts of the whole corpus",
+    "vocabulary": 19920
   }
 }
