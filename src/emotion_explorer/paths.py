@@ -11,3 +11,14 @@ PROCESSED_DIR = DATA_DIR / "processed"
 
 CORPUS_METADATA_CSV = RAW_DIR / "corpus_metadata.csv"
 ANNOTATIONS_JSON_ZST = RAW_DIR / "main_shame_annotations.json.zst"
+
+# Outputs, in build order. The app reads only these.
+META_JSON = PROCESSED_DIR / "meta.json"
+PARAGRAPHS = PROCESSED_DIR / "paragraphs.parquet"
+EXCERPTS = PROCESSED_DIR / "excerpts.parquet"
+TEXTS = PROCESSED_DIR / "texts.parquet"
+NOVELS = PROCESSED_DIR / "novels.parquet"
+POSITION_BINS = PROCESSED_DIR / "position_bins.parquet"
+WORDS = PROCESSED_DIR / "words.parquet"
+STYLE_PARAGRAPHS = PROCESSED_DIR / "style_paragraphs.parquet"
+STYLE_SUMMARY = PROCESSED_DIR / "style_summary.parquet"

@@ -14,6 +14,9 @@ dependencies = [
     "streamlit>=1.50",
 ]
 
+[project.scripts]
+emotion-explorer = "emotion_explorer.cli:main"
+
 [dependency-groups]
 # Data preparation: reads the raw entry points and writes the compact
 # outputs in data/processed.

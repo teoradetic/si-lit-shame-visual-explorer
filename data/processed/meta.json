@@ -1,0 +1,47 @@
+{
+  "paragraphs": {
+    "emotion": "shame",
+    "low": {
+      "0_1": 0.3,
+      "0_10": 3,
+      "0_100": 30
+    },
+    "low_count": 124098,
+    "n_authors": 88,
+    "n_novels": 305,
+    "n_paragraphs": 336014,
+    "novels_by_gender": {
+      "F": 31,
+      "M": 266,
+      "unknown": 8
+    },
+    "novels_by_period": {
+      "Modernism": 67,
+      "Realism": 231,
+      "unknown": 7
+    },
+    "over_context_chars": 9400,
+    "over_context_count": 20,
+    "stem": "sram",
+    "tier_counts": {
+      "broad": 18386,
+      "core": 4475
+    },
+    "tiers": {
+      "broad": {
+        "0_1": 0.85,
+        "0_10": 8,
+        "0_100": 85
+      },
+      "core": {
+        "0_1": 0.95,
+        "0_10": 8,
+        "0_100": 85
+      }
+    },
+    "year_range": [
+      1828,
+      1940
+    ]
+  }
+}
