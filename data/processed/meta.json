@@ -28,6 +28,9 @@
     },
     "n_text_paragraphs": 130177
   },
+  "overview": {
+    "n_position_bins": 20
+  },
   "paragraphs": {
     "emotion": "shame",
     "low": {

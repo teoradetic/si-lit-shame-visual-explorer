@@ -13,11 +13,18 @@ from emotion_explorer.comparison import build_comparison, summarize_comparison
 from emotion_explorer.emotion import SHAME
 from emotion_explorer.excerpts import CONTEXT, build_excerpts, excerpt_texts
 from emotion_explorer.meta import write_meta_section
+from emotion_explorer.overview import (
+    N_POSITION_BINS,
+    build_novels,
+    build_position_bins,
+)
 from emotion_explorer.paragraphs import OVER_CONTEXT_CHARS, build_paragraphs
 from emotion_explorer.paths import (
     COMPARISON,
     EXCERPTS,
+    NOVELS,
     PARAGRAPHS,
+    POSITION_BINS,
     PROCESSED_DIR,
     TEXTS,
 )
@@ -93,10 +100,19 @@ def step_excerpts() -> None:
     )
 
 
+def step_overview() -> None:
+    paragraphs = pd.read_parquet(PARAGRAPHS)
+    tiers = tuple(EMOTION.tiers)
+    write_parquet(build_novels(paragraphs, load_metadata(), tiers), NOVELS)
+    write_parquet(build_position_bins(paragraphs, tiers), POSITION_BINS)
+    write_meta_section("overview", {"n_position_bins": N_POSITION_BINS})
+
+
 STEPS: dict[str, Callable[[], None]] = {
     "paragraphs": step_paragraphs,
     "comparison": step_comparison,
     "excerpts": step_excerpts,
+    "overview": step_overview,
 }
 
 
