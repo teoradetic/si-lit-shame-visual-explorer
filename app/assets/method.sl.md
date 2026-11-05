@@ -21,7 +21,7 @@ Zelo dolgi odstavki ({n_over_context}, daljši od {over_context_chars} znakov) n
 
 Pogleda *Besede* in *Slog* primerjata zaznane odlomke z odstavki, ki imajo **nizke ocene na vseh treh lestvicah** (0–1 ≤ {low_0_1}, 0–10 ≤ {low_0_10}, 0–100 ≤ {low_0_100}; odstavkov: {n_low}). Vsak odstavek širšega nabora dobi en tak odstavek **iz istega romana in podobne dolžine** (največ {max_length_ratio:g}-krat daljši ali krajši), ki je od vsakega zaznanega odstavka oddaljen vsaj tri odstavke. Par je našlo {n_matched} od {n_broad} odstavkov širšega nabora (romanov: {n_novels_with_pairs}); dolgih odstavkov z nizko oceno je malo, zato najdaljši zaznani odstavki para pogosto nimajo.
 
-Primerjalni nabor ni »vsi drugi odstavki«: ti še vedno vsebujejo večino sramu v korpusu. Ta opredelitev nizke ocene je **začasna** in jo moramo še uskladiti.
+Primerjalni nabor ni »vsi drugi odstavki«: ti še vedno vsebujejo večino sramu v korpusu.
 
 Če je pod *Primerjaj* izbrano *s sramom in brez njega*, pogleda *Skozi čas* in *Znotraj romana* štejeta vse odstavke z nizko oceno, saj sprašujeta, koliko in kje; *Besede* in *Slog* ohranita po dolžini usklajeni primerjalni nabor.
 

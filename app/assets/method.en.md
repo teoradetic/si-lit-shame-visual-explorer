@@ -21,7 +21,7 @@ Each detected paragraph is shown with {context} paragraphs before and after it, 
 
 The *Words* and *Style* views compare the detected passages with paragraphs that have **low scores on all three ranges** (0–1 ≤ {low_0_1}, 0–10 ≤ {low_0_10}, 0–100 ≤ {low_0_100}; {n_low} paragraphs). Each broad-tier paragraph is paired with one such paragraph **from the same novel and of similar length** (within a factor of {max_length_ratio:g}), at least three paragraphs away from any detected one. {n_matched} of the {n_broad} broad-tier paragraphs found a partner, in {n_novels_with_pairs} novels; long low-score paragraphs are scarce, so the longest detected paragraphs often have none.
 
-The comparison set is not "all other paragraphs": those still contain most of the corpus's shame. This definition of a low score is **provisional** and still to be agreed.
+The comparison set is not "all other paragraphs": those still contain most of the corpus's shame.
 
 When *with and without shame* is chosen under *Compare*, the *Over time* and *Within the novel* views count all low-score paragraphs, since they ask how much and where; *Words* and *Style* keep the length-matched comparison set.
 
