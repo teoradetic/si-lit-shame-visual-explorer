@@ -1,6 +1,7 @@
 """Cached readers for data/processed; callers must not modify the tables."""
 
 import json
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -71,6 +72,21 @@ def ranked_excerpts(set_name: str, ranked: pd.DataFrame) -> pd.DataFrame:
     return df[df["excerpt_id"].isin(best.index)].assign(
         rank=lambda d: d["excerpt_id"].map(best)
     )
+
+
+def excerpts_with(
+    word: str, set_name: str, novel_ids: frozenset[str]
+) -> tuple[pd.DataFrame, list[str]]:
+    """The excerpts of these novels whose focus paragraphs hold a form of the
+    word, and its forms."""
+    df = excerpts(set_name)
+    df = df[df["novel_id"].isin(novel_ids)]
+    forms = word_forms().get(word, [word])
+    alternatives = "|".join(map(re.escape, sorted(forms, key=len, reverse=True)))
+    has_word = focus_texts(set_name).str.contains(
+        rf"(?<!\w)(?:{alternatives})(?!\w)", case=False, regex=True
+    )
+    return df[df["excerpt_id"].map(has_word).fillna(False).astype(bool)], forms
 
 
 @st.cache_resource

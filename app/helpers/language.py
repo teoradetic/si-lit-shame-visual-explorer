@@ -22,6 +22,7 @@ STRINGS: dict[str, dict[str, str]] = {
     "nav.position": {"en": "Within the novel", "sl": "Znotraj romana"},
     "nav.words": {"en": "Words", "sl": "Besede"},
     "nav.themes": {"en": "Themes", "sl": "Teme"},
+    "nav.people": {"en": "People", "sl": "Osebe"},
     "nav.style": {"en": "Style", "sl": "Slog"},
     "nav.method": {"en": "Method and caveats", "sl": "Metodologija in omejitve"},
     "chart.type": {"en": "Chart", "sl": "Graf"},
@@ -175,6 +176,12 @@ STRINGS: dict[str, dict[str, str]] = {
     "home.view.themes": {
         "en": "**Themes:** which themes come with shame, and which without.",
         "sl": "**Teme:** katere teme spremljajo sram in katere ne.",
+    },
+    "home.view.people": {
+        "en": "**People:** whether women or men act in the passages, and which "
+        "names come with shame.",
+        "sl": "**Osebe:** ali v odlomkih delujejo ženske ali moški in katera "
+        "imena spremljajo sram.",
     },
     "home.view.words": {
         "en": "**Words:** the words that come with shame, compared with passages "
@@ -1325,6 +1332,76 @@ STRINGS: dict[str, dict[str, str]] = {
         "normalni interval čez romane. Trend v ugotovitvah je Spearmanov ρ med "
         "letom in vrednostjo s sramom; |ρ| < {clear} šteje kot brez jasnega "
         "trenda.",
+    },
+    # People (AN-11)
+    "people.title": {
+        "en": "Who appears in the passages about shame",
+        "sl": "Kdo nastopa v odlomkih o sramu",
+    },
+    "people.intro": {
+        "en": "Who the passages are about: whether women or men act in them, "
+        "and which names come with shame more than without it.",
+        "sl": "O kom govorijo odlomki: ali v njih delujejo ženske ali moški in "
+        "katera imena so pogostejša ob sramu kot brez njega.",
+    },
+    "people.acts": {"en": "Who acts", "sl": "Kdo deluje"},
+    "people.acts_x": {"en": "Female subjects (%)", "sl": "Ženski osebki (%)"},
+    "people.col.set": {"en": "Passages", "sl": "Odlomki"},
+    "people.col.n": {"en": "Verbs", "sl": "Glagoli"},
+    "people.col.name": {"en": "Name", "sl": "Ime"},
+    "people.acts.read": {
+        "en": "How to read: in Slovene the past tense shows the gender of who "
+        "acts (*je rekla*, she said; *je rekel*, he said). The dots give the "
+        "share of such verbs with a female subject, in passages with and "
+        "without shame. This is grammatical gender: a few subjects are things "
+        "or animals.",
+        "sl": "Kako brati: v slovenščini preteklik pokaže spol tistega, ki "
+        "deluje (*je rekla*, *je rekel*). Točki kažeta delež takih glagolov z "
+        "ženskim osebkom v odlomkih s sramom in brez njega. Gre za slovnični "
+        "spol: nekaj osebkov je stvari ali živali.",
+    },
+    "people.names": {
+        "en": "Names that come with shame",
+        "sl": "Imena, ki spremljajo sram",
+    },
+    "people.names.read": {
+        "en": "How to read: how many times more often each name occurs in "
+        "passages with shame than without; names of people, places and God, "
+        "as the language analysis tagged them. Click a name to read its "
+        "passages.",
+        "sl": "Kako brati: kolikokrat pogosteje se ime pojavi v odlomkih s "
+        "sramom kot brez njega; imena oseb, krajev in Boga, kot jih je "
+        "označila jezikovna analiza. Kliknite ime za njegove odlomke.",
+    },
+    "people.find.acts": {
+        "en": "{group}: {with_} % of past-tense verbs have a female subject with "
+        "shame, {without} % without.",
+        "sl": "{group}: ženski osebek ima {with_} % glagolov v pretekliku ob "
+        "sramu in {without} % brez njega.",
+    },
+    "people.find.names": {
+        "en": "Names most tied to shame: {names}.",
+        "sl": "Imena, najbolj povezana s sramom: {names}.",
+    },
+    "people.methodology": {
+        "en": "- **Who acts:** CLASSLA tokens tagged as singular past-tense "
+        "verbs (l-participles, VERB or AUX) with feminine or masculine gender, "
+        "in the detected paragraphs and their comparison set (as on the Words "
+        "page), pooled over the compared novels. Neuter and plural forms are "
+        "left out. Descriptive, not tested.\n"
+        "- **Names:** lemmas whose tokens are mostly proper nouns or inside a "
+        "named entity, with at least {min_count} occurrences; ranked like the "
+        "words (weighted log-odds), with the same rules on recurrence across "
+        "novels and authors.",
+        "sl": "- **Kdo deluje:** pojavnice, ki jih CLASSLA označi kot glagole v "
+        "pretekliku ednine (deležniki na -l, VERB ali AUX) z ženskim ali "
+        "moškim spolom, v zaznanih odstavkih in njihovem primerjalnem naboru "
+        "(kot na strani Besede), seštete čez primerjane romane. Srednji spol "
+        "in množina sta izpuščena. Opisno, brez testa.\n"
+        "- **Imena:** leme, katerih pojavitve so večinoma lastna imena ali del "
+        "imenske entitete, z vsaj {min_count} pojavitvami; razvrščene kot "
+        "besede (uteženo razmerje logaritemskih obetov), z enakimi pravili o "
+        "ponavljanju v romanih in pri avtorjih.",
     },
     # Themes (AN-10)
     "themes.title": {

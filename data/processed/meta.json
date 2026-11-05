@@ -115,6 +115,7 @@
       "SCONJ"
     ],
     "min_count": 10,
+    "n_names": 1464,
     "n_names_removed": 22703,
     "name_share": 0.5,
     "pair_min_novels": 5,

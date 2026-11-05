@@ -1,7 +1,6 @@
 """AN-03: words (lemmas) typical of the detected passages."""
 
 import math
-import re
 
 import altair as alt
 import numpy as np
@@ -692,16 +691,7 @@ if chosen:
     if shame_mode and chosen in set(words.loc[words["side"] == "comparison", "word"]):
         side = "comparison"
     set_name = f.tier if side == "emotion" else "comparison"
-    excerpts = tables.excerpts(set_name)
-    excerpts = excerpts[excerpts["novel_id"].isin(pool_ids)]
-    # Only the focus paragraphs must have the word, in any of its forms.
-    forms = tables.word_forms().get(chosen, [chosen])
-    alternatives = "|".join(map(re.escape, sorted(forms, key=len, reverse=True)))
-    pattern = rf"(?<!\w)(?:{alternatives})(?!\w)"
-    has_word = tables.focus_texts(set_name).str.contains(
-        pattern, case=False, regex=True
-    )
-    picked = excerpts[excerpts["excerpt_id"].map(has_word).fillna(False).astype(bool)]
+    picked, forms = tables.excerpts_with(chosen, set_name, pool_ids)
     reader.show_excerpts(
         picked,
         key="words_reader",

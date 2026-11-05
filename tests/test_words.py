@@ -14,21 +14,31 @@ def test_read_words_lowercases_lemmas_and_drops_what_is_no_word(tmp_path):
     path = tmp_path / "N1.parquet"
     pd.DataFrame(
         {
-            "para_id": [0, 0, 0, 1, 1, 1, 1],
-            "sentence": [0, 0, 0, 1, 1, 1, 1],
-            "form": ["Sram", "ga", ".", "»", "Janez", "1848", "Očí"],
-            "lemma": ["Sram", "on", ".", "»", "Janez", "1848", "očí"],
-            "upos": ["NOUN", "PRON", "PUNCT", "PUNCT", "PROPN", "NUM", "NOUN"],
-            "feats": ["Case=Nom", "Case=Acc", None, None, "Case=Nom", None, "Case=Gen"],
-            "entity": [None, None, None, None, "PER", None, None],
+            "para_id": [0, 0, 0, 0, 1, 1, 1, 1],
+            "sentence": [0, 0, 0, 0, 1, 1, 1, 1],
+            "form": ["Sram", "ga", "je", ".", "»", "Janez", "1848", "Očí"],
+            "lemma": ["Sram", "on", "biti", ".", "»", "Janez", "1848", "očí"],
+            "upos": ["NOUN", "PRON", "AUX", "PUNCT", "PUNCT", "PROPN", "NUM", "NOUN"],
+            "feats": [
+                "Case=Nom",
+                "Case=Acc",
+                "Gender=Fem|Number=Sing|VerbForm=Part",
+                None,
+                None,
+                "Case=Nom",
+                None,
+                "Case=Gen",
+            ],
+            "entity": [None, None, None, None, None, "PER", None, None],
         }
     ).to_parquet(path)
     words = read_words(path)
-    assert words["word"].tolist() == ["sram", "on", "janez", "oči"]
-    assert words["form"].tolist() == ["sram", "ga", "janez", "očí"]
-    assert words["name"].tolist() == [False, False, True, False]
-    assert words["case"].tolist() == ["Nom", "Acc", "Nom", "Gen"]
-    assert words["speech"].tolist() == [False, False, True, True]
+    assert words["word"].tolist() == ["sram", "on", "biti", "janez", "oči"]
+    assert words["form"].tolist() == ["sram", "ga", "je", "janez", "očí"]
+    assert words["name"].tolist() == [False, False, False, True, False]
+    assert words["case"].fillna("-").tolist() == ["Nom", "Acc", "-", "Nom", "Gen"]
+    assert words["speech"].tolist() == [False, False, False, True, True]
+    assert words["subject"].fillna("-").tolist() == ["-", "-", "Fem", "-", "-"]
 
 
 def test_lexicon_takes_the_commonest_pos_and_finds_names():

@@ -24,7 +24,9 @@ MIN_COUNT = 10
 
 def read_words(path: Path) -> pd.DataFrame:
     """para_id, sentence, lemma (`word`, lower-cased, unaccented), form, POS,
-    case, `speech` (or narration) and `name`.
+    case, `speech` (or narration), `name`, and `subject`: Fem or Masc for a
+    singular past-tense verb (*je rekla*, *je rekel*), whose gender is that of
+    its subject.
 
     Forms keep their accents: the app searches the text with them.
     """
@@ -48,6 +50,9 @@ def read_words(path: Path) -> pd.DataFrame:
             "case": tokens["feats"].str.extract(r"Case=(\w+)", expand=False),
             "speech": tokens["speech"],
             "name": (tokens["upos"] == "PROPN") | tokens["entity"].notna(),
+            "subject": tokens["feats"]
+            .str.extract(r"Gender=(Fem|Masc)\|Number=Sing\|VerbForm=Part", expand=False)
+            .where(tokens["upos"].isin(["VERB", "AUX"])),
         }
     )[keep]
 

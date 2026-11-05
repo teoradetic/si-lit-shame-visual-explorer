@@ -63,12 +63,14 @@ from emotion_explorer.paths import (
     ARCS,
     COMPARISON,
     EXCERPTS,
+    NAME_COUNTS,
     NOVELS,
     PARAGRAPHS,
     POSITION_BINS,
     PROCESSED_DIR,
     STYLE_NOVELS,
     STYLE_PARAGRAPHS,
+    SUBJECTS,
     TEXTS,
     THEME_PARAGRAPHS,
     THEMES,
@@ -228,7 +230,13 @@ def step_words() -> None:
     names = set(corpus.index[corpus["name"]])
     # The matched tier holds every other tier, so its two sides are the largest.
     largest = pd.concat([sets[(MATCHED_TIER, s)] for s in SIDES], ignore_index=True)
-    keep = vocabulary(largest["word"].value_counts(), names)
+    frequency = largest["word"].value_counts()
+    keep = vocabulary(frequency, names)
+    # AN-11: names counted on their own, for the People page. A name none of
+    # whose forms is mostly its own is a tagging slip (*bola*).
+    people = {w for w in names if frequency.get(w, 0) >= MIN_COUNT}
+    forms = word_forms(largest, keep | people)
+    people &= set(forms["word"])
     counts = pd.concat(
         [
             count_words(frame, keep).assign(tier=tier, side=side)
@@ -238,7 +246,34 @@ def step_words() -> None:
     )
     categories = {c: "category" for c in ("novel_id", "word", "case", "tier", "side")}
     write_parquet(counts.astype({**categories, "n": "int32"}), WORD_COUNTS)
-    vocab = corpus.loc[sorted(keep)]
+    by_set = [((tier, side), frame) for (tier, side), frame in sets.items()]
+    name_counts = pd.concat(
+        [
+            count_words(frame, people)
+            .groupby(["novel_id", "word"], observed=True)["n"]
+            .sum()
+            .reset_index()
+            .assign(tier=tier, side=side)
+            for (tier, side), frame in by_set
+        ],
+        ignore_index=True,
+    )
+    categories = {c: "category" for c in ("novel_id", "word", "tier", "side")}
+    write_parquet(name_counts.astype({**categories, "n": "int32"}), NAME_COUNTS)
+    subjects = pd.concat(
+        [
+            frame.groupby(["novel_id", "subject"], observed=True)
+            .size()
+            .rename("n")
+            .reset_index()
+            .assign(tier=tier, side=side)
+            for (tier, side), frame in by_set
+        ],
+        ignore_index=True,
+    )
+    categories = {c: "category" for c in ("novel_id", "subject", "tier", "side")}
+    write_parquet(subjects.astype({**categories, "n": "int32"}), SUBJECTS)
+    vocab = corpus.loc[sorted(keep | people)]
     write_parquet(
         pd.DataFrame(
             {
@@ -247,11 +282,12 @@ def step_words() -> None:
                 "pos": vocab["pos"].to_numpy(),
                 "function_word": vocab["pos"].isin(FUNCTION_POS).to_numpy(),
                 "contains_stem": [EMOTION.stem in w for w in vocab.index],
+                "name": vocab["name"].to_numpy(),
             }
         ),
         WORD_PRIOR,
     )
-    write_parquet(word_forms(largest, keep), WORD_FORMS)
+    write_parquet(forms, WORD_FORMS)
     # Pairs in the passages with the emotion only: that is what the network
     # shows, and the comparison set would double the table.
     content = {w for w in keep if corpus.loc[w, "pos"] not in FUNCTION_POS}
@@ -271,6 +307,7 @@ def step_words() -> None:
             "n_names_removed": len(names),
             "min_count": MIN_COUNT,
             "vocabulary": len(keep),
+            "n_names": len(people),
             "pair_min_sentences": MIN_SENTENCES,
             "pair_min_novels": MIN_NOVELS,
             "pair_min_pmi": MIN_PMI,
@@ -282,7 +319,7 @@ def step_themes() -> None:
     sets, _ = read_sets()
     prior = pd.read_parquet(WORD_PRIOR)
     # Without the emotion's own words, which would make a theme of themselves.
-    usable = prior["pos"].isin(THEME_POS) & ~prior["contains_stem"]
+    usable = prior["pos"].isin(THEME_POS) & ~prior["contains_stem"] & ~prior["name"]
     vocabulary = set(prior.loc[usable, "word"])
     words = pd.concat([sets[(MATCHED_TIER, side)] for side in SIDES])
     themes, main = fit_themes(words[words["word"].isin(vocabulary)])

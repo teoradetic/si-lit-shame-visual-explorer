@@ -12,6 +12,7 @@ PAGES = [
     "views/position.py",
     "views/words.py",
     "views/themes.py",
+    "views/people.py",
     "views/stylistics.py",
     "views/method.py",
 ]
@@ -102,3 +103,13 @@ def test_clicked_theme_shows_its_passages(mode):
     at.run()
     assert not at.exception, [e.value for e in at.exception]
     assert at.subheader[0].value.startswith("Passages on the theme")
+
+
+@pytest.mark.parametrize("mode", MODES)
+def test_clicked_name_shows_its_passages(mode):
+    click = SimpleNamespace(selection={"name": [{"word": "bog"}]})
+    at = run("views/people.py", "en", {"cmp_mode": mode})
+    at.session_state["people_names"] = click
+    at.run()
+    assert not at.exception, [e.value for e in at.exception]
+    assert at.subheader[-1].value == "Passages containing a form of “bog”"
