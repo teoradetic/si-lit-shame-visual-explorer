@@ -36,8 +36,9 @@ uv run --group corpus emotion-explorer tokens   # write missing data/tokens file
 | `comparison` | low-score partners of the broad-tier paragraphs | DATA-03 |
 | `excerpts` | excerpts with ±2 paragraphs of context, and their texts | DATA-02 |
 | `overview` | per-novel counts and counts by position in the novel | AN-01, AN-02 |
-| `words` | lemma counts per novel and set, corpus counts, word forms | AN-03, DATA-06 |
-| `style` | style features per paragraph, pooled per novel and set | AN-08 |
+| `words` | lemma counts per novel, set, case and narration or speech; pairs in a sentence; corpus counts, word forms | AN-03, AN-06, AN-14, DATA-06 |
+| `themes` | NMF themes and the main theme of each paragraph | AN-10 |
+| `style` | style features per paragraph (whole, narration, speech), pooled per novel and set | AN-08, AN-09 |
 | `corpora` | the annotated [KDSP](http://hdl.handle.net/11356/1823), [PriLit](http://hdl.handle.net/11356/1319) and [ELTeC-slv](https://github.com/COST-ELTeC/ELTeC-slv) editions (262 novels) | DATA-04 |
 | `tokens` | their annotation, and CLASSLA for the other 43 novels | DATA-04 |
 
