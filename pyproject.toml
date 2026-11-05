@@ -23,6 +23,11 @@ emotion-explorer = "emotion_explorer.cli:main"
 prep = [
     "zstandard>=0.25",
 ]
+# Lemmas and tags (`emotion-explorer tokens`). Heavy, and only needed to rebuild
+# the token tables, so not installed by default: `uv sync --group corpus`.
+corpus = [
+    "classla==2.2.3",
+]
 dev = [
     "pre-commit>=4.3",
     "pytest>=8.4",
@@ -31,6 +36,9 @@ dev = [
 
 [tool.uv]
 default-groups = ["prep", "dev"]
+# classla pins protobuf==4.21.2. All groups share one lock, so that pin would
+# hold back streamlit and pyarrow in the deployed app.
+override-dependencies = ["protobuf>=5"]
 
 [build-system]
 requires = ["uv_build>=0.8,<0.13"]

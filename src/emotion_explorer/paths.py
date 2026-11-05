@@ -8,6 +8,11 @@ DATA_DIR = REPO_DIR / "data"
 RAW_DIR = DATA_DIR / "raw"
 # Everything derived from RAW_DIR; small enough to deploy.
 PROCESSED_DIR = DATA_DIR / "processed"
+# Downloads that are never committed: the source corpora and the tagger's models.
+CORPORA_DIR = DATA_DIR / "corpora"
+MODELS_DIR = DATA_DIR / "models"
+# Lemmas and tags, one file per novel; committed, not read by the app.
+TOKENS_DIR = DATA_DIR / "tokens"
 
 CORPUS_METADATA_CSV = RAW_DIR / "corpus_metadata.csv"
 ANNOTATIONS_JSON_ZST = RAW_DIR / "main_shame_annotations.json.zst"

@@ -24,6 +24,7 @@ def load_metadata(path: Path = CORPUS_METADATA_CSV) -> pd.DataFrame:
     return pd.DataFrame(
         {
             "novel_id": meta["shame_id"],
+            "original_id": meta["original_id"],
             "author": meta["author"],
             "title": meta["title"],
             "year": meta["publ_year"].astype("int16"),

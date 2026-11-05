@@ -29,7 +29,7 @@ def build_novels(
         novels[f"per_10k_words_{tier}"] = (
             novels[f"n_{tier}"] / novels["word_count"] * 10_000
         )
-    return novels.drop(columns=["doc_link"])
+    return novels.drop(columns=["original_id", "doc_link"])
 
 
 def build_position_bins(

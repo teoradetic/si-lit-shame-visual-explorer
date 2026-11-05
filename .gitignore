@@ -219,5 +219,9 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
+# Downloads, rebuilt by `emotion-explorer corpora` and `tokens`
+data/corpora/
+data/models/
+
 # Local planning notes, never committed
 TODO.md

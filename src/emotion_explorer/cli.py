@@ -2,6 +2,12 @@
 
 uv run emotion-explorer all          # every step, in order
 uv run emotion-explorer paragraphs   # one step
+
+Lemmas and tags are not part of `all`: they need the optional `corpus` group.
+
+uv run emotion-explorer corpora                   # download the source corpora
+uv run --group corpus emotion-explorer tokens     # data/tokens, one file per novel
+uv run --group corpus emotion-explorer tokens --novels SHAME_086   # only these
 """
 
 import argparse
@@ -11,6 +17,7 @@ from collections.abc import Callable
 import pandas as pd
 
 from emotion_explorer.comparison import build_comparison, summarize_comparison
+from emotion_explorer.corpora import SOURCES, download_corpora, tei_path
 from emotion_explorer.emotion import SHAME
 from emotion_explorer.excerpts import CONTEXT, build_excerpts, excerpt_texts
 from emotion_explorer.meta import write_meta_section
@@ -30,6 +37,7 @@ from emotion_explorer.paths import (
     STYLE_NOVELS,
     STYLE_PARAGRAPHS,
     TEXTS,
+    TOKENS_DIR,
     WORD_COUNTS,
     WORD_PRIOR,
 )
@@ -43,6 +51,14 @@ from emotion_explorer.style import (
     pool,
 )
 from emotion_explorer.text import words
+from emotion_explorer.tokens import (
+    assign_paragraphs,
+    load_tagger,
+    read_tei,
+    tagged_rows,
+    to_table,
+    write_table,
+)
 from emotion_explorer.words import (
     MIN_COUNT,
     NAME_CAPITAL_SHARE,
@@ -253,6 +269,33 @@ def step_style() -> None:
     )
 
 
+def step_corpora() -> None:
+    download_corpora(load_metadata())
+
+
+def step_tokens(novel_ids: list[str] | None = None) -> None:
+    """Write the missing token tables; the existing ones are kept as a cache."""
+    annotations = load_annotations()
+    novels = load_metadata()
+    if novel_ids:
+        novels = novels[novels["novel_id"].isin(novel_ids)]
+    tagger = None
+    for novel in novels.itertuples():
+        path = TOKENS_DIR / f"{novel.novel_id}.parquet"
+        if path.exists():
+            continue
+        texts = [p["text"] for p in annotations[novel.novel_id]["paragraphs"].values()]
+        if novel.source_corpus in SOURCES:
+            rows = read_tei(tei_path(novel.source_corpus, novel.original_id))
+            rows = assign_paragraphs(rows, texts)
+        else:
+            tagger = tagger or load_tagger()
+            rows = tagged_rows(tagger, texts)
+        write_table(to_table(rows), path)
+        size_kb = path.stat().st_size / 1e3
+        print(f"wrote {path.name}: {len(rows):,} tokens, {size_kb:.0f} kB")
+
+
 STEPS: dict[str, Callable[[], None]] = {
     "paragraphs": step_paragraphs,
     "comparison": step_comparison,
@@ -264,9 +307,20 @@ STEPS: dict[str, Callable[[], None]] = {
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(prog="emotion-explorer", description=__doc__)
-    parser.add_argument("step", choices=[*STEPS, "all"])
+    parser = argparse.ArgumentParser(
+        prog="emotion-explorer",
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument("step", choices=[*STEPS, "all", "corpora", "tokens"])
+    parser.add_argument("--novels", nargs="+", help="tokens: only these novels")
     args = parser.parse_args()
+    if args.step == "corpora":
+        step_corpora()
+        return
+    if args.step == "tokens":
+        step_tokens(args.novels)
+        return
     steps = STEPS if args.step == "all" else {args.step: STEPS[args.step]}
     for name, step in steps.items():
         print(f"== {name}")

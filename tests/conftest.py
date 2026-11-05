@@ -39,6 +39,7 @@ def metadata() -> pd.DataFrame:
     return pd.DataFrame(
         {
             "novel_id": ["N1", "N2"],
+            "original_id": ["O1", "O2"],
             "author": ["X", "Y"],
             "title": ["A", "B"],
             "year": [1900, 1910],
