@@ -11,6 +11,7 @@ dependencies = [
     "altair>=5.5",
     "pandas>=2.3",
     "pyarrow>=21",
+    "pyyaml>=6.0.3",
     "streamlit>=1.50",
 ]
 

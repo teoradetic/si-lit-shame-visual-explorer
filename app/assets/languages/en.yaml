@@ -1,0 +1,523 @@
+language:
+  name: English
+  flag: 🇬🇧
+  decimal: .
+  thousands: ','
+strings:
+  app.title: Shame in Slovene novels, 1828–1940
+  nav.home: Overview
+  nav.time: Over time
+  nav.position: Within the novel
+  nav.words: Words
+  nav.themes: Themes
+  nav.people: People
+  nav.style: Style
+  nav.method: Method and caveats
+  chart.type: Chart
+  filters.header: Filters
+  filters.caption: Which novels and passages are counted.
+  filters.text_help: 'Words and Style only: count all of each passage, its narration,
+    or the speech in it (between quotation marks).'
+  filters.tier: Which passages
+  filters.tier_help: 'Broad: the passages the model is fairly sure are about shame.
+    Core: only those it is most sure about; fewer passages, but fewer mistakes.'
+  filters.period: Literary period
+  filters.authors: Authors
+  filters.authors_placeholder: All authors
+  filters.novels: Novels
+  filters.novels_placeholder: All novels
+  filters.years: Year of publication
+  filters.reset: Reset filters
+  filters.summary: '{novels} novels · {paragraphs} shame-related paragraphs'
+  filters.empty: No novels match these filters.
+  tier.core: Core (most certain)
+  tier.broad: Broad (fairly certain)
+  period.Realism: Realism
+  period.Modernism: Modernism
+  period.unknown: Period unknown
+  set.emotion: With shame
+  set.comparison: Without shame
+  paragraphs.split: Text
+  paragraphs.all: All text
+  paragraphs.narration: Narration
+  paragraphs.dialogue: Speech
+  field.novel: Novel
+  field.group: Group
+  field.novels: Novels
+  field.set: Passages
+  field.paragraphs: Paragraphs
+  field.tagged: Shame-related paragraphs
+  field.score: Shame score (0–100)
+  reader.header: Passages
+  reader.legend.focus: Marked by the model as about shame
+  reader.legend.comparison: Rated by the model as not about shame (for comparison)
+  reader.legend.context: The paragraphs around it, for context
+  reader.count: '{n} passages'
+  reader.sort: Order
+  reader.sort.score: Highest shame score first
+  reader.sort.position: By novel, in reading order
+  reader.sort.random: Random
+  reader.sort.rank: Highest value first
+  reader.page: Page
+  reader.of: of {n}
+  reader.position: paragraph {n} of {total}
+  reader.score: shame score {score} / 100
+  reader.score_help: 'How sure the model is that the paragraph is about shame: its
+    three ratings, rescaled to 0–100 and averaged.'
+  reader.over_context: This paragraph was too long for the model, which read only
+    its end.
+  reader.truncated: Shortened for display; the paragraph has {n} characters.
+  reader.full: Show the full paragraph
+  reader.empty: Click a point in the chart to read the passages behind it.
+  reader.none: Nothing to show for this selection.
+  home.intro: Where, when and how does shame appear in Slovene novels? A computer
+    model read all {novels} novels in this collection, by {authors} authors and published
+    {first}–{last}, paragraph by paragraph, and marked the paragraphs it judged to
+    be about shame. Use the charts to explore these paragraphs; every chart leads
+    to the passages themselves.
+  home.caveat: '**The model does not find all shame.** It catches perhaps a quarter
+    of the paragraphs about shame, and about one in four of the paragraphs it marks
+    are not really about shame. So the charts show where the model *found* shame,
+    not everywhere shame is. More in *Method and caveats*.'
+  home.m_novels: Novels
+  home.m_paragraphs: Paragraphs read
+  home.m_tagged: About shame
+  home.m_excerpts: Passages to read
+  home.views: What you can explore
+  home.view.time: '**Over time:** which novels, periods and authors have more shame,
+    and how this changes from 1828 to 1940.'
+  home.view.position: '**Within the novel:** whether shame comes at the beginning,
+    the middle or the end of a story.'
+  home.view.themes: '**Themes:** which themes come with shame, and which without.'
+  home.view.people: '**People:** whether women or men act in the passages, and which
+    names come with shame.'
+  home.view.words: '**Words:** the words that come with shame, compared with passages
+    without it.'
+  home.view.style: '**Style:** how passages about shame are written: sentence length,
+    question marks, exclamations, repetition.'
+  home.view.method: '**Method and caveats:** how the model found the passages and
+    how far it can be trusted.'
+  home.sample: A few passages to start with
+  time.title: Shame over time
+  time.type.scatter: Every novel
+  time.type.trend: Trend (moving average)
+  time.type.decades: Spread per decade
+  time.type.authors: Authors
+  time.type.top: Novels with the most shame
+  time.metric: Measure
+  time.metric.share: Share of paragraphs
+  time.metric.per_10k_words: Per 10,000 words
+  time.metric.mean_score: Average shame score
+  time.measures_help_title: What do the measures mean?
+  time.trend: Trend line
+  time.x: Year of publication
+  time.decade: Decade of publication
+  time.window_centre: Years around
+  time.median: Median
+  time.read.trend: 'How to read: the line is the average of the novels published within
+    {window} years around each year (only where at least {n} novels are available);
+    the shaded band shows how uncertain that average is. A wide band means few or
+    very different novels. Click the line to read the passages of the novels behind
+    it.'
+  time.read.decades: 'How to read: for each decade the box holds the middle half of
+    the novels, the line inside it is the median, and the whiskers reach the rest.
+    Dots are single novels; click one to read its passages.'
+  time.read.authors: 'How to read: each row is an author with at least {min_novels}
+    selected novels (their number in brackets), each dot one of their novels, the
+    dark bar their median. Authors are sorted from most to least shame. Click a dot
+    to read its passages.'
+  time.read.top: 'How to read: the {n_top} novels with the highest value on the chosen
+    measure, from the top. Click a bar to read the novel''s passages.'
+  time.descriptive: 'These charts describe; they do not test. Keep in mind: Cankar
+    wrote 32 of the 67 Modernist novels, only 31 novels are by female authors, and
+    few novels appeared before 1870.'
+  time.selected: Passages from the selected novels ({n})
+  position.title: Where shame falls in the novel
+  position.explain: '**Position in the novel:** every novel is stretched to the same
+    length, from its first paragraph (0 %) to its last (100 %). 50 % is the middle
+    of the novel, 90 % is near the end, whatever the novel''s length. The charts divide
+    each novel into 20 equal parts of 5 %.'
+  position.type.concentration: Where shame concentrates
+  position.type.share: Share in each part
+  position.type.violin: Distribution (violins)
+  position.type.heatmap: 'Heatmap: decades side by side'
+  position.type.heatmap_novels: 'Heatmap: novels side by side'
+  position.type.novels: Novel by novel
+  position.type.arcs: Typical arcs
+  position.arc: Arc {arc} · {n} novels
+  position.arc_y: Share of the novel's shame
+  position.arc_share: Share of novels
+  position.find.arc: '{group}: most often arc {arc} ({share} of the novels).'
+  position.read.arcs: 'How to read: every novel with at least {arc_min} passages about
+    shame is drawn as a thin line: how its shame spreads over the ten tenths of the
+    novel. Novels with a similar course are grouped into four arcs; the thick line
+    is the arc''s average. The arcs are found automatically, numbered from the earliest
+    shame to the latest. Click a line to read that novel''s passages.'
+  position.share_x: About shame (%)
+  position.part_from: Part starting at (%)
+  position.density: Density (1 = even spread)
+  position.smooth: Smooth (average each part with its neighbours)
+  position.relative: Relative to each column's average
+  position.relative_title: Shame compared with the average (1 = average)
+  position.order: Order novels by
+  position.order.year: Year of publication (oldest first)
+  position.order.count: Number of shame-related paragraphs (most first)
+  position.order.share: Share of shame-related paragraphs (highest first)
+  position.order.author: Author (A–Z)
+  position.limit: Showing {n} of {total} novels; narrow the filters to see others.
+  position.marks: Show
+  position.marks.marks: Each paragraph
+  position.marks.smoothed: Smoothed
+  position.read.concentration: 'How to read: 1 means a part of the novel has as much
+    shame as the novel as a whole; 1.2 means 20 % more, 0.8 means 20 % less. Each
+    novel counts equally (novels with fewer than {min_tagged} shame-related paragraphs
+    are left out). The shaded band shows the uncertainty. Click a point to read passages
+    from that part of the novels.'
+  position.read.share: 'How to read: the percentage of all paragraphs in each part
+    of the novels that the model marked as about shame. Long novels weigh more here.
+    Click a point to read passages from that part.'
+  position.read.violin: 'How to read: each shape shows where the shame-related paragraphs
+    lie, from the beginning (top) to the end (bottom). Where the shape is wide, there
+    are many; if shame were spread evenly, the shape would be a straight band.'
+  position.bin_selected: Passages between {a} % and {b} % of the novels
+  words.title: Words that come with shame
+  words.type.cloud: Word cloud
+  words.type.dots: Dot chart
+  words.n: Words shown
+  words.class: Word class
+  words.class.content: Meaningful words
+  words.class.nouns: Nouns and adjectives
+  words.class.verbs: Verbs (actions)
+  words.class.all: All words
+  words.function_title: What are function words?
+  words.function_help: 'Function words are short grammatical words that carry little
+    meaning on their own: pronouns (*jaz, ti, on*), auxiliary verbs (*biti* in *je
+    bil*), prepositions (*v, na, z*), conjunctions (*in, da, ker*), particles (*ne,
+    še, že*), determiners (*ta, vsak*) and numerals. They dominate any word list,
+    so only *All words* shows them. They are recognised by their part of speech, as
+    the grammatical analysis assigned it to most occurrences of the word. The commonest:'
+  words.counts: Numbers behind the chart
+  words.col.word: Word
+  words.col.ratio: Times more frequent
+  words.col.per_10k_emotion: Per 10,000 words, with shame
+  words.col.per_10k_comparison: Per 10,000 words, without shame
+  words.col.n_novels: Novels
+  words.selected: Passages containing a form of “{word}”
+  style.title: How shame is written
+  style.type.index: Compared with passages without shame
+  style.type.raw: Actual values side by side
+  style.type.time: Over time
+  style.per_1k: '{feature} per 1,000 characters'
+  style.measures_title: What do the measures mean?
+  style.measures_help: |-
+    - **Words per sentence:** the average length of a sentence.
+    - **Vocabulary diversity (MATTR):** take any 100 words in a row and count how many of them are different; MATTR is the average share over the whole text. 0.78 means about 78 different words in every 100. Higher means a richer, less repetitive vocabulary. Unlike a simple count, it does not depend on the length of the text.
+    - **Words repeated within 10 words:** the share of words that already appeared among the 10 words before them (short words are ignored).
+    - **Exclamation marks, question marks, semicolons, commas, ellipses, dashes:** how many per 1,000 characters.
+  style.legend.without: Without shame (always 100)
+  style.legend.with: With shame
+  style.legend.filled: 'Clear difference: very unlikely to be chance'
+  style.legend.hollow: Could be chance
+  style.verdict.clear: Clear difference
+  style.verdict.chance: Could be chance
+  style.read.index: 'How to read: each row compares the two kinds of passage on one
+    measure. The grey dot is the passages without shame, always set to 100; the coloured
+    dot is the passages with shame. A coloured dot at 200 means passages with shame
+    have twice as much of that measure; at 80, a fifth less. The coloured line shows
+    the uncertainty. Click a measure to read the passages highest on it.'
+  style.caveat: Old spelling makes splitting sentences unreliable. Speech is recognized
+    by quotation marks and speech dashes. Only novels with at least 5 paragraphs of
+    each kind are compared. Whether a difference is clear was tested with a permutation
+    test over novels, corrected for testing nine measures at once (Holm).
+  style.feature.sentence_words: Words per sentence
+  style.feature.mattr: Vocabulary diversity (MATTR)
+  style.feature.repetition: Words repeated within 10 words
+  style.feature.exclamation_per_1k: Exclamation marks
+  style.feature.question_per_1k: Question marks
+  style.feature.semicolon_per_1k: Semicolons
+  style.feature.comma_per_1k: Commas
+  style.feature.ellipsis_per_1k: Ellipses
+  style.feature.dash_per_1k: Dashes
+  style.no_paragraph: This measure exists only for a whole novel, so no passages can
+    be ranked by it.
+  style.col.feature: Measure
+  style.col.n_novels: Novels compared
+  style.col.mean_emotion: With shame
+  style.col.mean_comparison: Without shame
+  style.col.verdict: Difference
+  style.units: Punctuation is counted per 1,000 characters; repetition is a share
+    of words.
+  style.selected: 'Passages with shame highest in: {feature}'
+  filters.gender: Author gender
+  gender.F: Female authors
+  gender.M: Male authors
+  gender.unknown: Gender unknown
+  gender_short.F: Female
+  gender_short.M: Male
+  gender_short.unknown: Unknown
+  field.counted: Paragraphs counted
+  compare.header: Compare
+  compare.caption: How every chart splits the counted novels into groups.
+  compare.mode: What to compare
+  compare.help: Every chart on every page is broken down by this choice. The filters
+    below choose the novels; the comparison splits them into groups.
+  compare.mode.none: 'Nothing: all novels together'
+  compare.mode.shame: With and without shame
+  compare.mode.period: Realism and Modernism
+  compare.mode.gender: Female and male authors
+  compare.mode.authors: Two authors
+  compare.mode.novels: Novels of one author
+  compare.mode.rest: One author and the rest
+  compare.rest: Other authors
+  compare.author_a: First author
+  compare.author_b: Second author
+  compare.author: Author
+  compare.novels: Novels (up to three)
+  compare.everyone: All selected novels
+  compare.left_out.period: Novels of unknown period are left out of this comparison
+    ({n}).
+  compare.left_out.gender: Novels whose author's gender is unknown are left out of
+    this comparison ({n}).
+  compare.need_two_authors: Pick two different authors in the sidebar.
+  compare.need_groups: This needs at least {n} groups to compare; change the comparison
+    in the sidebar.
+  findings.title: Findings
+  findings.note: Computed from the novels and the comparison selected in the sidebar.
+    They describe the detected passages; only the Style page tests its differences.
+  methodology.title: Methodology (technical)
+  time.intro: How much shame does each novel contain, and does this change over the
+    years? Choose a chart; each shows the same novels in a different way, split by
+    the comparison chosen in the sidebar.
+  time.type.groups: Groups side by side
+  time.axis.share: Share of paragraphs (%)
+  time.axis.per_10k_words: Paragraphs per 10,000 words
+  time.axis.mean_score: Average shame score
+  time.measures_help: |-
+    - **Share of paragraphs:** of all the paragraphs in a novel, the percentage the model marked as about shame. A novel of 1,000 paragraphs with 50 marked scores 5 %. Long and short novels can be compared.
+    - **Per 10,000 words:** the same count, divided by the novel's length in words. Useful because paragraph length differs between authors.
+    - **Average shame score:** every paragraph, marked or not, has a shame score from 0 to 100 (how sure the model is that it is about shame). This is the novel's average. It does not depend on where the line between marked and unmarked is drawn, but it is not how *intense* the shame is.
+    - **With and without shame:** the second group counts the paragraphs the model rated clearly *not* about shame (a low rating on all three of its scales). Its numbers are about ten times larger, so it gets its own panel.
+  time.read.scatter: 'How to read: each dot is a novel, placed by its year (across)
+    and its amount of shame (up), coloured by group. The lines follow each group''s
+    typical level over time. Click a dot to read its passages; shift-click to add
+    more.'
+  time.read.groups: 'How to read: each row is a group of the comparison (number of
+    novels in brackets), each dot a novel, the dark bar the group''s median. Groups
+    with few novels can look different by chance. Click a dot to read its passages.'
+  time.trend_too_few: 'Too few novels for a moving average: it needs {n} novels within
+    {window} years.'
+  time.top_shame_only: This chart ranks the novels by their passages with shame only.
+  time.find.group: '**{group}** ({n} novels): median {median}; over time {trend} (ρ
+    = {rho}).'
+  time.find.rise: it tends to rise
+  time.find.fall: it tends to fall
+  time.find.flat: there is no clear trend
+  time.find.ratio: The median of **{a}** is {x}× that of **{b}**.
+  time.find.top: 'Most shame: *{novel}*, {value}.'
+  time.methodology: |-
+    - **Unit:** the novel. *Share* = detected paragraphs ÷ all its paragraphs; *per 10,000 words* = detected paragraphs ÷ the word count in the corpus metadata × 10,000; *average shame score* = mean over all its paragraphs of the three ratings rescaled to 0–1 and averaged, × 100.
+    - **Without shame:** paragraphs with a low rating on all three scales (0–1 ≤ 0.30, 0–10 ≤ 3, 0–100 ≤ 30).
+    - **Trend lines:** LOESS (Vega-Lite, bandwidth 0.5) for groups of at least {trend} novels.
+    - **Moving average:** unweighted mean of the novels published from y − {half} to y + {half} − 1, drawn where at least {n} novels fall in the window; band = mean ± 1.96 · SD / √n (a normal approximation, not a test).
+    - **Box plots:** quartiles; whiskers reach the furthest novel within 1.5 × IQR.
+    - **Findings:** the median per group, and Spearman's rank correlation ρ of the measure with the year (|ρ| < {clear} counts as no clear trend). Descriptive only: no test, and no control for confounds such as the author.
+  position.intro: Does shame come early in a story, in the middle, or towards the
+    end? Choose a chart; each looks at the question from a different side, split by
+    the comparison chosen in the sidebar.
+  position.x: Position in the novel (%)
+  position.x_down: Position (beginning at the top)
+  position.y.concentration: × the novel's average
+  position.y.share: Share of paragraphs (%)
+  position.legend_share: '% about shame'
+  position.legend_relative: × the column's average
+  position.heatmap_shame_only: The heatmap shows the passages with shame only.
+  position.read.novels: 'How to read: each row is a novel from beginning (left) to
+    end (right); each mark is a paragraph about shame (grey marks: paragraphs without
+    shame, when they are compared). The coloured square shows the group. “Smoothed”
+    turns the marks into a band that is darker where they cluster. The line on the
+    right is each novel''s share of paragraphs about shame; with the novels in year
+    order it shows how the amount rises and falls. Click to read the passages.'
+  position.read.heatmap: 'How to read: each column is a novel (or a group of novels),
+    read from top (beginning) to bottom (end), like pages laid side by side. Darker
+    cells have more shame. When groups are compared, the coloured strip on top shows
+    the group. Click a cell to read its passages.'
+  position.find.group: '**{group}:** most concentrated at {a}–{b} % of the novel ({peak}×
+    the novel''s average); the first fifth has {first}×, the last fifth {last}×.'
+  position.methodology: |-
+    - **Parts:** a paragraph's position is (i + 0.5) / N for paragraph i of N; positions are cut into {bins} equal parts of {part} %.
+    - **Where shame concentrates:** per novel, the share of detected paragraphs in a part ÷ the novel's overall share, averaged over the novels with at least {min_tagged} counted paragraphs, so that every novel weighs the same; band = mean ± 1.96 · SE across novels.
+    - **Share in each part:** pooled, i.e. detected ÷ all paragraphs summed over the novels, so long novels weigh more.
+    - **Smoothing:** a centred moving average over three parts.
+    - **Violins:** Gaussian kernel density of the positions (bandwidth {bw} percentage points), reflected at 0 and 100 % against edge bias, scaled so that an even spread is 1.
+    - **Without shame:** paragraphs with a low rating on all three scales; in *Novel by novel* the length-matched comparison set of the Words and Style pages.
+    - **Arcs:** per novel, the share of detected paragraphs in each tenth, scaled to sum to 1 (the shape, not the amount); novels need at least {arc_min} detected paragraphs. k-means with four clusters, fitted once on all novels of the tier; the filters only choose which are shown.
+    - **Findings:** the part with the highest concentration, and the mean concentration of the first and last fifth; with *Typical arcs*, each group's commonest arc. Descriptive only.
+  words.intro: Which words are used more often in passages about shame than in passages
+    from the same novels that are not about shame? The lists are computed for the
+    novels and the comparison chosen in the sidebar.
+  words.lemmas: 'Words are counted in their dictionary form: *sramu* and *sramom*
+    count as *sram*, *sramota* as a word of its own. Names are left out. The forms
+    were analysed automatically, so a few are wrong, more often in old spelling.'
+  words.type.map: Map
+  words.type.network: Network
+  words.read.network: 'How to read: each dot is a word typical of the passages with
+    shame. A line joins two words that come together in a sentence of these passages
+    at least twice as often as chance; the thicker the line, the stronger the pair.
+    Click a word to see the words that come with it, its cases and its passages.'
+  words.network.none: No two of these words share {n} or more sentences in these novels.
+  words.network.loners: 'Not linked to the other words: {words}.'
+  words.pairs.title: Words that come with *{word}*
+  words.pairs.pair: Pair
+  words.pairs.none: No word shares {n} or more sentences with this one in these novels.
+  words.pairs.times: Times as often as chance
+  words.pairs.n: Sentences together
+  words.pairs.read: 'How to read: the words that share a sentence with this one in
+    the passages with shame (at least {n} sentences), by how many times as often as
+    chance.'
+  words.shared: Shared by the groups
+  words.map_needs_two: 'The map compares two groups: under Compare in the sidebar,
+    choose with and without shame, periods, author gender, two authors, or two novels.'
+  words.map.with: Per 10,000 words, with shame
+  words.map.without: Per 10,000 words, without shame
+  words.map.ratio_in: 'Times more frequent with shame: {group}'
+  words.dots.both: With shame ÷ without (log scale)
+  words.col.belongs: Typical of
+  words.read.cloud_none: 'How to read: the bigger the word, the more typical it is
+    of passages with shame. Click a word to read passages that contain it.'
+  words.read.cloud_shame: 'How to read: plum words are typical of passages with shame,
+    grey words of passages without it; the bigger, the more typical. Click a word
+    to read passages that contain it.'
+  words.read.cloud_split: 'How to read: the bigger the word, the more typical it is
+    of shame in some group. Colour shows the group in which it is clearly more tied
+    to shame: there its frequency ratio (with shame against without) is at least {factor}
+    times that of every other group. Dark words are shared. Click a word to read passages
+    that contain it.'
+  words.hidden_labels: 'Labels hidden so that they do not overlap: {n}. Point at a
+    dot to see its word.'
+  words.read.map_split: 'How to read: each word is placed by how many times more frequent
+    it is in passages with shame, in one group (across) and in the other (up). Words
+    on the diagonal are equally tied to shame in both; words below it lean to the
+    first group, words above it to the second. Click a word to read passages.'
+  words.read.map_shame: 'How to read: each word is placed by how often it appears
+    in passages with shame (across) and without (up). Words below the diagonal are
+    more frequent with shame, words above it without. Click a word to read passages.'
+  words.read.dots: 'How to read: words are listed from most to least typical; the
+    dot shows how many times more frequent a word is in passages with shame than without.
+    Click a word to read passages.'
+  words.read.dots_shame: 'How to read: right of the line at 1, words more frequent
+    in passages with shame; left of it, words more frequent without (0.5 = half as
+    frequent with shame). Click a word to read passages.'
+  words.read.dots_split: 'How to read: the dark dot shows how many times more frequent
+    a word is with shame in all compared novels together, the coloured dots the same
+    within each group. Click a word to read passages.'
+  words.find.shame: 'Most typical of passages with shame: {words}.'
+  words.find.without: 'Most typical of passages without shame: {words}.'
+  words.find.group: 'Tied to shame mainly in **{group}**: {words}.'
+  words.find.common: 'Tied to shame in every group: {words}.'
+  words.cases.title: Cases of *{word}*
+  words.cases.case: Case
+  words.cases.share: Share of uses
+  words.cases.n: Uses
+  words.cases.legend: '{group} ({n} uses)'
+  words.cases.read: 'How to read: each bar is the share of the word''s uses in one
+    grammatical case; the bars of one colour add up to 100%. Shares of a few uses
+    mean little.'
+  case.Nom: Nominative
+  case.Gen: Genitive
+  case.Dat: Dative
+  case.Acc: Accusative
+  case.Loc: Locative
+  case.Ins: Instrumental
+  words.methodology: |-
+    - **Words:** lemmas, lower-cased, from CLASSLA tagging (the source corpora's annotation for 262 novels, CLASSLA run here for the other 43). A lemma's part of speech is the one most of its tokens have. Names are removed: lemmas whose tokens are mostly proper nouns or inside a named entity. A passage contains a word if it has one of its forms; each form belongs to the lemma most of its occurrences have. *Verbs* keeps lemmas tagged VERB, *Nouns and adjectives* NOUN and ADJ, *Meaningful words* all but the function words. *Speech* and *Narration* split each paragraph as on the Style page: words between quotation marks, or in a paragraph that opens with a dash, are speech.
+    - **Sets:** the detected paragraphs of the compared novels against their comparison paragraphs (one low-score partner per detected paragraph, from the same novel, within a factor of 2 in length).
+    - **Measure:** weighted log-odds ratio δ with an informative Dirichlet prior (Monroe, Colaresi and Quinn 2008); the prior is the corpus word frequency, scaled to the size of the two sets. Words are ranked by z = δ / SE(δ). *Times more frequent* is the plain ratio of the two frequencies, with half a count added to each side so that a word missing on one side stays finite; e^δ is not used for it, because the prior pulls it towards 1, the more so the rarer the word.
+    - **Filters:** at least {min_count} occurrences in the two sets; a typical word must recur on its side in at least {novels} novels by {authors} authors (the rule is relaxed for small groups), and be more frequent on that side. The last rule matters when one side has much more text: both share the prior, which can then tip a word that is common on both sides towards the larger one.
+    - **Groups:** each group is computed on its own novels. A word belongs to a group when its ratio there is at least {factor}× that of every other group; z is not compared across groups, because it grows with the amount of text.
+    - **Pairs:** two words come together when they share a CLASSLA sentence of a passage with shame; only words that are not function words. Strength is PMI, shown as 2^PMI, how many times as often as chance. Kept are the pairs that share at least {pair_sentences} sentences in {pair_novels} novels of the broad tier and come together at least twice as often as chance there; in the selected novels, a pair needs {together} sentences. In the network each word keeps its {links} strongest links. The network is laid out by force (Fruchterman and Reingold), so only its links, not the distances, carry meaning.
+    - **Cases:** the CLASSLA case of each occurrence of a clicked word, counted in the same sets; words without case (verbs, adverbs) show no chart.
+    - Thousands of words are compared, so the lists are descriptive: z > 3 is not a corrected significance level.
+  style.intro: 'Are passages about shame written differently from other passages in
+    the same novels: shorter sentences, more questions, more exclamations, more repetition?
+    Each measure is compared within each novel, then summed up over the novels of
+    each group in the sidebar''s comparison.'
+  style.x: Index (without shame = 100)
+  style.read.raw: 'How to read: one small chart per measure, each with its own scale;
+    plum bars are passages with shame, grey bars passages without, in the average
+    novel of each group.'
+  style.read.time: 'How to read: the line is the average of the novels published within
+    {window} years around each year (only where at least {n} novels are available);
+    plum is the passages with shame, grey the matched passages without, from the same
+    novels. The shaded band shows how uncertain the average is. Click the line to
+    read the passages highest on the measure in the novels behind it.'
+  style.read.time_split: 'How to read: the line is the average of the novels published
+    within {window} years around each year (only where at least {n} novels are available);
+    the colour is the group, solid lines the passages with shame, dashed lines the
+    matched passages without. The shaded band shows how uncertain the average with
+    shame is. Click the line to read the passages highest on the measure in the novels
+    behind it.'
+  style.shame_mode: Every chart on this page compares passages with and without shame,
+    so this comparison shows all the selected novels together.
+  style.too_few: 'Too few novels to compare: {groups}. A group needs at least {n}
+    novels with {p} or more paragraphs with and without shame.'
+  style.find.group: '**{group}:** {items}.'
+  style.find.more: '{feature} {x}× as frequent with shame'
+  style.find.less: '{feature} {pct} % lower with shame'
+  style.find.time: '**{group}:** over time {trend} ({feature} with shame, ρ = {rho}).'
+  style.find.rise: the value tends to rise
+  style.find.fall: the value tends to fall
+  style.find.flat: there is no clear trend
+  style.find.none: '**{group}:** no clear difference.'
+  style.methodology: |-
+    - **Measures** per paragraph: words per sentence (rule-based sentence split); words of three or more letters repeated within the previous 10 words; ! ? ; , … and dashes per 1,000 characters. MATTR (window of 100 words) is computed on all the words of a novel's set.
+    - **Pooling:** counts are summed per novel and set before rates are formed, so each novel gives one pair, with against without shame. Novels need at least {min_p} paragraphs in each set; a group needs at least {min_n} such novels.
+    - **Index:** 100 × (1 + mean per-novel difference ÷ mean value without shame); the 95 % interval comes from {boot} bootstrap resamples of novels.
+    - **Test:** a two-sided sign-flip permutation test of the mean per-novel difference ({perms} permutations), with Holm's correction across the {n_features} measures of each group. Filled dots: Holm-adjusted p < 0.05.
+    - **Speech:** the text between quotation marks (» « „ “ ", each mark opening or closing); without quotes, a paragraph that starts with a dash is all speech. *Narration* is the rest of the paragraph.
+    - **Ellipses:** any run of two or more dots, spaced or not (.. ... . . . …), counts once.
+    - **Over time:** the per-novel values of each set, averaged over the novels published within {window} years around each year; years with fewer than {min_window} novels are left out. The band is a 95 % normal interval over novels. The trend in the findings is Spearman's ρ between the year and the value with shame; |ρ| < {clear} counts as no clear trend.
+  people.title: Who appears in the passages about shame
+  people.intro: 'Who the passages are about: whether women or men act in them, and
+    which names come with shame more than without it.'
+  people.acts: Who acts
+  people.acts_x: Female subjects (%)
+  people.col.set: Passages
+  people.col.n: Verbs
+  people.col.name: Name
+  people.acts.read: 'How to read: in Slovene the past tense shows the gender of who
+    acts (*je rekla*, she said; *je rekel*, he said). The dots give the share of such
+    verbs with a female subject, in passages with and without shame. This is grammatical
+    gender: a few subjects are things or animals.'
+  people.names: Names that come with shame
+  people.names.read: 'How to read: how many times more often each name occurs in passages
+    with shame than without; names of people, places and God, as the language analysis
+    tagged them. Click a name to read its passages.'
+  people.find.acts: '{group}: {with_} % of past-tense verbs have a female subject
+    with shame, {without} % without.'
+  people.find.names: 'Names most tied to shame: {names}.'
+  people.methodology: |-
+    - **Who acts:** CLASSLA tokens tagged as singular past-tense verbs (l-participles, VERB or AUX) with feminine or masculine gender, in the detected paragraphs and their comparison set (as on the Words page), pooled over the compared novels. Neuter and plural forms are left out. Descriptive, not tested.
+    - **Names:** lemmas whose tokens are mostly proper nouns or inside a named entity, with at least {min_count} occurrences; ranked like the words (weighted log-odds), with the same rules on recurrence across novels and authors.
+  themes.title: Themes with and without shame
+  themes.intro: Every paragraph is given its main theme, found automatically from
+    its nouns and adjectives. Which themes are more common in passages about shame
+    than in passages from the same novels without it? A theme without detected shame
+    may still hold shame the model missed.
+  themes.x: Share of paragraphs
+  themes.col.theme: Theme
+  themes.col.ratio: Times more common with shame
+  themes.col.words: Top words
+  themes.words: The ten top words of each theme
+  themes.read: 'How to read: each row is a theme, named by its top four words; the
+    dots give the share of paragraphs whose main theme it is, with and without shame.
+    Themes are ordered from the most typical of shame down. Click a dot to read its
+    passages, those most about the theme first.'
+  themes.find.with: 'More common with shame: {themes}.'
+  themes.find.without: 'More common without it: {themes}.'
+  themes.selected: Passages on the theme “{theme}”
+  themes.methodology: |-
+    - **Paragraphs:** the broad tier's detected paragraphs and their comparison paragraphs (as on the Words page), pooled, so that both share one set of themes; the core tier uses its own part of them.
+    - **Words:** noun and adjective lemmas, without names and without the emotion's own words (those containing its stem); a lemma must occur in at least {min_paragraphs} paragraphs and in at most {max_share} % of them.
+    - **Themes:** non-negative matrix factorization (NMF) of the paragraphs' TF-IDF weights into {n} themes, not the LDA of the earlier study. A paragraph's main theme is the one with the largest weight; its share of the paragraph's weights ranks the passages.
+    - **Shares:** the share of each set's paragraphs whose main theme it is; *times more common* divides the share with shame by the share without, both over all compared novels. Descriptive, not tested.
+  method.title: Method and caveats

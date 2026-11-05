@@ -1,0 +1,518 @@
+language:
+  name: Slovenščina
+  flag: 🇸🇮
+  decimal: ','
+  thousands: .
+strings:
+  app.title: Sram v slovenskih romanih, 1828–1940
+  nav.home: Pregled
+  nav.time: Skozi čas
+  nav.position: Znotraj romana
+  nav.words: Besede
+  nav.themes: Teme
+  nav.people: Osebe
+  nav.style: Slog
+  nav.method: Metodologija in omejitve
+  chart.type: Graf
+  filters.header: Filtri
+  filters.caption: Kateri romani in odlomki se štejejo.
+  filters.text_help: 'Le Besede in Slog: štejejo cele odlomke, njihovo pripoved ali
+    govor v njih (med narekovaji).'
+  filters.tier: Kateri odlomki
+  filters.tier_help: 'Širši nabor: odlomki, za katere je model precej prepričan, da
+    govorijo o sramu. Jedro: le tisti, za katere je najbolj prepričan; manj odlomkov,
+    a tudi manj napak.'
+  filters.period: Literarno obdobje
+  filters.authors: Avtorji
+  filters.authors_placeholder: Vsi avtorji
+  filters.novels: Romani
+  filters.novels_placeholder: Vsi romani
+  filters.years: Leto izida
+  filters.reset: Ponastavi filtre
+  filters.summary: 'Romanov: {novels} · odstavkov o sramu: {paragraphs}'
+  filters.empty: Filtrom ne ustreza noben roman.
+  tier.core: Jedro (najbolj gotovi)
+  tier.broad: Širši nabor (precej gotovi)
+  period.Realism: realizem
+  period.Modernism: modernizem
+  period.unknown: obdobje neznano
+  set.emotion: S sramom
+  set.comparison: Brez sramu
+  paragraphs.split: Besedilo
+  paragraphs.all: Vse besedilo
+  paragraphs.narration: Pripoved
+  paragraphs.dialogue: Govor
+  field.novel: Roman
+  field.group: Skupina
+  field.novels: Romani
+  field.set: Odlomki
+  field.paragraphs: Odstavki
+  field.tagged: Odstavki o sramu
+  field.score: Ocena sramu (0–100)
+  reader.header: Odlomki
+  reader.legend.focus: Model ga je označil kot odstavek o sramu
+  reader.legend.comparison: Model ga je ocenil kot odstavek brez sramu (za primerjavo)
+  reader.legend.context: Sosednji odstavki, za kontekst
+  reader.count: 'Odlomkov: {n}'
+  reader.sort: Vrstni red
+  reader.sort.score: Najprej najvišja ocena sramu
+  reader.sort.position: Po romanih, v vrstnem redu branja
+  reader.sort.random: Naključno
+  reader.sort.rank: Najprej najvišja vrednost
+  reader.page: Stran
+  reader.of: od {n}
+  reader.position: odstavek {n} od {total}
+  reader.score: ocena sramu {score} / 100
+  reader.score_help: 'Kako prepričan je model, da odstavek govori o sramu: njegove
+    tri ocene, preračunane na 0–100 in povprečene.'
+  reader.over_context: Odstavek je bil za model predolg, zato je prebral le njegov
+    konec.
+  reader.truncated: Za prikaz skrajšano; odstavek ima {n} znakov.
+  reader.full: Prikaži cel odstavek
+  reader.empty: Kliknite točko v grafu, da preberete odlomke, ki so za njo.
+  reader.none: Za ta izbor ni ničesar za prikaz.
+  home.intro: Kje, kdaj in kako se v slovenskih romanih pojavlja sram? Računalniški
+    model je prebral vseh {novels} romanov te zbirke ({authors} avtorjev in avtoric,
+    izdanih v letih {first}–{last}), odstavek za odstavkom, in označil tiste, za katere
+    je presodil, da govorijo o sramu. Z grafi lahko te odstavke raziskujete; vsak
+    graf vodi do samih odlomkov.
+  home.caveat: '**Model ne najde vsega sramu.** Ujame morda četrtino odstavkov o sramu,
+    približno eden od štirih odstavkov, ki jih označi, pa v resnici ne govori o sramu.
+    Grafi zato kažejo, kje je model sram *našel*, ne pa povsod, kjer sram je. Več
+    v razdelku *Metodologija in omejitve*.'
+  home.m_novels: Romani
+  home.m_paragraphs: Prebrani odstavki
+  home.m_tagged: O sramu
+  home.m_excerpts: Odlomki za branje
+  home.views: Kaj lahko raziskujete
+  home.view.time: '**Skozi čas:** kateri romani, obdobja in avtorji imajo več sramu
+    in kako se to spreminja od 1828 do 1940.'
+  home.view.position: '**Znotraj romana:** ali se sram pojavi na začetku, v sredini
+    ali na koncu zgodbe.'
+  home.view.themes: '**Teme:** katere teme spremljajo sram in katere ne.'
+  home.view.people: '**Osebe:** ali v odlomkih delujejo ženske ali moški in katera
+    imena spremljajo sram.'
+  home.view.words: '**Besede:** besede, ki spremljajo sram, v primerjavi z odlomki
+    brez njega.'
+  home.view.style: '**Slog:** kako so napisani odlomki o sramu: dolžina povedi, vprašaji,
+    klicaji, ponavljanje.'
+  home.view.method: '**Metodologija in omejitve:** kako je model našel odlomke in
+    koliko mu lahko zaupamo.'
+  home.sample: Nekaj odlomkov za začetek
+  time.title: Sram skozi čas
+  time.type.scatter: Vsak roman
+  time.type.trend: Trend (drseče povprečje)
+  time.type.decades: Razpršenost po desetletjih
+  time.type.authors: Avtorji
+  time.type.top: Romani z največ sramu
+  time.metric: Mera
+  time.metric.share: Delež odstavkov
+  time.metric.per_10k_words: Na 10.000 besed
+  time.metric.mean_score: Povprečna ocena sramu
+  time.measures_help_title: Kaj pomenijo mere?
+  time.trend: Trendna črta
+  time.x: Leto izida
+  time.decade: Desetletje izida
+  time.window_centre: Leta okoli
+  time.median: Mediana
+  time.read.trend: 'Kako brati: črta je povprečje romanov, izdanih v {window} letih
+    okoli posameznega leta (le kjer je vsaj {n} romanov); osenčeni pas kaže, kako
+    negotovo je to povprečje. Širok pas pomeni malo ali zelo različnih romanov. Kliknite
+    črto, da preberete odlomke romanov za njo.'
+  time.read.decades: 'Kako brati: za vsako desetletje škatla zajame srednjo polovico
+    romanov, črta v njej je mediana, ročaja segata do ostalih. Točke so posamezni
+    romani; kliknite eno, da preberete odlomke.'
+  time.read.authors: 'Kako brati: vsaka vrstica je avtor (najmanj izbranih romanov:
+    {min_novels}; v oklepaju njihovo število), vsaka točka eden od njegovih romanov,
+    temna črtica mediana. Avtorji so razvrščeni od največ do najmanj sramu. Kliknite
+    točko za odlomke.'
+  time.read.top: 'Kako brati: romani z najvišjo vrednostjo izbrane mere (prikazanih:
+    {n_top}), od zgoraj navzdol. Kliknite stolpec, da preberete odlomke romana.'
+  time.descriptive: 'Grafi opisujejo, ne testirajo. Upoštevajte: Cankar je napisal
+    32 od 67 modernističnih romanov, avtorice le 31 romanov, pred letom 1870 pa je
+    izšlo malo romanov.'
+  time.selected: Odlomki iz izbranih romanov ({n})
+  position.title: Kje v romanu se pojavi sram
+  position.explain: '**Mesto v romanu:** vsak roman je raztegnjen na isto dolžino,
+    od prvega (0 %) do zadnjega odstavka (100 %). 50 % je sredina romana, 90 % je
+    blizu konca, ne glede na dolžino romana. Grafi razdelijo vsak roman na 20 enakih
+    delov po 5 %.'
+  position.type.concentration: Kje se sram zgosti
+  position.type.share: Delež v vsakem delu
+  position.type.violin: Porazdelitev (violine)
+  position.type.heatmap: 'Toplotni zemljevid: desetletja drugo ob drugem'
+  position.type.heatmap_novels: 'Toplotni zemljevid: romani drug ob drugem'
+  position.type.novels: Roman za romanom
+  position.type.arcs: Tipični loki
+  position.arc: 'Lok {arc} · romanov: {n}'
+  position.arc_y: Delež sramu v romanu
+  position.arc_share: Delež romanov
+  position.find.arc: '{group}: najpogosteje lok {arc} (delež romanov: {share}).'
+  position.read.arcs: 'Kako brati: vsak roman z vsaj {arc_min} odlomki o sramu je
+    tanka črta: kako se njegov sram razporedi po desetinah romana. Romani s podobnim
+    potekom so združeni v štiri loke; debela črta je povprečje loka. Loki so najdeni
+    samodejno in oštevilčeni od najzgodnejšega sramu do najpoznejšega. Kliknite črto
+    za odlomke tega romana.'
+  position.share_x: O sramu (%)
+  position.part_from: Del od (%)
+  position.density: Gostota (1 = enakomerno)
+  position.smooth: Zgladi (vsak del povpreči s sosednjima)
+  position.relative: Glede na povprečje stolpca
+  position.relative_title: Sram glede na povprečje (1 = povprečje)
+  position.order: Razvrsti romane po
+  position.order.year: letu izida (najstarejši prvi)
+  position.order.count: številu odstavkov o sramu (največ prvi)
+  position.order.share: deležu odstavkov o sramu (najvišji prvi)
+  position.order.author: avtorju (A–Ž)
+  position.limit: 'Prikazanih romanov: {n} od {total}; za druge zožite filtre.'
+  position.marks: Prikaži
+  position.marks.marks: Vsak odstavek
+  position.marks.smoothed: Zglajeno
+  position.read.concentration: 'Kako brati: 1 pomeni, da ima del romana toliko sramu
+    kot roman v celoti; 1,2 pomeni 20 % več, 0,8 pa 20 % manj. Vsak roman šteje enako
+    (romani z manj kot {min_tagged} odstavki o sramu so izpuščeni). Osenčeni pas kaže
+    negotovost. Kliknite točko za odlomke iz tega dela romanov.'
+  position.read.share: 'Kako brati: odstotek vseh odstavkov v posameznem delu romanov,
+    ki jih je model označil kot odstavke o sramu. Dolgi romani tu štejejo več. Kliknite
+    točko za odlomke iz tega dela.'
+  position.read.violin: 'Kako brati: vsaka oblika kaže, kje ležijo odstavki o sramu,
+    od začetka (zgoraj) do konca (spodaj). Kjer je oblika široka, jih je veliko; če
+    bi bil sram enakomerno razporejen, bi bila oblika raven pas.'
+  position.bin_selected: Odlomki med {a} % in {b} % romanov
+  words.title: Besede, ki spremljajo sram
+  words.type.cloud: Oblak besed
+  words.type.dots: Točkovni graf
+  words.n: Prikazane besede
+  words.class: Besedna vrsta
+  words.class.content: Pomenske besede
+  words.class.nouns: Samostalniki in pridevniki
+  words.class.verbs: Glagoli (dejanja)
+  words.class.all: Vse besede
+  words.function_title: Kaj so funkcijske besede?
+  words.function_help: 'Funkcijske besede so kratke slovnične besede, ki same po sebi
+    nimajo veliko pomena: zaimki (*jaz, ti, on*), pomožni glagoli (*biti* v *je bil*),
+    predlogi (*v, na, z*), vezniki (*in, da, ker*), členki (*ne, še, že*), določilniki
+    (*ta, vsak*) in števniki. Prevladale bi v vsakem seznamu, zato jih kaže le izbira
+    *Vse besede*. Prepoznane so po besedni vrsti, ki jo je slovnična analiza pripisala
+    večini pojavitev besede. Najpogostejše:'
+  words.counts: Številke za grafom
+  words.col.word: Beseda
+  words.col.ratio: Kolikokrat pogostejša
+  words.col.per_10k_emotion: Na 10.000 besed, s sramom
+  words.col.per_10k_comparison: Na 10.000 besed, brez sramu
+  words.col.n_novels: Romani
+  words.selected: Odlomki z obliko besede »{word}«
+  style.title: Kako je sram napisan
+  style.type.index: V primerjavi z odlomki brez sramu
+  style.type.raw: Dejanske vrednosti
+  style.type.time: Skozi čas
+  style.per_1k: '{feature} na 1.000 znakov'
+  style.measures_title: Kaj pomenijo mere?
+  style.measures_help: |-
+    - **Besede na poved:** povprečna dolžina povedi.
+    - **Raznolikost besedišča (MATTR):** vzemite poljubnih 100 zaporednih besed in preštejte, koliko je različnih; MATTR je povprečni delež čez celotno besedilo. 0,78 pomeni približno 78 različnih besed na vsakih 100. Višje pomeni bogatejše, manj ponavljajoče se besedišče. Za razliko od preprostega štetja ni odvisna od dolžine besedila.
+    - **Besede, ponovljene v razmiku 10 besed:** delež besed, ki so se že pojavile med 10 besedami pred njimi (kratke besede so izpuščene).
+    - **Klicaji, vprašaji, podpičja, vejice, tropičja, pomišljaji:** koliko jih je na 1.000 znakov.
+  style.legend.without: Brez sramu (vedno 100)
+  style.legend.with: S sramom
+  style.legend.filled: 'Jasna razlika: zelo malo verjetno naključje'
+  style.legend.hollow: Lahko je naključje
+  style.verdict.clear: Jasna razlika
+  style.verdict.chance: Lahko je naključje
+  style.read.index: 'Kako brati: vsaka vrstica primerja obe vrsti odlomkov pri eni
+    meri. Siva točka so odlomki brez sramu, vedno postavljeni na 100; barvna točka
+    so odlomki s sramom. Barvna točka pri 200 pomeni, da imajo odlomki s sramom te
+    mere dvakrat več; pri 80 petino manj. Barvna črta kaže negotovost. Kliknite mero
+    za odlomke z najvišjo vrednostjo.'
+  style.caveat: Zaradi starega črkopisa je delitev na povedi nezanesljiva. Govor je
+    prepoznan po narekovajih in pomišljajih pred govorom. Primerjani so le romani
+    z vsaj 5 odstavki vsake vrste. Ali je razlika jasna, je preverjeno s permutacijskim
+    testom po romanih, popravljenim za hkratno testiranje devetih mer (Holm).
+  style.feature.sentence_words: Besede na poved
+  style.feature.mattr: Raznolikost besedišča (MATTR)
+  style.feature.repetition: Besede, ponovljene v razmiku 10 besed
+  style.feature.exclamation_per_1k: Klicaji
+  style.feature.question_per_1k: Vprašaji
+  style.feature.semicolon_per_1k: Podpičja
+  style.feature.comma_per_1k: Vejice
+  style.feature.ellipsis_per_1k: Tropičja
+  style.feature.dash_per_1k: Pomišljaji
+  style.no_paragraph: Ta mera obstaja le za cel roman, zato po njej ni mogoče razvrstiti
+    odlomkov.
+  style.col.feature: Mera
+  style.col.n_novels: Primerjani romani
+  style.col.mean_emotion: S sramom
+  style.col.mean_comparison: Brez sramu
+  style.col.verdict: Razlika
+  style.units: Ločila so šteta na 1.000 znakov; ponavljanje je delež besed.
+  style.selected: 'Odlomki s sramom z najvišjo vrednostjo: {feature}'
+  filters.gender: Spol avtorja
+  gender.F: Avtorice
+  gender.M: Avtorji
+  gender.unknown: Spol neznan
+  gender_short.F: Ženski
+  gender_short.M: Moški
+  gender_short.unknown: Neznan
+  field.counted: Prešteti odstavki
+  compare.header: Primerjaj
+  compare.caption: Kako vsak graf razdeli štete romane v skupine.
+  compare.mode: Kaj primerjati
+  compare.help: Ta izbira razdeli vsak graf na vsaki strani. Filtri spodaj izberejo
+    romane, primerjava pa jih razdeli v skupine.
+  compare.mode.none: 'Nič: vsi romani skupaj'
+  compare.mode.shame: S sramom in brez njega
+  compare.mode.period: Realizem in modernizem
+  compare.mode.gender: Avtorice in avtorje
+  compare.mode.authors: Dva avtorja
+  compare.mode.novels: Romane enega avtorja
+  compare.mode.rest: Enega avtorja in ostale
+  compare.rest: Drugi avtorji
+  compare.author_a: Prvi avtor
+  compare.author_b: Drugi avtor
+  compare.author: Avtor
+  compare.novels: Romani (največ trije)
+  compare.everyone: Vsi izbrani romani
+  compare.left_out.period: Romani neznanega obdobja so iz te primerjave izpuščeni
+    ({n}).
+  compare.left_out.gender: Romani avtorjev neznanega spola so iz te primerjave izpuščeni
+    ({n}).
+  compare.need_two_authors: V stranski vrstici izberite dva različna avtorja.
+  compare.need_groups: Za to so potrebne vsaj {n} skupine; spremenite primerjavo v
+    stranski vrstici.
+  findings.title: Ugotovitve
+  findings.note: Izračunano iz romanov in primerjave, izbranih v stranski vrstici.
+    Opisujejo zaznane odlomke; le stran Slog svoje razlike tudi testira.
+  methodology.title: Metodologija (tehnično)
+  time.intro: Koliko sramu vsebuje posamezen roman in ali se to spreminja skozi leta?
+    Izberite graf; vsak pokaže iste romane na drugačen način, razdeljene po primerjavi,
+    izbrani v stranski vrstici.
+  time.type.groups: Skupine drugo ob drugi
+  time.axis.share: Delež odstavkov (%)
+  time.axis.per_10k_words: Odstavki na 10.000 besed
+  time.axis.mean_score: Povprečna ocena sramu
+  time.measures_help: |-
+    - **Delež odstavkov:** od vseh odstavkov romana odstotek tistih, ki jih je model označil kot odstavke o sramu. Roman s 1.000 odstavki, od katerih je 50 označenih, ima 5 %. Tako lahko primerjamo dolge in kratke romane.
+    - **Na 10.000 besed:** isto število, deljeno z dolžino romana v besedah. Uporabno, ker so odstavki pri avtorjih različno dolgi.
+    - **Povprečna ocena sramu:** vsak odstavek, označen ali ne, ima oceno sramu od 0 do 100 (kako prepričan je model, da govori o sramu). To je povprečje romana. Ni odvisno od tega, kje potegnemo mejo med označenimi in neoznačenimi, ni pa mera *jakosti* sramu.
+    - **S sramom in brez njega:** druga skupina šteje odstavke, za katere je model presodil, da zagotovo *ne* govorijo o sramu (nizka ocena na vseh treh lestvicah). Njene vrednosti so približno desetkrat večje, zato ima svoj graf.
+  time.read.scatter: 'Kako brati: vsaka točka je roman, postavljen po letu (vodoravno)
+    in količini sramu (navpično), obarvan po skupini. Črte sledijo običajni ravni
+    vsake skupine skozi čas. Kliknite točko, da preberete odlomke; s Shift+klik jih
+    dodate več.'
+  time.read.groups: 'Kako brati: vsaka vrstica je skupina primerjave (v oklepaju število
+    romanov), vsaka točka roman, temna črtica mediana skupine. Skupine z malo romani
+    so lahko drugačne po naključju. Kliknite točko za odlomke.'
+  time.trend_too_few: 'Premalo romanov za drseče povprečje: potrebuje {n} romane v
+    {window} letih.'
+  time.top_shame_only: Ta graf razvrsti romane le po odlomkih s sramom.
+  time.find.group: '**{group}** (romanov: {n}): mediana {median}; skozi čas {trend}
+    (ρ = {rho}).'
+  time.find.rise: se navadno zvišuje
+  time.find.fall: se navadno znižuje
+  time.find.flat: ni jasnega trenda
+  time.find.ratio: Mediana skupine **{a}** je {x}-kratnik mediane skupine **{b}**.
+  time.find.top: 'Največ sramu: *{novel}*, {value}.'
+  time.methodology: |-
+    - **Enota:** roman. *Delež* = zaznani odstavki ÷ vsi odstavki romana; *na 10.000 besed* = zaznani odstavki ÷ število besed iz metapodatkov korpusa × 10.000; *povprečna ocena sramu* = povprečje vseh odstavkov romana, pri čemer je ocena odstavka povprečje treh ocen, preračunanih na 0–1, × 100.
+    - **Brez sramu:** odstavki z nizko oceno na vseh treh lestvicah (0–1 ≤ 0,30, 0–10 ≤ 3, 0–100 ≤ 30).
+    - **Trendne črte:** LOESS (Vega-Lite, pasovna širina 0,5) za skupine z vsaj {trend} romani.
+    - **Drseče povprečje:** netehtano povprečje romanov, izdanih od leta y − {half} do y + {half} − 1, prikazano, kjer je v oknu vsaj {n} romanov; pas = povprečje ± 1,96 · SD / √n (normalni približek, ne test).
+    - **Škatle z ročaji:** kvartili; ročaja segata do najbolj oddaljenega romana znotraj 1,5 × IQR.
+    - **Ugotovitve:** mediana posamezne skupine in Spearmanov koeficient ρ med mero in letom (|ρ| < {clear} pomeni, da jasnega trenda ni). Le opisno: brez testa in brez nadzora motečih dejavnikov, kot je avtor.
+  position.intro: Ali se sram pojavi zgodaj v zgodbi, v sredini ali proti koncu? Izberite
+    graf; vsak pogleda na vprašanje z druge strani, razdeljen po primerjavi, izbrani
+    v stranski vrstici.
+  position.x: Mesto v romanu (%)
+  position.x_down: Mesto (začetek na vrhu)
+  position.y.concentration: × povprečje romana
+  position.y.share: Delež odstavkov (%)
+  position.legend_share: '% o sramu'
+  position.legend_relative: × povprečje stolpca
+  position.heatmap_shame_only: Toplotni zemljevid prikazuje le odlomke s sramom.
+  position.read.novels: 'Kako brati: vsaka vrstica je roman od začetka (levo) do konca
+    (desno); vsaka oznaka je odstavek o sramu (sive oznake: odstavki brez sramu, kadar
+    jih primerjamo). Barvni kvadratek kaže skupino. »Zglajeno« oznake spremeni v pas,
+    ki je temnejši, kjer se zgostijo. Črta na desni je delež odstavkov o sramu v vsakem
+    romanu; če so romani razvrščeni po letu izida, kaže, kako količina narašča in
+    upada. Kliknite za odlomke.'
+  position.read.heatmap: 'Kako brati: vsak stolpec je roman (ali skupina romanov),
+    ki se bere od zgoraj (začetek) navzdol (konec), kot strani, položene druga ob
+    drugo. Temnejše celice imajo več sramu. Kadar primerjamo skupine, barvni trak
+    na vrhu kaže skupino. Kliknite celico za odlomke.'
+  position.find.group: '**{group}:** najbolj zgoščeno pri {a}–{b} % romana ({peak}×
+    povprečje romana); prva petina ima {first}×, zadnja petina {last}×.'
+  position.methodology: |-
+    - **Deli:** mesto odstavka i od N je (i + 0,5) / N; mesta so razdeljena na {bins} enakih delov po {part} %.
+    - **Kje se sram zgosti:** za vsak roman delež zaznanih odstavkov v delu ÷ delež v celem romanu, povprečeno čez romane z vsaj {min_tagged} preštetimi odstavki, tako da vsak roman šteje enako; pas = povprečje ± 1,96 · SE čez romane.
+    - **Delež v vsakem delu:** združeno, tj. zaznani ÷ vsi odstavki, sešteto čez romane, zato dolgi romani štejejo več.
+    - **Glajenje:** centrirano drseče povprečje treh delov.
+    - **Violine:** Gaussova jedrna gostota mest (pasovna širina {bw} odstotnih točk), zrcaljena pri 0 in 100 % proti pristranskosti na robovih, umerjena tako, da je enakomerna porazdelitev 1.
+    - **Brez sramu:** odstavki z nizko oceno na vseh treh lestvicah; v pogledu *Roman za romanom* po dolžini usklajeni primerjalni nabor strani Besede in Slog.
+    - **Loki:** za vsak roman delež zaznanih odstavkov v vsaki desetini, umerjen na vsoto 1 (oblika, ne količina); roman potrebuje vsaj {arc_min} zaznanih odstavkov. Metoda k-voditeljev s štirimi skupinami, izračunana enkrat na vseh romanih nabora; filtri izberejo le, kateri so prikazani.
+    - **Ugotovitve:** del z največjo zgostitvijo ter povprečna zgostitev prve in zadnje petine; pri *Tipičnih lokih* najpogostejši lok vsake skupine. Le opisno.
+  words.intro: Katere besede so v odlomkih o sramu pogostejše kot v odlomkih iz istih
+    romanov, ki ne govorijo o sramu? Seznami so izračunani za romane in primerjavo,
+    izbrane v stranski vrstici.
+  words.lemmas: 'Besede so štete v slovarski obliki: *sramu* in *sramom* štejeta kot
+    *sram*, *sramota* pa kot samostojna beseda. Imena so izpuščena. Oblike so bile
+    analizirane samodejno, zato je nekaj napak, pogosteje v starem črkopisu.'
+  words.type.map: Zemljevid
+  words.type.network: Mreža
+  words.read.network: 'Kako brati: vsaka točka je beseda, značilna za odlomke s sramom.
+    Črta povezuje besedi, ki se v isti povedi teh odlomkov pojavljata vsaj dvakrat
+    pogosteje kot po naključju; debelejša črta pomeni močnejši par. Kliknite besedo
+    za besede, ki jo spremljajo, njene sklone in odlomke.'
+  words.network.none: Nobeni dve od teh besed si v teh romanih ne delita vsaj {n}
+    povedi.
+  words.network.loners: 'Brez povezave z drugimi besedami: {words}.'
+  words.pairs.title: Besede, ki spremljajo besedo *{word}*
+  words.pairs.pair: Par
+  words.pairs.none: Nobena beseda si s to v teh romanih ne deli vsaj {n} povedi.
+  words.pairs.times: Kolikokrat pogosteje kot po naključju
+  words.pairs.n: Skupne povedi
+  words.pairs.read: 'Kako brati: besede, ki si s to delijo poved v odlomkih s sramom
+    (vsaj v {n} povedih), po tem, kolikokrat pogosteje kot po naključju.'
+  words.shared: Skupne skupinam
+  words.map_needs_two: 'Zemljevid primerja dve skupini: v stranski vrstici pod Primerjaj
+    izberite s sramom in brez njega, obdobji, spol avtorja, dva avtorja ali dva romana.'
+  words.map.with: Na 10.000 besed, s sramom
+  words.map.without: Na 10.000 besed, brez sramu
+  words.map.ratio_in: 'Kolikokrat pogostejša ob sramu: {group}'
+  words.dots.both: S sramom ÷ brez (log. lestvica)
+  words.col.belongs: Značilna za
+  words.read.cloud_none: 'Kako brati: večja kot je beseda, bolj je značilna za odlomke
+    s sramom. Kliknite besedo, da preberete odlomke z njo.'
+  words.read.cloud_shame: 'Kako brati: vijoličaste besede so značilne za odlomke s
+    sramom, sive za odlomke brez njega; večja kot je beseda, bolj je značilna. Kliknite
+    besedo za odlomke z njo.'
+  words.read.cloud_split: 'Kako brati: večja kot je beseda, bolj je v neki skupini
+    značilna za sram. Barva kaže skupino, v kateri je izrazito bolj povezana s sramom:
+    tam je njeno razmerje pogostnosti (s sramom proti brez) vsaj {factor}-krat večje
+    kot v vsaki drugi skupini. Temne besede so skupne. Kliknite besedo za odlomke.'
+  words.hidden_labels: 'Skritih oznak, da se ne prekrivajo: {n}. Pokažite na točko,
+    da vidite besedo.'
+  words.read.map_split: 'Kako brati: vsaka beseda je postavljena glede na to, kolikokrat
+    pogostejša je v odlomkih s sramom v eni skupini (vodoravno) in v drugi (navpično).
+    Besede na diagonali so s sramom enako povezane v obeh; besede pod njo se nagibajo
+    k prvi skupini, nad njo k drugi. Kliknite besedo za odlomke.'
+  words.read.map_shame: 'Kako brati: vsaka beseda je postavljena glede na to, kako
+    pogosto se pojavi v odlomkih s sramom (vodoravno) in brez njega (navpično). Besede
+    pod diagonalo so pogostejše ob sramu, nad njo brez njega. Kliknite besedo za odlomke.'
+  words.read.dots: 'Kako brati: besede so razvrščene od najbolj do najmanj značilne;
+    točka kaže, kolikokrat pogostejša je beseda v odlomkih s sramom kot brez njega.
+    Kliknite besedo za odlomke.'
+  words.read.dots_shame: 'Kako brati: desno od črte pri 1 so besede, pogostejše v
+    odlomkih s sramom, levo besede, pogostejše brez njega (0,5 = ob sramu pol manj
+    pogosta). Kliknite besedo za odlomke.'
+  words.read.dots_split: 'Kako brati: temna točka kaže, kolikokrat pogostejša je beseda
+    ob sramu v vseh primerjanih romanih skupaj, barvne točke isto znotraj posamezne
+    skupine. Kliknite besedo za odlomke.'
+  words.find.shame: 'Najbolj značilne za odlomke s sramom: {words}.'
+  words.find.without: 'Najbolj značilne za odlomke brez sramu: {words}.'
+  words.find.group: 'S sramom povezane predvsem v skupini **{group}**: {words}.'
+  words.find.common: 'S sramom povezane v vseh skupinah: {words}.'
+  words.cases.title: Skloni besede *{word}*
+  words.cases.case: Sklon
+  words.cases.share: Delež rab
+  words.cases.n: Rabe
+  words.cases.legend: '{group} (rab: {n})'
+  words.cases.read: 'Kako brati: vsak stolpec je delež rab besede v enem sklonu; stolpci
+    ene barve dajo skupaj 100 %. Deleži maloštevilnih rab povedo malo.'
+  case.Nom: Imenovalnik
+  case.Gen: Rodilnik
+  case.Dat: Dajalnik
+  case.Acc: Tožilnik
+  case.Loc: Mestnik
+  case.Ins: Orodnik
+  words.methodology: |-
+    - **Besede:** leme z malimi črkami, iz označevanja s CLASSLA (označbe izvornih korpusov za 262 romanov, CLASSLA, zagnan tukaj, za preostalih 43). Besedna vrsta leme je tista, ki jo ima večina njenih pojavitev. Imena so odstranjena: leme, katerih pojavitve so večinoma lastna imena ali del imenske entitete. Odlomek vsebuje besedo, če vsebuje katero od njenih oblik; vsaka oblika pripada lemi, ki jo ima večina njenih pojavitev. *Glagoli* obdržijo leme z oznako VERB, *Samostalniki in pridevniki* NOUN in ADJ, *Pomenske besede* vse razen funkcijskih. *Govor* in *Pripoved* razdelita odstavek kot na strani Slog: besede med narekovaji ali v odstavku, ki se začne s pomišljajem, so govor.
+    - **Nabora:** zaznani odstavki primerjanih romanov proti njihovim primerjalnim odstavkom (en par z nizko oceno na zaznani odstavek, iz istega romana, do 2-krat daljši ali krajši).
+    - **Mera:** uteženo razmerje logaritemskih obetov δ z informativno Dirichletovo apriorno porazdelitvijo (Monroe, Colaresi in Quinn 2008); apriorna je pogostnost besede v korpusu, umerjena na velikost obeh naborov. Besede so razvrščene po z = δ / SE(δ). *Kolikokrat pogostejša* je navadno razmerje obeh pogostnosti, pri čemer je vsaki strani dodana polovica pojavitve, da beseda, ki na eni strani manjka, ostane končna; e^δ za to ni uporabljen, ker ga apriorna porazdelitev vleče proti 1, tem bolj, čim redkejša je beseda.
+    - **Filtri:** vsaj {min_count} pojavitev v obeh naborih; značilna beseda se mora na svoji strani ponoviti v vsaj {novels} romanih {authors} avtorjev (za majhne skupine je pravilo blažje) in biti na njej pogostejša. Zadnje pravilo je pomembno, kadar ima ena stran veliko več besedila: obe si delita predhodno porazdelitev, ki lahko besedo, pogosto na obeh straneh, nagne k večji strani.
+    - **Skupine:** vsaka skupina je izračunana na svojih romanih. Beseda pripada skupini, če je njeno razmerje tam vsaj {factor}-krat večje kot v vsaki drugi skupini; z med skupinami ni primerjan, ker raste s količino besedila.
+    - **Pari:** besedi se pojavljata skupaj, če si delita poved (po CLASSLA) v odlomku s sramom; le besede, ki niso funkcijske. Moč para je PMI, prikazan kot 2^PMI, kolikokrat pogosteje kot po naključju. Ohranjeni so pari, ki si delijo vsaj {pair_sentences} povedi v {pair_novels} romanih širšega nabora in se tam pojavljajo vsaj dvakrat pogosteje kot po naključju; v izbranih romanih par potrebuje {together} povedi. V mreži vsaka beseda obdrži {links} najmočnejše povezave. Mreža je razporejena s simulacijo sil (Fruchterman in Reingold), zato pomen nosijo le povezave, ne razdalje.
+    - **Skloni:** sklon vsake pojavitve izbrane besede po CLASSLA, štet v istih naborih; besede brez sklona (glagoli, prislovi) grafa nimajo.
+    - Primerjamo na tisoče besed, zato so seznami opisni: z > 3 ni popravljena raven statistične značilnosti.
+  style.intro: 'Ali so odlomki o sramu napisani drugače kot drugi odlomki v istih
+    romanih: krajše povedi, več vprašanj, več vzklikov, več ponavljanja? Vsaka mera
+    je primerjana znotraj vsakega romana in nato povzeta čez romane vsake skupine
+    iz primerjave v stranski vrstici.'
+  style.x: Indeks (brez sramu = 100)
+  style.read.raw: 'Kako brati: za vsako mero majhen graf z lastno lestvico; vijoličasti
+    stolpci so odlomki s sramom, sivi odlomki brez njega, v povprečnem romanu vsake
+    skupine.'
+  style.read.time: 'Kako brati: črta je povprečje romanov, izdanih v {window} letih
+    okoli vsakega leta (le kjer je na voljo vsaj {n} romanov); vijoličasta so odlomki
+    s sramom, siva usklajeni odlomki brez sramu iz istih romanov. Senčeni pas kaže,
+    kako negotovo je povprečje. Kliknite črto za odlomke z najvišjo vrednostjo mere
+    v romanih za njo.'
+  style.read.time_split: 'Kako brati: črta je povprečje romanov, izdanih v {window}
+    letih okoli vsakega leta (le kjer je na voljo vsaj {n} romanov); barva je skupina,
+    polna črta odlomki s sramom, črtkana usklajeni odlomki brez sramu. Senčeni pas
+    kaže, kako negotovo je povprečje s sramom. Kliknite črto za odlomke z najvišjo
+    vrednostjo mere v romanih za njo.'
+  style.shame_mode: Vsak graf na tej strani primerja odlomke s sramom in brez njega,
+    zato ta primerjava prikaže vse izbrane romane skupaj.
+  style.too_few: 'Premalo romanov za primerjavo: {groups}. Skupina potrebuje vsaj
+    {n} romane z vsaj {p} odstavki s sramom in brez njega.'
+  style.find.group: '**{group}:** {items}.'
+  style.find.more: '{feature}: ob sramu {x}-krat pogostejši'
+  style.find.less: '{feature}: ob sramu {pct} % nižje'
+  style.find.time: '**{group}:** skozi čas {trend} ({feature} s sramom, ρ = {rho}).'
+  style.find.rise: vrednost navadno narašča
+  style.find.fall: vrednost navadno pada
+  style.find.flat: ni jasnega trenda
+  style.find.none: '**{group}:** ni jasne razlike.'
+  style.methodology: |-
+    - **Mere** na odstavek: besede na poved (delitev na povedi s pravili); besede s tremi ali več črkami, ponovljene med 10 besedami pred njimi; ! ? ; , … in pomišljaji na 1.000 znakov. MATTR (okno 100 besed) je izračunan na vseh besedah nabora posameznega romana.
+    - **Združevanje:** števila so seštevana po romanu in naboru, preden so izračunani deleži, zato vsak roman da en par, s sramom proti brez. Roman potrebuje vsaj {min_p} odstavkov v vsakem naboru, skupina vsaj {min_n} take romane.
+    - **Indeks:** 100 × (1 + povprečna razlika po romanih ÷ povprečna vrednost brez sramu); 95-odstotni interval izhaja iz {boot} ponovnih vzorčenj romanov (bootstrap).
+    - **Test:** dvostranski permutacijski test z naključnim obračanjem predznakov povprečne razlike po romanih ({perms} permutacij), s Holmovim popravkom čez {n_features} mer vsake skupine. Polne točke: p po Holmu < 0,05.
+    - **Govor:** besedilo med narekovaji (» « „ “ ", vsak narekovaj govor odpre ali zapre); brez narekovajev je govor ves odstavek, ki se začne s pomišljajem. *Pripoved* je preostanek odstavka.
+    - **Tropičja:** vsak niz dveh ali več pik, s presledki ali brez (.. ... . . . …), šteje enkrat.
+    - **Skozi čas:** vrednosti posameznih romanov v vsakem naboru, povprečene čez romane, izdane v {window} letih okoli vsakega leta; leta z manj kot {min_window} romani so izpuščena. Pas je 95-odstotni normalni interval čez romane. Trend v ugotovitvah je Spearmanov ρ med letom in vrednostjo s sramom; |ρ| < {clear} šteje kot brez jasnega trenda.
+  people.title: Kdo nastopa v odlomkih o sramu
+  people.intro: 'O kom govorijo odlomki: ali v njih delujejo ženske ali moški in katera
+    imena so pogostejša ob sramu kot brez njega.'
+  people.acts: Kdo deluje
+  people.acts_x: Ženski osebki (%)
+  people.col.set: Odlomki
+  people.col.n: Glagoli
+  people.col.name: Ime
+  people.acts.read: 'Kako brati: v slovenščini preteklik pokaže spol tistega, ki deluje
+    (*je rekla*, *je rekel*). Točki kažeta delež takih glagolov z ženskim osebkom
+    v odlomkih s sramom in brez njega. Gre za slovnični spol: nekaj osebkov je stvari
+    ali živali.'
+  people.names: Imena, ki spremljajo sram
+  people.names.read: 'Kako brati: kolikokrat pogosteje se ime pojavi v odlomkih s
+    sramom kot brez njega; imena oseb, krajev in Boga, kot jih je označila jezikovna
+    analiza. Kliknite ime za njegove odlomke.'
+  people.find.acts: '{group}: ženski osebek ima {with_} % glagolov v pretekliku ob
+    sramu in {without} % brez njega.'
+  people.find.names: 'Imena, najbolj povezana s sramom: {names}.'
+  people.methodology: |-
+    - **Kdo deluje:** pojavnice, ki jih CLASSLA označi kot glagole v pretekliku ednine (deležniki na -l, VERB ali AUX) z ženskim ali moškim spolom, v zaznanih odstavkih in njihovem primerjalnem naboru (kot na strani Besede), seštete čez primerjane romane. Srednji spol in množina sta izpuščena. Opisno, brez testa.
+    - **Imena:** leme, katerih pojavitve so večinoma lastna imena ali del imenske entitete, z vsaj {min_count} pojavitvami; razvrščene kot besede (uteženo razmerje logaritemskih obetov), z enakimi pravili o ponavljanju v romanih in pri avtorjih.
+  themes.title: Teme s sramom in brez njega
+  themes.intro: Vsak odstavek dobi glavno temo, najdeno samodejno iz njegovih samostalnikov
+    in pridevnikov. Katere teme so pogostejše v odlomkih o sramu kot v odlomkih iz
+    istih romanov brez njega? Tema brez zaznanega sramu lahko še vedno vsebuje sram,
+    ki ga model ni zaznal.
+  themes.x: Delež odstavkov
+  themes.col.theme: Tema
+  themes.col.ratio: Kolikokrat pogostejša ob sramu
+  themes.col.words: Glavne besede
+  themes.words: Deset glavnih besed vsake teme
+  themes.read: 'Kako brati: vsaka vrstica je tema, poimenovana po štirih glavnih besedah;
+    točke kažejo delež odstavkov, katerih glavna tema je, s sramom in brez njega.
+    Teme so urejene od najbolj značilne za sram navzdol. Kliknite točko za njene odlomke,
+    najprej tiste, ki so temi najbolj posvečeni.'
+  themes.find.with: 'Pogostejše ob sramu: {themes}.'
+  themes.find.without: 'Pogostejše brez njega: {themes}.'
+  themes.selected: Odlomki na temo »{theme}«
+  themes.methodology: |-
+    - **Odstavki:** zaznani odstavki širšega nabora in njihovi primerjalni odstavki (kot na strani Besede), združeni, da si delijo iste teme; jedro uporablja svoj del.
+    - **Besede:** leme samostalnikov in pridevnikov, brez imen in brez besed samega čustva (tistih, ki vsebujejo njegov koren); lema se mora pojaviti v vsaj {min_paragraphs} odstavkih in v največ {max_share} % odstavkov.
+    - **Teme:** nenegativna matrična faktorizacija (NMF) uteži TF-IDF odstavkov v {n} tem, ne LDA prejšnje študije. Glavna tema odstavka je tista z največjo utežjo; njen delež med utežmi odstavka razvršča odlomke.
+    - **Deleži:** delež odstavkov vsakega nabora, katerih glavna tema je; *kolikokrat pogostejša* deli delež s sramom z deležem brez njega, oba čez vse primerjane romane. Opisno, brez testa.
+  method.title: Metodologija in omejitve

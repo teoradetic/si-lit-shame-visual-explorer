@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 
 from helpers import charts, filters
-from helpers.language import label, t
+from helpers.language import label, lang, t
 
 MODES = ("none", "shame", "period", "gender", "authors", "rest", "novels")
 MAX_NOVELS = 3
@@ -47,11 +47,16 @@ def sidebar() -> None:
     with st.sidebar, st.container(border=True):
         st.header(t("compare.header"), divider="gray")
         st.caption(t("compare.caption"))
+        # One widget per language: a sidebar selectbox keeps showing its old
+        # label after a language switch. "cmp_mode" holds the choice.
+        key = f"cmp_mode_{lang()}"
+        st.session_state[key] = mode()
         st.selectbox(
             t("compare.mode"),
             MODES,
             format_func=lambda v: t(f"compare.mode.{v}"),
-            key="cmp_mode",
+            key=key,
+            on_change=lambda: st.session_state.update(cmp_mode=st.session_state[key]),
             help=t("compare.help"),
         )
         if not authors:

@@ -47,5 +47,5 @@ uv run --group corpus emotion-explorer tokens   # write missing data/tokens file
 ## Layout
 
 - `src/emotion_explorer/`: `cli.py`, `prep/` (sources, paragraphs, comparison set, excerpts, tokens), `analysis/` (the counts behind each view).
-- `app/`: `streamlit_app.py`, `views/` (pages), `helpers/`, `assets/`.
+- `app/`: `streamlit_app.py`, `views/` (pages), `helpers/`, `assets/languages/` (one YAML file of interface text, a flag and a method page per language; a new language is a new file).
 - `tests/`: unit tests, and a smoke test of every page and chart type in both languages and every comparison.

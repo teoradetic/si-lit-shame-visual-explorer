@@ -3,26 +3,10 @@
 import streamlit as st
 
 from helpers import compare, filters, reader
-from helpers.language import LANGUAGES, t
+from helpers.language import LANGUAGES, lang, setting, t
 
 st.set_page_config(page_title=t("app.title"), layout="wide")
 reader.inject_css()
-
-title, switch = st.columns([5, 1], vertical_alignment="center")
-switch.segmented_control(
-    t("app.language"),
-    LANGUAGES,
-    default="en",
-    required=True,
-    format_func=str.upper,
-    key="lang",
-    label_visibility="collapsed",
-)
-title.caption(t("app.title"))
-
-# The comparison comes first in the sidebar: it shapes every chart.
-compare.sidebar()
-filters.sidebar()
 
 # Pages live in views/, not pages/, so Streamlit's automatic multipage
 # mode never picks them up alongside st.navigation.
@@ -36,4 +20,31 @@ pages = [
     st.Page("views/stylistics.py", title=t("nav.style"), url_path="style"),
     st.Page("views/method.py", title=t("nav.method"), url_path="method"),
 ]
-st.navigation(pages, position="top").run()
+# The language menu is a section of the top menu, named after the current
+# language; its entries are the other languages. Flag emoji show as letters
+# (GB, SI) on Windows; the names stay readable.
+languages = {
+    st.Page(
+        lambda: None,
+        title=f"{setting('flag', code)} {setting('name', code)}",
+        url_path=f"language-{code}",
+    ): code
+    for code in LANGUAGES
+    if code != lang()
+}
+page = st.navigation(
+    {"": pages, f"{setting('flag')} {setting('name')}": list(languages)},
+    position="top",
+)
+if page in languages:
+    # Switch before anything is drawn, then go back to the last page.
+    st.session_state["lang"] = languages[page]
+    back = st.session_state.get("last_page")
+    st.switch_page(next((p for p in pages if p.url_path == back), pages[0]))
+st.session_state["last_page"] = page.url_path
+
+st.caption(t("app.title"))
+# The comparison comes first in the sidebar: it shapes every chart.
+compare.sidebar()
+filters.sidebar()
+page.run()

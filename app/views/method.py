@@ -1,24 +1,17 @@
 """APP-04: how the passages were found, and what the app cannot show."""
 
-from pathlib import Path
-
 import streamlit as st
 
 from helpers import tables
-from helpers.language import lang, t
-
-CONTENT_DIR = Path(__file__).resolve().parents[1] / "assets"
+from helpers.language import LANGUAGE_DIR, lang, localize, num, t
 
 
 def number(value: float) -> str:
-    """Thousands separators in the reader's convention."""
-    text = f"{value:,}"
-    return text.replace(",", ".") if lang() == "sl" else text
+    return num(value, 0)
 
 
 def decimal(value: float) -> str:
-    text = f"{value:g}"
-    return text.replace(".", ",") if lang() == "sl" else text
+    return localize(f"{value:g}")
 
 
 meta = tables.meta()
@@ -48,5 +41,5 @@ for scale, maximum in par["low"].items():
     values[f"low_{scale}"] = decimal(maximum)
 
 st.title(t("method.title"))
-text = (CONTENT_DIR / f"method.{lang()}.md").read_text(encoding="utf-8")
+text = (LANGUAGE_DIR / f"method.{lang()}.md").read_text(encoding="utf-8")
 st.markdown(text.format(**values))
