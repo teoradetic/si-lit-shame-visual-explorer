@@ -876,6 +876,48 @@ STRINGS: dict[str, dict[str, str]] = {
         "starem črkopisu.",
     },
     "words.type.map": {"en": "Map", "sl": "Zemljevid"},
+    "words.type.network": {"en": "Network", "sl": "Mreža"},
+    "words.read.network": {
+        "en": "How to read: each dot is a word typical of the passages with "
+        "shame. A line joins two words that come together in a sentence of "
+        "these passages at least twice as often as chance; the thicker the "
+        "line, the stronger the pair. Click a word to see the words that come "
+        "with it, its cases and its passages.",
+        "sl": "Kako brati: vsaka točka je beseda, značilna za odlomke s sramom. "
+        "Črta povezuje besedi, ki se v isti povedi teh odlomkov pojavljata vsaj "
+        "dvakrat pogosteje kot po naključju; debelejša črta pomeni močnejši "
+        "par. Kliknite besedo za besede, ki jo spremljajo, njene sklone in "
+        "odlomke.",
+    },
+    "words.network.none": {
+        "en": "No two of these words share {n} or more sentences in these novels.",
+        "sl": "Nobeni dve od teh besed si v teh romanih ne delita vsaj {n} povedi.",
+    },
+    "words.network.loners": {
+        "en": "Not linked to the other words: {words}.",
+        "sl": "Brez povezave z drugimi besedami: {words}.",
+    },
+    "words.pairs.title": {
+        "en": "Words that come with *{word}*",
+        "sl": "Besede, ki spremljajo besedo *{word}*",
+    },
+    "words.pairs.pair": {"en": "Pair", "sl": "Par"},
+    "words.pairs.none": {
+        "en": "No word shares {n} or more sentences with this one in these novels.",
+        "sl": "Nobena beseda si s to v teh romanih ne deli vsaj {n} povedi.",
+    },
+    "words.pairs.times": {
+        "en": "Times as often as chance",
+        "sl": "Kolikokrat pogosteje kot po naključju",
+    },
+    "words.pairs.n": {"en": "Sentences together", "sl": "Skupne povedi"},
+    "words.pairs.read": {
+        "en": "How to read: the words that share a sentence with this one in the "
+        "passages with shame (at least {n} sentences), by how many times as "
+        "often as chance.",
+        "sl": "Kako brati: besede, ki si s to delijo poved v odlomkih s sramom "
+        "(vsaj v {n} povedih), po tem, kolikokrat pogosteje kot po naključju.",
+    },
     "words.shared": {"en": "Shared by the groups", "sl": "Skupne skupinam"},
     "words.map_needs_two": {
         "en": "The map compares two groups: under Compare in the sidebar, choose "
@@ -1047,6 +1089,16 @@ STRINGS: dict[str, dict[str, str]] = {
         "belongs to a group when its ratio there is at least {factor}× that of "
         "every other group; z is not compared across groups, because it grows "
         "with the amount of text.\n"
+        "- **Pairs:** two words come together when they share a CLASSLA "
+        "sentence of a passage with shame; only words that are not function "
+        "words. Strength is PMI, shown as 2^PMI, how many times as often as "
+        "chance. Kept are the pairs that share at least {pair_sentences} "
+        "sentences in {pair_novels} novels of the broad tier and come together "
+        "at least twice as often as chance there; in the selected novels, a "
+        "pair needs {together} sentences. In the network each word keeps its "
+        "{links} strongest links. The network is laid out by force "
+        "(Fruchterman and Reingold), so only its links, not the distances, "
+        "carry meaning.\n"
         "- **Cases:** the CLASSLA case of each occurrence of a clicked word, "
         "counted in the same sets; words without case (verbs, adverbs) show "
         "no chart.\n"
@@ -1084,6 +1136,16 @@ STRINGS: dict[str, dict[str, str]] = {
         "pripada skupini, če je njeno razmerje tam vsaj {factor}-krat večje kot v "
         "vsaki drugi skupini; z med skupinami ni primerjan, ker raste s "
         "količino besedila.\n"
+        "- **Pari:** besedi se pojavljata skupaj, če si delita poved (po "
+        "CLASSLA) v odlomku s sramom; le besede, ki niso funkcijske. Moč para "
+        "je PMI, prikazan kot 2^PMI, kolikokrat pogosteje kot po naključju. "
+        "Ohranjeni so pari, ki si delijo vsaj {pair_sentences} povedi v "
+        "{pair_novels} romanih širšega nabora in se tam pojavljajo vsaj "
+        "dvakrat pogosteje kot po naključju; v izbranih romanih par potrebuje "
+        "{together} povedi. V mreži vsaka beseda obdrži {links} najmočnejše "
+        "povezave. Mreža je razporejena s simulacijo sil "
+        "(Fruchterman in Reingold), zato pomen nosijo le povezave, ne "
+        "razdalje.\n"
         "- **Skloni:** sklon vsake pojavitve izbrane besede po CLASSLA, štet v "
         "istih naborih; besede brez sklona (glagoli, prislovi) grafa nimajo.\n"
         "- Primerjamo na tisoče besed, zato so seznami opisni: z > 3 ni "

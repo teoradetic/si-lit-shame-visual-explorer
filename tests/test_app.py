@@ -26,7 +26,7 @@ CHART_TYPES = {
         ["concentration", "share", "violin", "heatmap", "novels"],
         {"pos_marks": "smoothed", "pos_all": True},
     ),
-    "views/words.py": ("words_type", ["cloud", "map", "dots"], {}),
+    "views/words.py": ("words_type", ["cloud", "map", "dots", "network"], {}),
     "views/stylistics.py": ("style_type", ["index", "raw", "time"], {}),
 }
 MODES = ["none", "shame", "period", "gender", "authors", "rest", "novels"]
@@ -72,14 +72,15 @@ def test_chart_type_renders_with_each_comparison(page, key, chart, extra, mode):
 
 
 @pytest.mark.parametrize("mode", MODES)
-def test_clicked_word_shows_its_cases(mode):
+def test_clicked_word_shows_its_neighbours_and_cases(mode):
     # The chart's event, as Streamlit hands it to the page after a click.
     click = SimpleNamespace(selection={"word": [{"word": "sram", "side": "emotion"}]})
     at = run("views/words.py", "en", {"cmp_mode": mode, "words_type": "dots"})
     at.session_state["words_dots"] = click
     at.run()
     assert not at.exception, [e.value for e in at.exception]
-    assert at.subheader[0].value == "Cases of *sram*"
+    titles = [h.value for h in at.subheader]
+    assert titles[:2] == ["Words that come with *sram*", "Cases of *sram*"]
 
 
 @pytest.mark.parametrize(

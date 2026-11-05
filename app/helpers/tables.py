@@ -110,6 +110,26 @@ def group_words(tier: str, split: str, novel_ids: frozenset[str]) -> pd.DataFram
     return table_.join(prior[["pos", "function_word", "contains_stem"]], on="word")
 
 
+@st.cache_data(max_entries=64)
+def group_pairs(tier: str, novel_ids: frozenset[str]) -> pd.DataFrame:
+    """Words a, b in the same sentence of the detected passages of these novels:
+    sentences together (n) and PMI. An empty `a` counts the sentences of `b`."""
+    df = table("word_pairs")
+    df = df[(df["tier"] == tier) & df["novel_id"].isin(novel_ids)]
+    df = df.groupby(["a", "b"], observed=True)["n"].sum().reset_index()
+    df = df.astype({"a": str, "b": str})
+    sentences = df[df["a"] == ""].set_index("b")["n"]
+    pairs = df[df["a"] != ""]
+    return pairs.assign(
+        pmi=stats.pmi(
+            pairs["n"],
+            pairs["a"].map(sentences),
+            pairs["b"].map(sentences),
+            sentences.get("", 0),
+        )
+    )
+
+
 @st.cache_resource
 def word_forms() -> pd.Series:
     """The lower-cased forms of each lemma that can enter a word list."""

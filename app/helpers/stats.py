@@ -18,6 +18,11 @@ N_BOOTSTRAP = 2_000
 SEED = 20261030
 
 
+def pmi(n_ab, n_a, n_b, n):
+    """Pointwise mutual information, log2: 1 is twice as often as chance."""
+    return np.log2(n_ab * n / (n_a * n_b))
+
+
 def spread_rule(n_novels: int, n_authors: int) -> tuple[int, int]:
     """How many novels, by how many authors, a typical word must recur in."""
     return (

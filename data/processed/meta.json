@@ -105,6 +105,9 @@
     "min_count": 10,
     "n_names_removed": 22703,
     "name_share": 0.5,
+    "pair_min_novels": 5,
+    "pair_min_pmi": 1,
+    "pair_min_sentences": 10,
     "vocabulary": 11368
   }
 }

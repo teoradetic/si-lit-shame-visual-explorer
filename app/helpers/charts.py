@@ -173,6 +173,29 @@ def place_labels(
     return df.join(placement)
 
 
+def spring_layout(nodes: list[str], edges: pd.DataFrame) -> np.ndarray:
+    """Positions in [-1, 1]² for a small graph (Fruchterman and Reingold 1991):
+    nodes repel, `edges` (a, b) attract, a weak pull keeps the parts together."""
+    n = len(nodes)
+    pos = np.random.default_rng(0).uniform(-1, 1, (n, 2))
+    index = {w: i for i, w in enumerate(nodes)}
+    a, b = edges["a"].map(index).to_numpy(), edges["b"].map(index).to_numpy()
+    k, step = np.sqrt(4 / n), 0.1
+    for _ in range(300):
+        delta = pos[:, None] - pos[None, :]
+        dist = np.linalg.norm(delta, axis=2) + 1e-6
+        force = (delta * (k**2 / dist**2)[..., None]).sum(axis=1) - pos * 0.5
+        pull = pos[a] - pos[b]
+        pull *= np.linalg.norm(pull, axis=1, keepdims=True) / k
+        np.add.at(force, a, -pull)
+        np.add.at(force, b, pull)
+        length = np.linalg.norm(force, axis=1, keepdims=True) + 1e-9
+        pos += force / length * np.minimum(length, step)
+        step *= 0.985
+    pos -= pos.mean(axis=0)
+    return pos / (np.abs(pos).max(axis=0) + 1e-9)
+
+
 def show_chart(
     chart: alt.TopLevelMixin, key: str, select: bool = True, fit: bool = True
 ):

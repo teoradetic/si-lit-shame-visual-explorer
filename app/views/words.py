@@ -11,7 +11,7 @@ import streamlit as st
 from helpers import charts, compare, filters, notes, reader, stats, tables
 from helpers.language import labels, num, t
 
-CHART_TYPES = ("cloud", "map", "dots")
+CHART_TYPES = ("cloud", "map", "dots", "network")
 # AN-04: verbs, the actions; "content" leaves out the function words.
 WORD_CLASSES = {"content": None, "nouns": ("NOUN", "ADJ"), "verbs": ("VERB",)}
 # A word belongs to a group when its frequency ratio there is at least this
@@ -25,6 +25,13 @@ N_FINDINGS = 5
 # Function words listed in their explanation, the commonest first.
 N_FUNCTION_LISTED = 40
 CASES = ("Nom", "Gen", "Dat", "Acc", "Loc", "Ins")
+# AN-06: two words are linked when they share at least this many sentences in
+# the selected novels, as often as the pipeline's floor asks (`pair_min_pmi`).
+MIN_TOGETHER = 3
+N_NEIGHBOURS = 12
+# Each word in the network keeps only its strongest links, or larger networks
+# turn into a tangle.
+MAX_LINKS = 3
 
 f = filters.current()
 st.title(t("words.title"))
@@ -217,6 +224,26 @@ def diagonal(scale: alt.Scale, low: float, high: float) -> alt.Chart:
     )
 
 
+def network_edges() -> pd.DataFrame:
+    """Links among the shown words with shame; each keeps its strongest."""
+    shown = words.loc[words["side"] == "emotion", "word"]
+    pairs = tables.group_pairs(f.tier, pool_ids)
+    edges = pairs[
+        pairs["a"].isin(shown)
+        & pairs["b"].isin(shown)
+        & (pairs["n"] >= MIN_TOGETHER)
+        & (pairs["pmi"] >= tables.meta()["words"]["pair_min_pmi"])
+    ]
+    ends = pd.concat([edges["a"], edges["b"]])
+    rank = (
+        edges["pmi"]
+        .reindex(ends.index)
+        .groupby(ends.to_numpy())
+        .rank(ascending=False, method="first")
+    )
+    return edges.loc[rank[rank <= MAX_LINKS].index.unique()]
+
+
 words = shown_words()
 chosen = None
 read_key = f"words.read.{chart_type}"
@@ -342,6 +369,73 @@ elif chart_type == "map":
     chosen = (charts.selected(event, "word", "word") or [None])[0]
     if shame_mode:
         read_key = "words.read.map_shame"
+elif chart_type == "network" and network_edges().empty:
+    st.info(t("words.network.none", n=MIN_TOGETHER))
+    read_key = None
+elif chart_type == "network":
+    nodes, edges = words[words["side"] == "emotion"], network_edges()
+    # Words without a link are listed, not drawn: they would push the rest
+    # into the middle.
+    linked = nodes["word"].isin(edges["a"]) | nodes["word"].isin(edges["b"])
+    loners = nodes.loc[~linked, "word"].tolist()
+    nodes = nodes[linked]
+    pos = charts.spring_layout(nodes["word"].tolist(), edges)
+    nodes = nodes.assign(x=pos[:, 0], y=pos[:, 1])
+    at = nodes.set_index("word")
+    edges = edges.assign(
+        x=edges["a"].map(at["x"]),
+        y=edges["a"].map(at["y"]),
+        x2=edges["b"].map(at["x"]),
+        y2=edges["b"].map(at["y"]),
+        pair=edges["a"] + " – " + edges["b"],
+        times=2 ** edges["pmi"],
+    )
+    # Room on the right for the labels.
+    x = alt.X("x:Q", scale=alt.Scale(domain=[-1.1, 1.4]), axis=None)
+    y = alt.Y("y:Q", scale=alt.Scale(domain=[-1.1, 1.1]), axis=None)
+    lines = (
+        alt.Chart(edges)
+        .mark_rule(color=charts.ink(), opacity=0.35)
+        .encode(
+            x=x,
+            y=y,
+            x2="x2:Q",
+            y2="y2:Q",
+            strokeWidth=alt.StrokeWidth(
+                "times:Q", scale=alt.Scale(range=[0.5, 4]), legend=None
+            ),
+            tooltip=[
+                alt.Tooltip("pair:N", title=t("words.pairs.pair")),
+                alt.Tooltip("times:Q", title=t("words.pairs.times"), format=".1f"),
+                alt.Tooltip("n:Q", title=t("words.pairs.n")),
+            ],
+        )
+    )
+    dots = (
+        alt.Chart(nodes)
+        .mark_point(filled=True, size=90, strokeWidth=0)
+        .encode(
+            x=x,
+            y=y,
+            color=belong_color,
+            tooltip=tooltip,
+            opacity=alt.condition(pick, alt.value(1), alt.value(0.4)),
+        )
+        .add_params(pick)
+    )
+    labels = (
+        alt.Chart(nodes)
+        .mark_text(align="left", dx=7, fontSize=12)
+        .encode(x=x, y=y, text="word:N", color=belong_color)
+    )
+    chart = alt.layer(lines, dots, labels).properties(
+        width=MAP_WIDTH, height=MAP_HEIGHT
+    )
+    event = charts.show_chart(chart, key="words_network", fit=False)
+    if loners:
+        st.caption(t("words.network.loners", words=", ".join(loners)))
+    chosen = (charts.selected(event, "word", "word") or [None])[0]
+    read_key = "words.read.network"
 else:  # dots
     if shame_mode:
         # One axis for both sides: below 1 is typical of passages without shame.
@@ -425,6 +519,10 @@ notes.methodology(
     novels=min_novels,
     authors=min_authors,
     min_count=stats.MIN_COUNT,
+    pair_sentences=tables.meta()["words"]["pair_min_sentences"],
+    pair_novels=tables.meta()["words"]["pair_min_novels"],
+    together=MIN_TOGETHER,
+    links=MAX_LINKS,
 )
 with st.expander(t("words.counts")):
     cols = [
@@ -475,6 +573,56 @@ def finding_lines() -> list[str]:
 
 with findings_box:
     notes.findings(finding_lines())
+
+
+def neighbour_chart(word: str) -> None:
+    """The words that come with this one in a sentence, per group."""
+    parts = []
+    for g in groups if split else groups[:1]:
+        pairs = tables.group_pairs(f.tier, g.novel_ids)
+        mine = pairs[
+            ((pairs["a"] == word) | (pairs["b"] == word))
+            & (pairs["n"] >= MIN_TOGETHER)
+            & (pairs["pmi"] > 0)
+        ]
+        parts.append(
+            pd.DataFrame(
+                {
+                    "word": mine["a"].where(mine["b"] == word, mine["b"]),
+                    "times": 2 ** mine["pmi"],
+                    "n": mine["n"],
+                    "group": g.label,
+                }
+            ).nlargest(N_NEIGHBOURS, "times")
+        )
+    df = pd.concat(parts)
+    st.subheader(t("words.pairs.title", word=word))
+    if df.empty:
+        st.caption(t("words.pairs.none", n=MIN_TOGETHER))
+        return
+    order = df.groupby("word")["times"].max().sort_values(ascending=False).index
+    chart = (
+        alt.Chart(df)
+        .mark_point(filled=True, size=90, strokeWidth=0)
+        .encode(
+            y=alt.Y("word:N", sort=order.tolist(), title=None),
+            x=alt.X(
+                "times:Q",
+                title=t("words.pairs.times"),
+                scale=alt.Scale(type="log", nice=False),
+            ),
+            color=compare.color(legend=split),
+            tooltip=[
+                alt.Tooltip("word:N", title=t("words.col.word")),
+                alt.Tooltip("group:N", title=t("field.group")),
+                alt.Tooltip("times:Q", title=t("words.pairs.times"), format=".1f"),
+                alt.Tooltip("n:Q", title=t("words.pairs.n")),
+            ],
+        )
+        .properties(height=22 * len(order) + 60)
+    )
+    charts.show_chart(chart, key="words_pairs", select=False)
+    st.caption(t("words.pairs.read", n=MIN_TOGETHER))
 
 
 def case_chart(word: str) -> None:
@@ -538,6 +686,7 @@ def case_chart(word: str) -> None:
 
 
 if chosen:
+    neighbour_chart(chosen)
     case_chart(chosen)
     side = "emotion"
     if shame_mode and chosen in set(words.loc[words["side"] == "comparison", "word"]):

@@ -23,13 +23,14 @@ MIN_COUNT = 10
 
 
 def read_words(path: Path) -> pd.DataFrame:
-    """para_id, lemma (`word`, lower-cased, unaccented), form, POS, case,
-    `speech` (or narration) and `name`.
+    """para_id, sentence, lemma (`word`, lower-cased, unaccented), form, POS,
+    case, `speech` (or narration) and `name`.
 
     Forms keep their accents: the app searches the text with them.
     """
     tokens = pd.read_parquet(
-        path, columns=["para_id", "form", "lemma", "upos", "feats", "entity"]
+        path,
+        columns=["para_id", "sentence", "form", "lemma", "upos", "feats", "entity"],
     )
     # Before the filter below: it drops the quotation marks.
     tokens["speech"] = speech_flags(tokens.set_index("para_id")["form"]).to_numpy()
@@ -40,6 +41,7 @@ def read_words(path: Path) -> pd.DataFrame:
     return pd.DataFrame(
         {
             "para_id": tokens["para_id"],
+            "sentence": tokens["sentence"],
             "word": word,
             "form": tokens["form"].str.lower(),
             "pos": tokens["upos"],

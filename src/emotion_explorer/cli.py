@@ -15,6 +15,14 @@ from emotion_explorer.analysis.overview import (
     build_novels,
     build_position_bins,
 )
+from emotion_explorer.analysis.pairs import (
+    MIN_NOVELS,
+    MIN_PMI,
+    MIN_SENTENCES,
+    count_pairs,
+    keep_strong,
+    strong,
+)
 from emotion_explorer.analysis.slices import tier_sets
 from emotion_explorer.analysis.style import (
     FEATURES,
@@ -50,6 +58,7 @@ from emotion_explorer.paths import (
     TOKENS_DIR,
     WORD_COUNTS,
     WORD_FORMS,
+    WORD_PAIRS,
     WORD_PRIOR,
 )
 from emotion_explorer.prep.comparison import build_comparison, summarize_comparison
@@ -198,6 +207,17 @@ def step_words() -> None:
         WORD_PRIOR,
     )
     write_parquet(word_forms(largest, keep), WORD_FORMS)
+    # Pairs in the passages with the emotion only: that is what the network
+    # shows, and the comparison set would double the table.
+    content = {w for w in keep if corpus.loc[w, "pos"] not in FUNCTION_POS}
+    pairs = {t: count_pairs(sets[(t, "emotion")], content) for t in EMOTION.tiers}
+    kept = strong(pairs[MATCHED_TIER])
+    pairs = pd.concat(
+        [keep_strong(frame, kept).assign(tier=t) for t, frame in pairs.items()],
+        ignore_index=True,
+    )
+    categories = {c: "category" for c in ("novel_id", "a", "b", "tier")}
+    write_parquet(pairs.astype({**categories, "n": "int32"}), WORD_PAIRS)
     write_meta_section(
         "words",
         {
@@ -206,6 +226,9 @@ def step_words() -> None:
             "n_names_removed": len(names),
             "min_count": MIN_COUNT,
             "vocabulary": len(keep),
+            "pair_min_sentences": MIN_SENTENCES,
+            "pair_min_novels": MIN_NOVELS,
+            "pair_min_pmi": MIN_PMI,
         },
     )
 

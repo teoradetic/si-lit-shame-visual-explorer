@@ -15,6 +15,7 @@ def test_read_words_lowercases_lemmas_and_drops_what_is_no_word(tmp_path):
     pd.DataFrame(
         {
             "para_id": [0, 0, 0, 1, 1, 1, 1],
+            "sentence": [0, 0, 0, 1, 1, 1, 1],
             "form": ["Sram", "ga", ".", "»", "Janez", "1848", "Očí"],
             "lemma": ["Sram", "on", ".", "»", "Janez", "1848", "očí"],
             "upos": ["NOUN", "PRON", "PUNCT", "PUNCT", "PROPN", "NUM", "NOUN"],
