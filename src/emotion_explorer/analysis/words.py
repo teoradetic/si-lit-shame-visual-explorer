@@ -5,6 +5,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from emotion_explorer.analysis.text import speech_flags
+
 # Parts of speech that carry little meaning on their own; the app hides them
 # by default. Interjections (ah, oh) stay visible: they may express emotion.
 FUNCTION_POS = frozenset({"ADP", "AUX", "CCONJ", "DET", "NUM", "PART", "PRON", "SCONJ"})
@@ -21,13 +23,16 @@ MIN_COUNT = 10
 
 
 def read_words(path: Path) -> pd.DataFrame:
-    """para_id, lemma (`word`, lower-cased, unaccented), form, POS, case, `name`.
+    """para_id, lemma (`word`, lower-cased, unaccented), form, POS, case,
+    `speech` (or narration) and `name`.
 
     Forms keep their accents: the app searches the text with them.
     """
     tokens = pd.read_parquet(
         path, columns=["para_id", "form", "lemma", "upos", "feats", "entity"]
     )
+    # Before the filter below: it drops the quotation marks.
+    tokens["speech"] = speech_flags(tokens.set_index("para_id")["form"]).to_numpy()
     tokens = tokens[tokens["upos"].isin(FUNCTION_POS | CONTENT_POS | {"PROPN"})]
     word = tokens["lemma"].str.lower().str.translate(UNACCENT)
     # isalpha, not a regex: pandas runs regexes through RE2, whose \w is ASCII-only.
@@ -39,6 +44,7 @@ def read_words(path: Path) -> pd.DataFrame:
             "form": tokens["form"].str.lower(),
             "pos": tokens["upos"],
             "case": tokens["feats"].str.extract(r"Case=(\w+)", expand=False),
+            "speech": tokens["speech"],
             "name": (tokens["upos"] == "PROPN") | tokens["entity"].notna(),
         }
     )[keep]
@@ -79,13 +85,12 @@ def vocabulary(counts: pd.Series, names: set[str]) -> set[str]:
 
 
 def count_words(words: pd.DataFrame, keep: set[str]) -> pd.DataFrame:
-    """Occurrences of each kept lemma per novel and case (null for no case)."""
+    """Occurrences of each kept lemma per novel, case (null for none) and
+    speech or narration."""
     kept = words[words["word"].isin(keep)]
+    keys = ["novel_id", "word", "case", "speech"]
     return (
-        kept.groupby(["novel_id", "word", "case"], observed=True, dropna=False)
-        .size()
-        .rename("n")
-        .reset_index()
+        kept.groupby(keys, observed=True, dropna=False).size().rename("n").reset_index()
     )
 
 

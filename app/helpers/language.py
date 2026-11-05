@@ -58,6 +58,7 @@ STRINGS: dict[str, dict[str, str]] = {
     "period.unknown": {"en": "Period unknown", "sl": "obdobje neznano"},
     "set.emotion": {"en": "With shame", "sl": "S sramom"},
     "set.comparison": {"en": "Without shame", "sl": "Brez sramu"},
+    "paragraphs.split": {"en": "Text", "sl": "Besedilo"},
     "paragraphs.all": {"en": "All text", "sl": "Vse besedilo"},
     "paragraphs.narration": {"en": "Narration", "sl": "Pripoved"},
     "paragraphs.dialogue": {"en": "Speech", "sl": "Govor"},
@@ -449,7 +450,6 @@ STRINGS: dict[str, dict[str, str]] = {
         "en": "{feature} per 1,000 characters",
         "sl": "{feature} na 1.000 znakov",
     },
-    "style.split": {"en": "Text", "sl": "Besedilo"},
     "style.measures_title": {
         "en": "What do the measures mean?",
         "sl": "Kaj pomenijo mere?",
@@ -1023,7 +1023,9 @@ STRINGS: dict[str, dict[str, str]] = {
         "inside a named entity. A passage contains a word if it has one of its "
         "forms; each form belongs to the lemma most of its occurrences have. "
         "*Verbs* keeps lemmas tagged VERB, *Nouns and adjectives* NOUN and ADJ, "
-        "*Meaningful words* all but the function words.\n"
+        "*Meaningful words* all but the function words. *Speech* and "
+        "*Narration* split each paragraph as on the Style page: words between "
+        "quotation marks, or in a paragraph that opens with a dash, are speech.\n"
         "- **Sets:** the detected paragraphs of the compared novels against "
         "their comparison paragraphs (one low-score partner per detected "
         "paragraph, from the same novel, within a factor of 2 in length).\n"
@@ -1058,7 +1060,9 @@ STRINGS: dict[str, dict[str, str]] = {
         "vsebuje katero od njenih oblik; vsaka oblika pripada lemi, ki jo ima "
         "večina njenih pojavitev. *Glagoli* obdržijo leme z oznako VERB, "
         "*Samostalniki in pridevniki* NOUN in ADJ, *Pomenske besede* vse razen "
-        "funkcijskih.\n"
+        "funkcijskih. *Govor* in *Pripoved* razdelita odstavek kot na strani "
+        "Slog: besede med narekovaji ali v odstavku, ki se začne s pomišljajem, "
+        "so govor.\n"
         "- **Nabora:** zaznani odstavki primerjanih romanov proti njihovim "
         "primerjalnim odstavkom (en par z nizko oceno na zaznani odstavek, iz "
         "istega romana, do 2-krat daljši ali krajši).\n"

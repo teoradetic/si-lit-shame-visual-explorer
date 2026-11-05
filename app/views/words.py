@@ -57,8 +57,17 @@ n_words = c3.slider(
     step=5,
     key=f"words_n_{chart_type}",
 )
+c4, c5 = st.columns([3, 4], vertical_alignment="bottom")
+text_split = c4.segmented_control(
+    t("paragraphs.split"),
+    ["all", "narration", "dialogue"],
+    default="all",
+    required=True,
+    format_func=lambda v: t(f"paragraphs.{v}"),
+    key="words_split",
+)
 stem = tables.meta()["paragraphs"]["stem"]
-hide_stem = st.toggle(
+hide_stem = c5.toggle(
     t("words.hide_stem", stem=stem), value=False, key="words_hide_stem"
 )
 with st.expander(t("words.function_title")):
@@ -82,9 +91,12 @@ def prepare(table: pd.DataFrame) -> pd.DataFrame:
 
 
 pool_ids = frozenset().union(*(g.novel_ids for g in groups))
-pool = prepare(tables.group_words(f.tier, pool_ids))
+pool = prepare(tables.group_words(f.tier, text_split, pool_ids))
 by_group = (
-    {g.label: prepare(tables.group_words(f.tier, g.novel_ids)) for g in groups}
+    {
+        g.label: prepare(tables.group_words(f.tier, text_split, g.novel_ids))
+        for g in groups
+    }
     if split
     else {}
 )
@@ -473,7 +485,7 @@ def case_chart(word: str) -> None:
             compare.Group(s, t(f"set.{s}"), charts.set_color(s), pool_ids, s)
             for s in stats.SIDES
         ]
-    cases = tables.word_cases(f.tier)
+    cases = tables.word_cases(f.tier, text_split)
     cases = cases[(cases["word"] == word) & cases["case"].notna()]
     df = pd.concat(
         cases[cases["novel_id"].isin(g.novel_ids) & (cases["side"] == g.set_name)]

@@ -43,7 +43,7 @@ chart_type = c1.selectbox(
     key="style_type",
 )
 paragraph_split = c2.segmented_control(
-    t("style.split"),
+    t("paragraphs.split"),
     ["all", "narration", "dialogue"],
     default="all",
     required=True,

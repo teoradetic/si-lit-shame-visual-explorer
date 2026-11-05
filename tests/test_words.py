@@ -14,12 +14,12 @@ def test_read_words_lowercases_lemmas_and_drops_what_is_no_word(tmp_path):
     path = tmp_path / "N1.parquet"
     pd.DataFrame(
         {
-            "para_id": [0, 0, 0, 1, 1, 1],
-            "form": ["Sram", "ga", ".", "Janez", "1848", "Očí"],
-            "lemma": ["Sram", "on", ".", "Janez", "1848", "očí"],
-            "upos": ["NOUN", "PRON", "PUNCT", "PROPN", "NUM", "NOUN"],
-            "feats": ["Case=Nom", "Case=Acc", None, "Case=Nom", None, "Case=Gen"],
-            "entity": [None, None, None, "PER", None, None],
+            "para_id": [0, 0, 0, 1, 1, 1, 1],
+            "form": ["Sram", "ga", ".", "»", "Janez", "1848", "Očí"],
+            "lemma": ["Sram", "on", ".", "»", "Janez", "1848", "očí"],
+            "upos": ["NOUN", "PRON", "PUNCT", "PUNCT", "PROPN", "NUM", "NOUN"],
+            "feats": ["Case=Nom", "Case=Acc", None, None, "Case=Nom", None, "Case=Gen"],
+            "entity": [None, None, None, None, "PER", None, None],
         }
     ).to_parquet(path)
     words = read_words(path)
@@ -27,6 +27,7 @@ def test_read_words_lowercases_lemmas_and_drops_what_is_no_word(tmp_path):
     assert words["form"].tolist() == ["sram", "ga", "janez", "očí"]
     assert words["name"].tolist() == [False, False, True, False]
     assert words["case"].tolist() == ["Nom", "Acc", "Nom", "Gen"]
+    assert words["speech"].tolist() == [False, False, True, True]
 
 
 def test_lexicon_takes_the_commonest_pos_and_finds_names():
@@ -51,18 +52,19 @@ def test_vocabulary_drops_names_and_rare_lemmas():
     assert vocabulary(counts, names={"janez"}) == {"sram"}
 
 
-def test_count_words_per_novel_and_case():
+def test_count_words_per_novel_case_and_speech():
     words = pd.DataFrame(
         {
             "novel_id": ["N1", "N1", "N1", "N2"],
             "word": ["sram", "sram", "sram", "biti"],
             "case": ["Nom", "Nom", None, None],
+            "speech": [False, False, True, False],
         }
     )
     counts = count_words(words, keep={"sram"})
     assert counts.fillna("-").to_dict("records") == [
-        {"novel_id": "N1", "word": "sram", "case": "Nom", "n": 2},
-        {"novel_id": "N1", "word": "sram", "case": "-", "n": 1},
+        {"novel_id": "N1", "word": "sram", "case": "Nom", "speech": False, "n": 2},
+        {"novel_id": "N1", "word": "sram", "case": "-", "speech": True, "n": 1},
     ]
 
 

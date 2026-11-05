@@ -73,17 +73,22 @@ def focus_texts(set_name: str) -> pd.Series:
 
 
 @st.cache_resource
-def word_cases(tier: str) -> pd.DataFrame:
-    """Word counts per novel, side and case (null for no case) of one tier."""
+def word_cases(tier: str, split: str) -> pd.DataFrame:
+    """Word counts per novel, side and case (null for no case) of one tier, in
+    all text, narration or speech (`dialogue`)."""
     df = table("word_counts")
-    return df[df["tier"] == tier].drop(columns="tier")
+    df = df[df["tier"] == tier]
+    if split != "all":
+        df = df[df["speech"] == (split == "dialogue")]
+    return df.drop(columns=["tier", "speech"])
 
 
 @st.cache_resource
-def word_counts(tier: str) -> pd.DataFrame:
-    """Word counts per novel and side (emotion or comparison) of one tier."""
+def word_counts(tier: str, split: str) -> pd.DataFrame:
+    """Word counts per novel and side (emotion or comparison)."""
     keys = ["novel_id", "word", "side"]
-    return word_cases(tier).groupby(keys, observed=True)["n"].sum().reset_index()
+    cases = word_cases(tier, split)
+    return cases.groupby(keys, observed=True)["n"].sum().reset_index()
 
 
 @st.cache_resource
@@ -93,9 +98,9 @@ def word_prior() -> pd.DataFrame:
 
 
 @st.cache_data(max_entries=64)
-def group_words(tier: str, novel_ids: frozenset[str]) -> pd.DataFrame:
+def group_words(tier: str, split: str, novel_ids: frozenset[str]) -> pd.DataFrame:
     """Typical words of the detected passages of these novels, with flags."""
-    counts = word_counts(tier)
+    counts = word_counts(tier, split)
     counts = counts[counts["novel_id"].isin(novel_ids)]
     authors = novels().set_index("novel_id")["author"]
     prior = word_prior()
