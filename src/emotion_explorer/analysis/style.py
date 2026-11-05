@@ -1,9 +1,4 @@
-"""AN-08 (basic): style features of the detected and the comparison set.
-
-Features are measured per paragraph and pooled per novel and set. The app
-compares the sets within each novel, since the comparison set is matched by
-novel, and tests the per-novel differences of any group (`app/helpers/stats.py`).
-"""
+"""AN-08: style features per paragraph, pooled per novel and set."""
 
 import numpy as np
 import pandas as pd

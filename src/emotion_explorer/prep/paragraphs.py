@@ -4,10 +4,8 @@ import pandas as pd
 
 from emotion_explorer.emotion import SCALE_MAX, SCALES, Emotion
 
-# Paragraphs longer than this overflowed the LLM's 4,096-token context during
-# scoring, so the model saw only their end. The rule reproduces the
-# reproducibility record of the first project exactly: 20 paragraphs from
-# 5 novels, 14 of them in the core tier (the 21st longest has 9,356 chars).
+# Longer paragraphs overflowed the LLM's context (the model saw only their end);
+# reproduces the first project's record: 20 paragraphs, 5 novels.
 OVER_CONTEXT_CHARS = 9_400
 
 
@@ -50,8 +48,7 @@ def build_paragraphs(
                 }
             )
     df = pd.DataFrame.from_records(records)
-    # The scores are not intensity; this mean of the three ranges, each
-    # rescaled to 0-1, is just a single number to sort and average by.
+    # Not intensity: the mean of the three ranges rescaled to 0-1.
     df["score"] = sum(df[f"score_{s}"] / SCALE_MAX[s] for s in SCALES) / len(SCALES)
     for tier, minimums in emotion.tiers.items():
         df[tier] = tier_mask(df, minimums)

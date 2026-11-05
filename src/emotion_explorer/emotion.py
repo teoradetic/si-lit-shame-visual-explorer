@@ -1,8 +1,4 @@
-"""What is specific to one emotion: raw field names, tiers and the low-score rule.
-
-Everything downstream works on the generic column names defined here, so a
-new emotion (or corpus) only needs a new `Emotion` instance.
-"""
+"""What is specific to one emotion; a new emotion needs a new `Emotion`."""
 
 from dataclasses import dataclass, field
 
@@ -37,10 +33,7 @@ SHAME = Emotion(
         # Top 5% on all three ranges.
         "broad": {"0_1": 0.85, "0_10": 8, "0_100": 85},
     },
-    # Provisional (23 Oct 2026): the bottom cluster of each range. Each range
-    # has a gap above these values (0-1: 0.30 -> 0.35, 0-10: 3 -> 5,
-    # 0-100: 30 -> 50). 37% of paragraphs qualify; only 0.1% of them
-    # contain the stem, against 1.5% in the corpus.
+    # The bottom cluster of each range (agreed 30 Oct 2026).
     low={"0_1": 0.30, "0_10": 3, "0_100": 30},
 )
 

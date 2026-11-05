@@ -1,13 +1,4 @@
-"""The shared chart style (SET-03): colours and Altair config.
-
-Every chart goes through `show_chart`, which applies the same config and lets
-Streamlit's theme carry the fonts and light/dark ink. Colours follow the
-entity, never the order: passages with shame are always plum and those
-without grey, Realism is always blue and Modernism always orange, in every
-view. Other comparisons (author gender, authors, novels) take the group
-palette in a fixed order. Each set passes the CVD and contrast checks in both
-modes; the group palette also for every pair, as scatter plots need.
-"""
+"""SET-03: the shared chart colours and Altair config."""
 
 import html
 
@@ -125,15 +116,7 @@ def place_labels(
     height: int,
     font_size: int = 12,
 ) -> pd.DataFrame:
-    """Label positions that do not overlap, for a log-log scatter of `a`, `b`.
-
-    Rows are placed in order, so the most important come first. Each label
-    tries the spots around its dot until one is clear of every placed label
-    and every other dot; a label with no clear spot is left out (its dot
-    keeps its tooltip). Returns the anchor in data units (`label_a`,
-    `label_b`), the text `align`, whether a `leader` line is needed, and
-    `labelled`.
-    """
+    """Non-overlapping label positions for a log-log scatter of `a`, `b`."""
     low, high = np.log(domain[0]), np.log(domain[1])
     span = high - low
     px = width * (np.log(df["a"].to_numpy()) - low) / span
@@ -193,10 +176,7 @@ def place_labels(
 def show_chart(
     chart: alt.TopLevelMixin, key: str, select: bool = True, fit: bool = True
 ):
-    """Render with the shared config; returns the selection event.
-
-    `fit=False` keeps a chart's own width, for layouts computed in pixels.
-    """
+    """Render with the shared config; returns the selection event."""
     composite = not fit or isinstance(
         chart, (alt.FacetChart, alt.HConcatChart, alt.VConcatChart)
     )

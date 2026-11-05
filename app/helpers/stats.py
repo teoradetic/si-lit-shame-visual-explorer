@@ -1,9 +1,4 @@
-"""Statistics the views compute for whichever novels are being compared.
-
-The data pipeline only counts: words per novel and set, style features
-pooled per novel and set. Comparing a group is done here, so that every
-filter and every comparison in the sidebar applies to it.
-"""
+"""Statistics computed live for whichever novels are compared."""
 
 import math
 
@@ -24,11 +19,7 @@ SEED = 20261030
 
 
 def spread_rule(n_novels: int, n_authors: int) -> tuple[int, int]:
-    """In how many novels, by how many authors, a typical word must recur.
-
-    5 novels by 3 authors for large groups, relaxed for small ones, so that
-    one novel's vocabulary cannot top the list of a group of many.
-    """
+    """How many novels, by how many authors, a typical word must recur in."""
     return (
         int(np.clip(math.ceil(n_novels / 10), 1, 5)),
         int(np.clip(math.ceil(n_authors / 5), 1, 3)),
@@ -36,11 +27,7 @@ def spread_rule(n_novels: int, n_authors: int) -> tuple[int, int]:
 
 
 def log_odds(ya: np.ndarray, yb: np.ndarray, prior: np.ndarray) -> pd.DataFrame:
-    """Weighted log-odds of each word, A against B (Monroe et al. 2008).
-
-    Informative Dirichlet prior from `prior` counts, scaled to the size of
-    the two sets; `z` is the log-odds over its standard error.
-    """
+    """Weighted log-odds, A against B, informative Dirichlet prior (Monroe 2008)."""
     na, nb = ya.sum(), yb.sum()
     a0 = PRIOR_WEIGHT * (na + nb)
     alpha = prior / prior.sum() * a0
@@ -56,10 +43,8 @@ def log_odds(ya: np.ndarray, yb: np.ndarray, prior: np.ndarray) -> pd.DataFrame:
             "n_comparison": yb.astype(int),
             "per_10k_emotion": ya / na * 10_000,
             "per_10k_comparison": yb / nb * 10_000,
-            # How many times more frequent in A: the plain ratio of the two
-            # frequencies, with half a count added to each side so that a word
-            # absent from one side stays finite. e^delta is not this ratio:
-            # the prior pulls it towards 1, the more so the rarer the word.
+            # Plain frequency ratio (+0.5 each side); not e^delta, which the prior
+            # shrinks towards 1.
             "ratio": ((ya + 0.5) / na) / ((yb + 0.5) / nb),
         }
     )
@@ -68,13 +53,7 @@ def log_odds(ya: np.ndarray, yb: np.ndarray, prior: np.ndarray) -> pd.DataFrame:
 def word_table(
     counts: pd.DataFrame, prior: pd.Series, authors: pd.Series
 ) -> pd.DataFrame:
-    """Typical words of one group's detected passages against its comparison set.
-
-    `counts` has one row per novel, word and side (emotion or comparison)
-    for the group's novels; `prior` is the corpus count by word and
-    `authors` the author by novel. A word typical of either side must recur
-    on that side (`spread_rule`) and be more frequent there.
-    """
+    """A group's typical words: recurring on their side, more frequent there."""
     if counts.empty:
         return pd.DataFrame()
     counts = counts.assign(author=counts["novel_id"].map(authors))
@@ -108,9 +87,7 @@ def word_table(
     keep = np.where(
         side == "emotion", recurs["emotion"].to_numpy(), recurs["comparison"]
     )
-    # Both sides share the prior, so when one side has much more text (Cankar:
-    # four times more with shame) a word common in both can lean towards it
-    # without being more frequent there.
+    # The shared prior tips common words towards the side with more text.
     more_frequent = np.where(side == "emotion", table["ratio"] > 1, table["ratio"] < 1)
     return table[keep & more_frequent].reset_index(drop=True)
 
@@ -133,14 +110,7 @@ def holm(p_values: pd.Series) -> pd.Series:
 
 
 def compare_novels(per_novel: pd.DataFrame, features: list[str]) -> pd.DataFrame:
-    """One row per feature: the detected set against the comparison set.
-
-    `per_novel` has one row per novel and set (columns `novel_id`, `set`,
-    `n_paragraphs` and the features). Each novel's two values are paired;
-    the difference is tested with a sign-flip permutation test over novels,
-    with a bootstrap interval for the relative difference and Holm's
-    correction across the features.
-    """
+    """Per feature: paired sign-flip test over novels, bootstrap CI, Holm correction."""
     rng = np.random.default_rng(SEED)
     wide = per_novel.pivot_table(
         index="novel_id", columns="set", values=["n_paragraphs", *features]
@@ -181,13 +151,7 @@ def compare_novels(per_novel: pd.DataFrame, features: list[str]) -> pd.DataFrame
 def moving_average(
     df: pd.DataFrame, first: int, last: int, window: int, min_n: int
 ) -> pd.DataFrame:
-    """Mean `value` of the novels in a sliding window of years, per `group`.
-
-    With a 95 % interval over novels. Years with fewer than `min_n` novels
-    in the window are skipped, and `segment` numbers the runs of consecutive
-    years, so that lines break across gaps instead of bridging decades with
-    no data.
-    """
+    """Mean `value` per `group` in a sliding window of years, with a 95 % CI."""
     rows = []
     for group, members in df.groupby("group"):
         for year in range(first, last + 1):
@@ -219,11 +183,7 @@ def rank_correlation(x: pd.Series, y: pd.Series) -> float:
 
 
 def reflected_density(positions: np.ndarray, grid: np.ndarray, bandwidth: float):
-    """Gaussian kernel density on 0–100, reflected at both ends.
-
-    Scaled so that an even spread is 1. Positions are first binned to 0.1,
-    so that the cost does not grow with the number of paragraphs.
-    """
+    """Gaussian density on 0–100, reflected at the ends; an even spread is 1."""
     edges = np.linspace(0, 100, 1001)
     counts, _ = np.histogram(positions, bins=edges)
     centres = (edges[:-1] + edges[1:]) / 2

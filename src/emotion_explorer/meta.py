@@ -1,7 +1,4 @@
-"""meta.json: definitions and counts that the app shows on its method page.
-
-Each build step owns one top-level section and overwrites only that one.
-"""
+"""meta.json: definitions and counts; each step owns one section."""
 
 import json
 from typing import Any

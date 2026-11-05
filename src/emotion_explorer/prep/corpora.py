@@ -1,9 +1,4 @@
-"""The source corpora with ready-made lemmas and tags.
-
-They hold 262 of the 305 novels and go to data/corpora, which is not committed.
-Only the annotated editions are fetched. The other 43 novels (Wikisource and
-Wikivir) have no annotation, and their text is already in the annotated corpus.
-"""
+"""Downloads the annotated source corpora (262 of 305 novels) to data/corpora."""
 
 import shutil
 import urllib.request

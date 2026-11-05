@@ -1,10 +1,4 @@
-"""AN-01: detected shame per novel against the year of publication.
-
-Six chart types answer the same question in different ways: every novel
-(scatter), the trend (moving average), the spread per decade (box plots),
-authors, the novels with most shame (ranked bars) and the groups side by
-side. Every chart draws the groups of the comparison set in the sidebar.
-"""
+"""AN-01: detected shame per novel against the year of publication."""
 
 import altair as alt
 import numpy as np
@@ -64,14 +58,10 @@ def value_column(set_name: str) -> tuple[str, float]:
 
 
 y_title = t(f"time.axis.{measure}")
-selected = filters.filtered_novels().assign(
-    novel_label=lambda d: (
-        d["author"] + ": " + d["title"] + " (" + d["year"].astype(str) + ")"
-    )
-)
+selected = filters.filtered_novels()
+selected = selected.assign(novel_label=selected["novel_id"].map(filters.novel_titles()))
 if shame_mode:
-    # The same novels twice: once counting the passages with shame, once
-    # those clearly without.
+    # The same novels twice: counting passages with shame, and clearly without.
     frames = []
     for g in groups:
         column, factor = value_column(g.set_name)

@@ -1,12 +1,4 @@
-"""AN-02: where in the novel the detected paragraphs fall.
-
-Five chart types: how much more shame a part of the novel has than the
-novel's own average (default), the pooled share per part, the distribution
-(violins), a heatmap with the novel running down the page, and every novel
-on its own line. Every chart draws the groups of the comparison set in the
-sidebar; with against without shame sets the paragraphs the model rated
-clearly not about shame beside the detected ones.
-"""
+"""AN-02: where in the novel the detected paragraphs fall (five chart types)."""
 
 import altair as alt
 import numpy as np
@@ -37,6 +29,8 @@ st.info(t("position.explain"), icon=":material/menu_book:")
 filters.stop_if_empty()
 groups = compare.require()
 shame_mode = compare.mode() == "shame"
+split = compare.is_split()
+rank = {g: i for i, g in enumerate(compare.order())}
 findings_box = st.container()
 
 chart_type = st.selectbox(
@@ -48,11 +42,8 @@ chart_type = st.selectbox(
 
 n_bins = tables.meta()["overview"]["n_position_bins"]
 part = 100 / n_bins
-novels = filters.filtered_novels().assign(
-    novel_label=lambda d: (
-        d["author"] + ": " + d["title"] + " (" + d["year"].astype(str) + ")"
-    )
-)
+novels = filters.filtered_novels()
+novels = novels.assign(novel_label=novels["novel_id"].map(filters.novel_titles()))
 tagged_col = f"n_{f.tier}"
 bins = tables.table("position_bins")
 bins = bins[bins["novel_id"].isin(set(novels["novel_id"]))].merge(
@@ -90,11 +81,7 @@ color = compare.color()
 
 
 def concentration(df: pd.DataFrame) -> pd.DataFrame:
-    """Per group and part: the part's share over the novel's own share.
-
-    Averaged over novels with at least MIN_TAGGED counted paragraphs, with
-    a 95 % interval over novels.
-    """
+    """Part's share over the novel's share, averaged over novels (95 % CI)."""
     totals = df.groupby(["novel_id", "group"])[["hits", "n_paragraphs"]].transform(
         "sum"
     )
@@ -306,15 +293,12 @@ elif chart_type == "heatmap":
     )
     relative = c4.toggle(t("position.relative"), value=False, key="pos_heat_rel")
     heat = bins[bins["group"] == groups[0].label] if shame_mode else bins
-    split = compare.is_split()
     prefix = heat["group"] + " · " if split else ""
     if columns == "novels":
         heat = heat.assign(column=prefix + heat["novel_label"])
-        heat = heat.assign(
-            rank=heat["group"].map({g: i for i, g in enumerate(compare.order())})
-        )
         order = (
-            heat.drop_duplicates("column")
+            heat.assign(rank=heat["group"].map(rank))
+            .drop_duplicates("column")
             .sort_values(["rank", "year", "column"])["column"]
             .tolist()
         )
@@ -331,7 +315,6 @@ elif chart_type == "heatmap":
             .sum()
             .reset_index()
         )
-        rank = {g: i for i, g in enumerate(compare.order())}
         order = sorted(
             heat["column"].unique(),
             key=lambda c: (rank[heat.loc[heat["column"] == c, "group"].iloc[0]], c),
@@ -456,19 +439,15 @@ else:  # novels
         "author": (["author", "year"], True),
     }[order_by]
     in_groups = compare.with_group(novels)
-    if compare.is_split():
-        in_groups = in_groups.assign(
-            rank=in_groups["group"].map({g: i for i, g in enumerate(compare.order())})
-        )
+    if split:
+        in_groups = in_groups.assign(rank=in_groups["group"].map(rank))
         sort_cols, ascending = (
             ["rank", *sort_cols],
             [True] + [ascending] * len(sort_cols),
         )
     ranked = in_groups.sort_values(sort_cols, ascending=ascending)
     # The first rows of every group, so that no group falls off the list.
-    per_group = (
-        max(DEFAULT_ROWS // len(groups), 1) if compare.is_split() else DEFAULT_ROWS
-    )
+    per_group = max(DEFAULT_ROWS // len(groups), 1) if split else DEFAULT_ROWS
     shown = ranked if show_all else ranked.groupby("group", sort=False).head(per_group)
     if len(shown) < len(ranked):
         st.caption(t("position.limit", n=len(shown), total=len(ranked)))
@@ -502,9 +481,10 @@ else:  # novels
     height = ROW_HEIGHT * len(shown)
     # With groups, the labels sit on the tag column in front of the strip.
     strip_y = (
-        alt.Y("novel_label:N", sort=order, scale=rows_scale, axis=None)
-        if compare.is_split()
-        else y
+        alt.Y("novel_label:N", sort=order, scale=rows_scale, axis=None) if split else y
+    )
+    group_color = (
+        compare.color(legend=False) if split else alt.value(charts.set_color("emotion"))
     )
     tick_tooltip = [
         alt.Tooltip("novel_label:N", title=t("field.novel")),
@@ -549,9 +529,7 @@ else:  # novels
             .encode(
                 x=x,
                 y=strip_y,
-                color=compare.color(legend=False)
-                if compare.is_split()
-                else alt.value(charts.set_color("emotion")),
+                color=group_color,
                 opacity=alt.condition(pick_mark, alt.value(0.9), alt.value(0.35)),
                 tooltip=tick_tooltip,
             )
@@ -595,8 +573,7 @@ else:  # novels
             .add_params(pick_mark)
             .properties(height=height, width=STRIP_WIDTH)
         )
-    # Beside the strip, each novel's share of detected paragraphs as one line
-    # down the rows: in year order it shows how the amount rises and falls.
+    # Each novel's share beside the strip, as one line down the rows.
     shares = shown.assign(share=shown[f"share_{f.tier}"] * 100, row=range(len(shown)))
     share_x = alt.X(
         "share:Q",
@@ -605,16 +582,11 @@ else:  # novels
         axis=alt.Axis(orient="top", tickCount=4),
     )
     share_y = alt.Y("novel_label:N", sort=order, scale=rows_scale, axis=None)
-    share_color = (
-        compare.color(legend=False)
-        if compare.is_split()
-        else alt.value(charts.set_color("emotion"))
-    )
     share_line = (
         alt.Chart(shares)
         .mark_line(strokeWidth=2)
         .encode(
-            x=share_x, y=share_y, order="row:Q", detail="group:N", color=share_color
+            x=share_x, y=share_y, order="row:Q", detail="group:N", color=group_color
         )
     )
     share_dots = (
@@ -623,7 +595,7 @@ else:  # novels
         .encode(
             x=share_x,
             y=share_y,
-            color=share_color,
+            color=group_color,
             tooltip=[
                 alt.Tooltip("novel_label:N", title=t("field.novel")),
                 alt.Tooltip("share:Q", title=t("position.share_x"), format=".1f"),
@@ -633,7 +605,7 @@ else:  # novels
     side = alt.layer(share_line, share_dots).properties(
         width=SHARE_WIDTH, height=height
     )
-    if compare.is_split():
+    if split:
         # The group of each novel, as a coloured square before its row.
         tag = (
             alt.Chart(shown)

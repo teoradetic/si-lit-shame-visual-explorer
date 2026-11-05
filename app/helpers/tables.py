@@ -1,8 +1,4 @@
-"""Readers for the precomputed tables in data/processed.
-
-The app never runs NLP: everything here was built by the data CLI. Tables
-are cached as shared resources, so callers must not modify them in place.
-"""
+"""Cached readers for data/processed; callers must not modify the tables."""
 
 import json
 from pathlib import Path

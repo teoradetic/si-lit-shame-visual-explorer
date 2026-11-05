@@ -1,13 +1,8 @@
-"""Data CLI: rebuilds every file in data/processed from data/raw.
+"""Data CLI: rebuilds data/processed from data/raw and data/tokens.
 
-uv run emotion-explorer all          # every step, in order
-uv run emotion-explorer paragraphs   # one step
-
-Lemmas and tags are not part of `all`: they need the optional `corpus` group.
-
-uv run emotion-explorer corpora                   # download the source corpora
-uv run --group corpus emotion-explorer tokens     # data/tokens, one file per novel
-uv run --group corpus emotion-explorer tokens --novels SHAME_086   # only these
+uv run emotion-explorer all | paragraphs | ...
+uv run emotion-explorer corpora                  # download the source corpora
+uv run --group corpus emotion-explorer tokens [--novels SHAME_086]
 """
 
 import argparse
@@ -30,7 +25,6 @@ from emotion_explorer.analysis.style import (
 )
 from emotion_explorer.analysis.text import words
 from emotion_explorer.analysis.words import (
-    CONTENT_POS,
     FUNCTION_POS,
     MIN_COUNT,
     NAME_SHARE,
@@ -75,16 +69,13 @@ from emotion_explorer.prep.tokens import (
 EMOTION = SHAME
 # The tier the comparison set is matched to, and the app's default tier.
 MATCHED_TIER = "broad"
+SIDES = ("emotion", "comparison")
 
 
 def write_parquet(df: pd.DataFrame, path) -> None:
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     df.to_parquet(path, index=False, compression="zstd")
-    size_mb = path.stat().st_size / 1e6
-    print(
-        f"wrote {path.relative_to(PROCESSED_DIR.parent.parent)}: "
-        f"{len(df):,} rows, {size_mb:.1f} MB"
-    )
+    print(f"wrote {path.name}: {len(df):,} rows, {path.stat().st_size / 1e6:.1f} MB")
 
 
 def step_paragraphs() -> None:
@@ -159,32 +150,18 @@ def add_text(paragraphs: pd.DataFrame, annotations: dict) -> pd.DataFrame:
     )
 
 
-def analysis_sets(annotations: dict) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """The matched tier and the comparison set, with their texts."""
-    paragraphs = pd.read_parquet(PARAGRAPHS)
-    comparison = pd.read_parquet(COMPARISON)
-    emotion, comp = tier_sets(paragraphs, comparison, MATCHED_TIER)
-    return add_text(emotion, annotations), add_text(comp, annotations)
-
-
 def step_words() -> None:
     paragraphs = pd.read_parquet(PARAGRAPHS)
     comparison = pd.read_parquet(COMPARISON)
-    keys = ["novel_id", "para_id"]
-    sets = {
-        (tier, side): frame[keys]
+    by_novel = {
+        (tier, side): frame.groupby("novel_id")["para_id"]
         for tier in EMOTION.tiers
         for side, frame in zip(
-            ["emotion", "comparison"],
-            tier_sets(paragraphs, comparison, tier),
-            strict=True,
+            SIDES, tier_sets(paragraphs, comparison, tier), strict=True
         )
     }
-    by_novel = {
-        key: frame.groupby("novel_id")["para_id"] for key, frame in sets.items()
-    }
     stats = []
-    in_sets: dict[tuple[str, str], list[pd.DataFrame]] = {key: [] for key in sets}
+    in_sets: dict[tuple[str, str], list[pd.DataFrame]] = {k: [] for k in by_novel}
     for novel_id in sorted(paragraphs["novel_id"].unique()):
         words = read_words(TOKENS_DIR / f"{novel_id}.parquet")
         stats.append(lemma_stats(words))
@@ -196,11 +173,7 @@ def step_words() -> None:
     names = set(corpus.index[corpus["name"]])
     # The matched tier holds every other tier, so its two sides are the largest.
     largest = pd.concat(
-        [
-            pd.concat(in_sets[(MATCHED_TIER, side)])
-            for side in ("emotion", "comparison")
-        ],
-        ignore_index=True,
+        [pd.concat(in_sets[(MATCHED_TIER, side)]) for side in SIDES], ignore_index=True
     )
     keep = vocabulary(largest["word"].value_counts(), names)
     tables = [
@@ -229,11 +202,7 @@ def step_words() -> None:
     write_meta_section(
         "words",
         {
-            "method": "weighted log-odds, informative Dirichlet prior (Monroe 2008)",
-            "unit": "lower-cased lemma (data/tokens)",
-            "prior": "lemma counts of the whole corpus",
             "function_pos": sorted(FUNCTION_POS),
-            "content_pos": sorted(CONTENT_POS),
             "name_share": NAME_SHARE,
             "n_names_removed": len(names),
             "min_count": MIN_COUNT,
@@ -247,11 +216,13 @@ def step_style() -> None:
     paragraphs = pd.read_parquet(PARAGRAPHS)
     comparison = pd.read_parquet(COMPARISON)
     emotion, comp = tier_sets(paragraphs, comparison, MATCHED_TIER)
-    sets = pd.concat(
-        [emotion.assign(set="emotion"), comp.assign(set="comparison")],
-        ignore_index=True,
+    sets = add_text(
+        pd.concat(
+            [emotion.assign(set="emotion"), comp.assign(set="comparison")],
+            ignore_index=True,
+        ),
+        annotations,
     )
-    sets = add_text(sets, annotations)
     features = pd.DataFrame.from_records(sets["text"].map(paragraph_features).tolist())
     keep = ["novel_id", "para_id", "set", "author", "period", "gender", *EMOTION.tiers]
     style = pd.concat([sets[keep], features.drop(columns="n_chars")], axis=1)
@@ -267,11 +238,12 @@ def step_style() -> None:
     tables = []
     for tier in EMOTION.tiers:
         # Comparison paragraphs belong to a tier through their partner.
-        tier_keys = tier_sets(paragraphs, comparison, tier)
         in_tier = pd.concat(
             [
                 k[["novel_id", "para_id"]].assign(set=s)
-                for k, s in zip(tier_keys, ["emotion", "comparison"], strict=True)
+                for k, s in zip(
+                    tier_sets(paragraphs, comparison, tier), SIDES, strict=True
+                )
             ]
         )
         for split, frame in splits.items():
@@ -295,12 +267,8 @@ def step_style() -> None:
     )
 
 
-def step_corpora() -> None:
-    download_corpora(load_metadata())
-
-
-def step_tokens(novel_ids: list[str] | None = None) -> None:
-    """Write the missing token tables; the existing ones are kept as a cache."""
+def step_tokens(novel_ids: list[str] | None) -> None:
+    """Write the missing token tables; existing ones are kept."""
     annotations = load_annotations()
     novels = load_metadata()
     if novel_ids:
@@ -318,8 +286,7 @@ def step_tokens(novel_ids: list[str] | None = None) -> None:
             tagger = tagger or load_tagger()
             rows = tagged_rows(tagger, texts)
         write_table(to_table(rows), path)
-        size_kb = path.stat().st_size / 1e3
-        print(f"wrote {path.name}: {len(rows):,} tokens, {size_kb:.0f} kB")
+        print(f"wrote {path.name}: {len(rows):,} tokens")
 
 
 STEPS: dict[str, Callable[[], None]] = {
@@ -342,12 +309,10 @@ def main() -> None:
     parser.add_argument("--novels", nargs="+", help="tokens: only these novels")
     args = parser.parse_args()
     if args.step == "corpora":
-        step_corpora()
-        return
-    if args.step == "tokens":
+        download_corpora(load_metadata())
+    elif args.step == "tokens":
         step_tokens(args.novels)
-        return
-    steps = STEPS if args.step == "all" else {args.step: STEPS[args.step]}
-    for name, step in steps.items():
-        print(f"== {name}")
-        step()
+    else:
+        for name in STEPS if args.step == "all" else [args.step]:
+            print(f"== {name}")
+            STEPS[name]()

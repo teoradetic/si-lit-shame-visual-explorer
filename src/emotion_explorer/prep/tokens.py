@@ -1,12 +1,8 @@
 """DATA-04: every token of a novel with its lemma and tags.
 
-Novels from the annotated corpora keep the annotation they came with, which
-CLASSLA produced. The others are tagged here with CLASSLA, so that all novels
-go through the same kind of tool.
-
-The annotated corpora divide the text into paragraphs differently from the
-annotated corpus (the model's scores), but without whitespace the two hold the
-same characters, so a word's position in that text gives its paragraph.
+Novels from the annotated corpora keep their (CLASSLA) annotation; the others
+are tagged here with CLASSLA. The TEI files split paragraphs differently, but
+without whitespace hold the same characters, so position gives the paragraph.
 """
 
 import re
@@ -23,10 +19,8 @@ TEI = "{http://www.tei-c.org/ns/1.0}"
 WHITESPACE_RE = re.compile(r"\s+")
 # Morphology keys that are no morphology, or repeat another column.
 NOT_FEATS = {"UPosTag", "UposTag", "XPOS", "SpaceAfter"}
-# CLASSLA's model for each step. The standard tagger reads predicative "sram
-# ga je", the commonest way to say it, as an adjective or a verb, which gives
-# the lemmas "sra" and "srati". The nonstandard one reads it as a noun, as the
-# annotated corpora do, and the tokens stay the same as with the standard model.
+# The standard tagger reads predicative "sram ga je" as ADJ "sra" or VERB
+# "srati"; the nonstandard one reads it as a noun, as the annotated corpora do.
 PROCESSORS = {
     "tokenize": "standard",
     "pos": "nonstandard",
@@ -81,10 +75,9 @@ def no_whitespace(text: str) -> str:
 
 
 def paragraph_of_tokens(forms: list[str], texts: list[str]) -> np.ndarray:
-    """Index of the paragraph each token starts in; len(texts) if past the end.
+    """Index of the paragraph each token starts in; len(texts) past the end.
 
-    The tokens may run past the paragraphs, as in one ELTeC novel with a few
-    words more at its end. Any other difference is an error.
+    Tokens may run past the paragraphs (one ELTeC novel); other differences fail.
     """
     tei = [no_whitespace(f) for f in forms]
     paragraphs = [no_whitespace(t) for t in texts]

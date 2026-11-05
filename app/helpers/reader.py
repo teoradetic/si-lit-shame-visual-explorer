@@ -1,8 +1,4 @@
-"""APP-02: the excerpt reader that every view opens its passages in.
-
-The focus paragraph is highlighted, its context is grey, and long paragraphs
-are shortened for display. Whole novels are never shown.
-"""
+"""APP-02: the excerpt reader every view opens its passages in."""
 
 import html
 import re

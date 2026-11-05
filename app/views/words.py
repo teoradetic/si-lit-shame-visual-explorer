@@ -1,10 +1,4 @@
-"""AN-03: words typical of the detected passages.
-
-Three chart types: a word cloud, a map that places each word by two
-measures, and a dot chart. A word is a lemma (DATA-06). The word lists are
-computed for the novels and the comparison set in the sidebar
-(`stats.word_table`).
-"""
+"""AN-03: words (lemmas) typical of the detected passages."""
 
 import math
 import re

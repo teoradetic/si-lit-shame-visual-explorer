@@ -1,8 +1,4 @@
-"""APP-01: global filters, kept in session state and applied to every view.
-
-The widgets live in the entrypoint's sidebar, which runs on every page, so
-their values survive page changes.
-"""
+"""APP-01: global filters, kept in session state and applied to every view."""
 
 from dataclasses import dataclass
 

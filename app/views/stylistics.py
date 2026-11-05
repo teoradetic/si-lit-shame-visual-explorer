@@ -1,10 +1,4 @@
-"""AN-08 (basic): style of the detected passages against the comparison set.
-
-Three chart types: every measure indexed so that passages without shame are
-100, the raw values side by side in one small panel per measure, and one
-measure over the years of publication. Each group of the comparison in the
-sidebar is tested on its own (`stats.compare_novels`).
-"""
+"""AN-08: style of the detected passages against the comparison set."""
 
 import html
 
@@ -22,25 +16,16 @@ WINDOW = 10
 MIN_IN_WINDOW = 3
 CLEAR_TREND = 0.2
 
-# How each feature is read off one paragraph, to rank passages by it.
-PARAGRAPH_VALUE = {
-    "sentence_words": lambda d: d["n_words"] / d["n_sentences"],
-    "mattr": None,
-    "repetition": lambda d: d["n_repeats"] / d["n_eligible"].clip(lower=1),
-    **{
-        f"{name}_per_1k": (
-            lambda d, n=name: d[f"n_{n}"] / d["n_chars"].clip(lower=1) * 1000
-        )
-        for name in (
-            "exclamation",
-            "question",
-            "semicolon",
-            "comma",
-            "ellipsis",
-            "dash",
-        )
-    },
-}
+
+def paragraph_value(feature: str, d: pd.DataFrame) -> pd.Series:
+    """A feature read off single paragraphs, to rank passages by it."""
+    if feature == "sentence_words":
+        return d["n_words"] / d["n_sentences"]
+    if feature == "repetition":
+        return d["n_repeats"] / d["n_eligible"].clip(lower=1)
+    count = d[f"n_{feature.removesuffix('_per_1k')}"]
+    return count / d["n_chars"].clip(lower=1) * 1000
+
 
 f = filters.current()
 st.title(t("style.title"))
@@ -82,18 +67,10 @@ if chart_type == "time":
     )
 order = [feature_labels[feat] for feat in features]
 # Without a split, one group: every selected novel.
-analysed = (
-    groups
-    if split
-    else [
-        compare.Group(
-            "all",
-            t("compare.everyone"),
-            charts.set_color("emotion"),
-            groups[0].novel_ids,
-        )
-    ]
+everyone = compare.Group(
+    "all", t("compare.everyone"), charts.set_color("emotion"), groups[0].novel_ids
 )
+analysed = groups if split else [everyone]
 tables_by_group = []
 too_few = []
 for g in analysed:
@@ -179,8 +156,7 @@ if chart_type == "index":
         axis=alt.Axis(labelFontSize=13, labelLimit=260, labelOverlap=False),
     )
     offset = alt.YOffset("who:N", sort=who_order)
-    # Each row is a dumbbell: the passages without shame at 100 (grey), a
-    # line to the passages with shame, and their 95 % interval.
+    # A dumbbell per row: without shame at 100, a line to with shame, its CI.
     baseline = (
         alt.Chart(pd.DataFrame({"x": [100]}))
         .mark_rule(strokeWidth=1, strokeDash=[4, 3], color=without)
@@ -302,8 +278,7 @@ elif chart_type == "time":
     pick_year = alt.selection_point(
         name="year", fields=["year", "group"], on="click", empty=False
     )
-    # Split, two bands per group would cover each other: only the passages
-    # with shame get one.
+    # Split, only the passages with shame get a band, or they would overlap.
     band = (
         alt.Chart()
         .transform_filter(
@@ -433,18 +408,15 @@ def finding_lines() -> list[str]:
         parts = []
         for row in clear.nlargest(3, "size").itertuples():
             ratio = row.index / 100
-            if ratio >= 1:
-                parts.append(
-                    t("style.find.more", feature=row.feature_label, x=num(ratio))
+            parts.append(
+                t("style.find.more", feature=row.feature_label, x=num(ratio))
+                if ratio >= 1
+                else t(
+                    "style.find.less",
+                    feature=row.feature_label,
+                    pct=round((1 - ratio) * 100),
                 )
-            else:
-                parts.append(
-                    t(
-                        "style.find.less",
-                        feature=row.feature_label,
-                        pct=round((1 - ratio) * 100),
-                    )
-                )
+            )
         lines.append(t("style.find.group", group=who, items="; ".join(parts)))
     if chart_type == "time":
         lines += time_finding_lines()
@@ -494,21 +466,22 @@ else:
         who = points[0].get("who")
         feature = points[0].get("feature")
         ids = next((g.novel_ids for g in kept if g.label == who), kept[0].novel_ids)
-if feature and PARAGRAPH_VALUE.get(feature):
+# MATTR is measured on whole novels, not paragraphs.
+if feature and feature != "mattr":
     paragraphs = tables.table("style_paragraphs")
     paragraphs = paragraphs[
         (paragraphs["set"] == "emotion")
         & paragraphs[f.tier]
         & paragraphs["novel_id"].isin(ids)
     ]
-    if paragraph_split == "narration":
-        paragraphs = paragraphs[~paragraphs["dialogue"]]
-    elif paragraph_split == "dialogue":
-        paragraphs = paragraphs[paragraphs["dialogue"]]
-    # Rank excerpts by their highest-scoring focus paragraph on this feature,
-    # ignoring very short paragraphs, where rates are noisy.
-    value = PARAGRAPH_VALUE[feature](paragraphs)
-    ranked = paragraphs.assign(value=value)[paragraphs["n_words"] >= 20]
+    if paragraph_split != "all":
+        paragraphs = paragraphs[
+            paragraphs["dialogue"] == (paragraph_split == "dialogue")
+        ]
+    # Rank excerpts by their best focus paragraph; short ones have noisy rates.
+    ranked = paragraphs.assign(value=paragraph_value(feature, paragraphs))[
+        paragraphs["n_words"] >= 20
+    ]
     top = ranked.nlargest(200, "value")[["novel_id", "para_id", "value"]]
     excerpts = tables.excerpts(f.tier)
     exploded = excerpts[["excerpt_id", "novel_id", "focus_ids"]].explode("focus_ids")

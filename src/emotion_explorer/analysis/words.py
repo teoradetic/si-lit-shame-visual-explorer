@@ -1,10 +1,4 @@
-"""AN-03: lemma counts behind the lists of typical words.
-
-The pipeline counts each lemma per novel in the detected set and in its
-comparison set; the app compares any group of novels with a weighted
-log-odds ratio (`app/helpers/stats.py`), with the whole corpus as the prior. Lemmas,
-parts of speech and names come from the token tables (DATA-04).
-"""
+"""AN-03: lemma counts per novel and set; the app compares them (`stats.py`)."""
 
 import unicodedata
 from pathlib import Path
@@ -27,11 +21,9 @@ MIN_COUNT = 10
 
 
 def read_words(path: Path) -> pd.DataFrame:
-    """The words of one novel: para_id, lemma as `word`, form, POS, and `name`.
+    """para_id, lemma (`word`, lower-cased, unaccented), form, POS, `name`.
 
-    Lemmas are lower-cased, because the sources differ in capitals, and lose
-    stress marks. Forms keep them, since the app searches the text with them.
-    Punctuation, symbols, foreign words and lemmas with digits are left out.
+    Forms keep their accents: the app searches the text with them.
     """
     tokens = pd.read_parquet(
         path, columns=["para_id", "form", "lemma", "upos", "entity"]
@@ -81,12 +73,7 @@ def lexicon(stats: pd.DataFrame) -> pd.DataFrame:
 
 
 def vocabulary(counts: pd.Series, names: set[str]) -> set[str]:
-    """Lemmas that can enter a word list.
-
-    `counts` are the lemmas of the compared sets at their largest (the broad
-    tier and its partners). Any slice of them counts a lemma at most as often,
-    so a lemma below MIN_COUNT here can never pass it in a slice.
-    """
+    """Lemmas that can enter a list; `counts` come from the largest sets."""
     return {w for w, n in counts.items() if n >= MIN_COUNT and w not in names}
 
 
@@ -102,11 +89,7 @@ def count_words(words: pd.DataFrame, keep: set[str]) -> pd.DataFrame:
 
 
 def word_forms(words: pd.DataFrame, keep: set[str]) -> pd.DataFrame:
-    """The forms by which the app finds a lemma's passages.
-
-    Each form goes to the lemma most of its occurrences have, so that no form
-    finds the passages of two lemmas (*je*: *biti*, not *on*).
-    """
+    """Each form with the lemma most of its occurrences have (*je*: *biti*)."""
     counts = words.groupby(["form", "word"], observed=True).size().rename("n")
     best = (
         counts.reset_index()

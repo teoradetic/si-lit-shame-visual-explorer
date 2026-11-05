@@ -1,9 +1,7 @@
-"""DATA-02: excerpts, each tagged paragraph with its context.
+"""DATA-02: excerpts, the focus paragraphs with CONTEXT paragraphs on each side.
 
-An excerpt spans CONTEXT paragraphs before and after its focus paragraphs,
-within one novel. Excerpts whose spans overlap are merged, so one excerpt can
-have several focus paragraphs. Texts are stored once per paragraph in a
-separate table, since excerpts of different sets share context.
+Overlapping excerpts are merged. Texts are stored once per paragraph, since
+excerpts of different sets share context.
 """
 
 import pandas as pd

@@ -1,13 +1,4 @@
-"""The comparison every chart is broken down by, set once in the sidebar.
-
-The filters choose the novels; the comparison splits them into groups,
-each with a fixed colour, and every view draws those groups:
-
-- nothing: all selected novels together;
-- with against without shame: the detected passages against those the
-  model rated clearly not about shame, in the same novels;
-- periods, author gender, two authors, or up to three novels of one author.
-"""
+"""The comparison set once in the sidebar; every chart draws its groups."""
 
 from dataclasses import dataclass
 
@@ -162,11 +153,7 @@ def is_split() -> bool:
 
 
 def novel_groups() -> pd.Series:
-    """Group label by novel_id, for the novels inside a group.
-
-    Without a split (nothing, or with against without shame) every selected
-    novel takes the first group's label.
-    """
+    """Group label by novel_id; without a split, every novel gets the first group."""
     gs = groups() if is_split() else groups()[:1]
     return pd.Series({nid: g.label for g in gs for nid in g.novel_ids}, dtype=object)
 
@@ -221,11 +208,7 @@ def require(min_groups: int = 1) -> list[Group]:
 
 
 def panels(chart, axis: str = "y", width: int = 360):
-    """With against without shame: one panel per set, each with its own scale.
-
-    The shares of paragraphs with and without shame differ about tenfold, so
-    on one axis one of them would lie flat.
-    """
+    """With against without shame: one panel per set, each with its own scale."""
     if mode() != "shame":
         return chart
     return (

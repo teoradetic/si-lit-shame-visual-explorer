@@ -1,13 +1,8 @@
-"""DATA-03: the comparison set, paragraphs with low scores.
+"""DATA-03: the comparison set, low-score paragraphs matched by novel and length.
 
-Each broad-tier paragraph gets one low-score partner from the same novel with
-the closest length, if one is within a factor of MAX_LENGTH_RATIO. Long
-low-score paragraphs are scarce (their median is 73 characters, against 381
-in the broad tier), so without the caliper the comparison set would be much
-shorter than the set it is compared with.
-
-"All untagged paragraphs" would not do as a contrast: they still hold most of
-the corpus's shame.
+Each broad-tier paragraph gets the low-score paragraph of the same novel with
+the closest length, within a factor of MAX_LENGTH_RATIO. Untagged paragraphs
+would not do: they still hold most of the corpus's shame.
 """
 
 import numpy as np
@@ -25,9 +20,8 @@ def near_tagged(
 ) -> np.ndarray:
     """True for paragraphs within `radius` of a tagged paragraph."""
     near = np.zeros(len(para_ids), dtype=bool)
-    tagged = set(tagged_ids.tolist())
     for offset in range(-radius, radius + 1):
-        near |= np.isin(para_ids + offset, list(tagged))
+        near |= np.isin(para_ids + offset, tagged_ids)
     return near
 
 

@@ -1,8 +1,6 @@
 """AN-01 and AN-02: how much detected emotion each novel has, and where.
 
-Besides the tiers, both tables count the paragraphs with a low score on
-every range (`low`), so the app can set "clearly without the emotion"
-beside them.
+Both tables also count the low-score paragraphs (`low`), for "without".
 """
 
 import numpy as np
@@ -35,11 +33,7 @@ def build_novels(
 def build_position_bins(
     paragraphs: pd.DataFrame, tiers: tuple[str, ...]
 ) -> pd.DataFrame:
-    """AN-02: paragraph counts per novel and twentieth of the novel.
-
-    Kept per novel so that the app can sum any filtered subset and divide
-    by the paragraphs in each bin, the baseline for "more than expected".
-    """
+    """AN-02: paragraph counts per novel and twentieth of the novel."""
     sets = (*tiers, "low")
     bins = np.minimum(
         (paragraphs["rel_position"] * N_POSITION_BINS).astype(int),

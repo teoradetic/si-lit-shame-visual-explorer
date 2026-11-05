@@ -1,9 +1,4 @@
-"""Boxes that every view shares: findings, and the technical methodology.
-
-Findings are computed from the novels and the comparison currently
-selected, so they change with the sidebar; they state what the chart
-shows, not more.
-"""
+"""The findings and methodology boxes every view shares."""
 
 import streamlit as st
 

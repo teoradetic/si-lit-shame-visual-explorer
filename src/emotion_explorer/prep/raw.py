@@ -10,10 +10,7 @@ from emotion_explorer.paths import ANNOTATIONS_JSON_ZST, CORPUS_METADATA_CSV
 
 
 def load_annotations(path: Path = ANNOTATIONS_JSON_ZST) -> dict:
-    """The annotated corpus: novel id -> {author, title, paragraphs}.
-
-    Paragraph ids are string keys ("0", "1", ...) in reading order.
-    """
+    """novel id -> {author, title, paragraphs}; paragraph ids are string keys."""
     with path.open("rb") as f:
         return json.loads(zstandard.ZstdDecompressor().stream_reader(f).read())
 

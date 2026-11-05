@@ -63,7 +63,6 @@ STRINGS: dict[str, dict[str, str]] = {
     "paragraphs.dialogue": {"en": "With dialogue", "sl": "Z dialogom"},
     "field.novel": {"en": "Novel", "sl": "Roman"},
     "field.group": {"en": "Group", "sl": "Skupina"},
-    "field.period": {"en": "Period", "sl": "Obdobje"},
     "field.novels": {"en": "Novels", "sl": "Romani"},
     "field.set": {"en": "Passages", "sl": "Odlomki"},
     "field.paragraphs": {"en": "Paragraphs", "sl": "Odstavki"},
@@ -420,10 +419,7 @@ STRINGS: dict[str, dict[str, str]] = {
     },
     "words.counts": {"en": "Numbers behind the chart", "sl": "Številke za grafom"},
     "words.col.word": {"en": "Word", "sl": "Beseda"},
-    "words.col.ratio": {
-        "en": "Times more frequent",
-        "sl": "Kolikokrat pogostejša",
-    },
+    "words.col.ratio": {"en": "Times more frequent", "sl": "Kolikokrat pogostejša"},
     "words.col.per_10k_emotion": {
         "en": "Per 10,000 words, with shame",
         "sl": "Na 10.000 besed, s sramom",
@@ -485,10 +481,7 @@ STRINGS: dict[str, dict[str, str]] = {
         "en": "Clear difference: very unlikely to be chance",
         "sl": "Jasna razlika: zelo malo verjetno naključje",
     },
-    "style.legend.hollow": {
-        "en": "Could be chance",
-        "sl": "Lahko je naključje",
-    },
+    "style.legend.hollow": {"en": "Could be chance", "sl": "Lahko je naključje"},
     "style.verdict.clear": {"en": "Clear difference", "sl": "Jasna razlika"},
     "style.verdict.chance": {"en": "Could be chance", "sl": "Lahko je naključje"},
     "style.read.index": {
@@ -555,46 +548,16 @@ STRINGS: dict[str, dict[str, str]] = {
         "sl": "Odlomki s sramom z najvišjo vrednostjo: {feature}",
     },
     # Comparison, findings and methodology
-    "filters.gender": {
-        "en": "Author gender",
-        "sl": "Spol avtorja",
-    },
-    "gender.F": {
-        "en": "Female authors",
-        "sl": "Avtorice",
-    },
-    "gender.M": {
-        "en": "Male authors",
-        "sl": "Avtorji",
-    },
-    "gender.unknown": {
-        "en": "Gender unknown",
-        "sl": "Spol neznan",
-    },
-    "gender_short.F": {
-        "en": "Female",
-        "sl": "Ženski",
-    },
-    "gender_short.M": {
-        "en": "Male",
-        "sl": "Moški",
-    },
-    "gender_short.unknown": {
-        "en": "Unknown",
-        "sl": "Neznan",
-    },
-    "field.counted": {
-        "en": "Paragraphs counted",
-        "sl": "Prešteti odstavki",
-    },
-    "compare.header": {
-        "en": "Compare",
-        "sl": "Primerjaj",
-    },
-    "compare.mode": {
-        "en": "What to compare",
-        "sl": "Kaj primerjati",
-    },
+    "filters.gender": {"en": "Author gender", "sl": "Spol avtorja"},
+    "gender.F": {"en": "Female authors", "sl": "Avtorice"},
+    "gender.M": {"en": "Male authors", "sl": "Avtorji"},
+    "gender.unknown": {"en": "Gender unknown", "sl": "Spol neznan"},
+    "gender_short.F": {"en": "Female", "sl": "Ženski"},
+    "gender_short.M": {"en": "Male", "sl": "Moški"},
+    "gender_short.unknown": {"en": "Unknown", "sl": "Neznan"},
+    "field.counted": {"en": "Paragraphs counted", "sl": "Prešteti odstavki"},
+    "compare.header": {"en": "Compare", "sl": "Primerjaj"},
+    "compare.mode": {"en": "What to compare", "sl": "Kaj primerjati"},
     "compare.help": {
         "en": "Every chart on every page is broken down by this choice. The filters "
         "below choose the novels; the comparison splits them into groups.",
@@ -617,34 +580,13 @@ STRINGS: dict[str, dict[str, str]] = {
         "en": "Female and male authors",
         "sl": "Avtorice in avtorje",
     },
-    "compare.mode.authors": {
-        "en": "Two authors",
-        "sl": "Dva avtorja",
-    },
-    "compare.mode.novels": {
-        "en": "Novels of one author",
-        "sl": "Romane enega avtorja",
-    },
-    "compare.author_a": {
-        "en": "First author",
-        "sl": "Prvi avtor",
-    },
-    "compare.author_b": {
-        "en": "Second author",
-        "sl": "Drugi avtor",
-    },
-    "compare.author": {
-        "en": "Author",
-        "sl": "Avtor",
-    },
-    "compare.novels": {
-        "en": "Novels (up to three)",
-        "sl": "Romani (največ trije)",
-    },
-    "compare.everyone": {
-        "en": "All selected novels",
-        "sl": "Vsi izbrani romani",
-    },
+    "compare.mode.authors": {"en": "Two authors", "sl": "Dva avtorja"},
+    "compare.mode.novels": {"en": "Novels of one author", "sl": "Romane enega avtorja"},
+    "compare.author_a": {"en": "First author", "sl": "Prvi avtor"},
+    "compare.author_b": {"en": "Second author", "sl": "Drugi avtor"},
+    "compare.author": {"en": "Author", "sl": "Avtor"},
+    "compare.novels": {"en": "Novels (up to three)", "sl": "Romani (največ trije)"},
+    "compare.everyone": {"en": "All selected novels", "sl": "Vsi izbrani romani"},
     "compare.left_out.period": {
         "en": "Novels of unknown period are left out of this comparison ({n}).",
         "sl": "Romani neznanega obdobja so iz te primerjave izpuščeni ({n}).",
@@ -664,10 +606,7 @@ STRINGS: dict[str, dict[str, str]] = {
         "sl": "Za to so potrebne vsaj {n} skupine; spremenite primerjavo v stranski "
         "vrstici.",
     },
-    "findings.title": {
-        "en": "Findings",
-        "sl": "Ugotovitve",
-    },
+    "findings.title": {"en": "Findings", "sl": "Ugotovitve"},
     "findings.note": {
         "en": "Computed from the novels and the comparison selected in the sidebar. "
         "They describe the detected passages; only the Style page tests its "
@@ -687,14 +626,8 @@ STRINGS: dict[str, dict[str, str]] = {
         "leta? Izberite graf; vsak pokaže iste romane na drugačen način, "
         "razdeljene po primerjavi, izbrani v stranski vrstici.",
     },
-    "time.type.groups": {
-        "en": "Groups side by side",
-        "sl": "Skupine drugo ob drugi",
-    },
-    "time.axis.share": {
-        "en": "Share of paragraphs (%)",
-        "sl": "Delež odstavkov (%)",
-    },
+    "time.type.groups": {"en": "Groups side by side", "sl": "Skupine drugo ob drugi"},
+    "time.axis.share": {"en": "Share of paragraphs (%)", "sl": "Delež odstavkov (%)"},
     "time.axis.per_10k_words": {
         "en": "Paragraphs per 10,000 words",
         "sl": "Odstavki na 10.000 besed",
@@ -769,18 +702,9 @@ STRINGS: dict[str, dict[str, str]] = {
         "sl": "**{group}** (romanov: {n}): mediana {median}; skozi čas {trend} (ρ = "
         "{rho}).",
     },
-    "time.find.rise": {
-        "en": "it tends to rise",
-        "sl": "se navadno zvišuje",
-    },
-    "time.find.fall": {
-        "en": "it tends to fall",
-        "sl": "se navadno znižuje",
-    },
-    "time.find.flat": {
-        "en": "there is no clear trend",
-        "sl": "ni jasnega trenda",
-    },
+    "time.find.rise": {"en": "it tends to rise", "sl": "se navadno zvišuje"},
+    "time.find.fall": {"en": "it tends to fall", "sl": "se navadno znižuje"},
+    "time.find.flat": {"en": "there is no clear trend", "sl": "ni jasnega trenda"},
     "time.find.ratio": {
         "en": "The median of **{a}** is {x}× that of **{b}**.",
         "sl": "Mediana skupine **{a}** je {x}-kratnik mediane skupine **{b}**.",
@@ -836,10 +760,7 @@ STRINGS: dict[str, dict[str, str]] = {
         "Izberite graf; vsak pogleda na vprašanje z druge strani, razdeljen po "
         "primerjavi, izbrani v stranski vrstici.",
     },
-    "position.x": {
-        "en": "Position in the novel (%)",
-        "sl": "Mesto v romanu (%)",
-    },
+    "position.x": {"en": "Position in the novel (%)", "sl": "Mesto v romanu (%)"},
     "position.x_down": {
         "en": "Position (beginning at the top)",
         "sl": "Mesto (začetek na vrhu)",
@@ -848,14 +769,8 @@ STRINGS: dict[str, dict[str, str]] = {
         "en": "× the novel's average",
         "sl": "× povprečje romana",
     },
-    "position.y.share": {
-        "en": "Share of paragraphs (%)",
-        "sl": "Delež odstavkov (%)",
-    },
-    "position.legend_share": {
-        "en": "% about shame",
-        "sl": "% o sramu",
-    },
+    "position.y.share": {"en": "Share of paragraphs (%)", "sl": "Delež odstavkov (%)"},
+    "position.legend_share": {"en": "% about shame", "sl": "% o sramu"},
     "position.legend_relative": {
         "en": "× the column's average",
         "sl": "× povprečje stolpca",
@@ -951,14 +866,8 @@ STRINGS: dict[str, dict[str, str]] = {
         "Oblike so bile analizirane samodejno, zato je nekaj napak, pogosteje v "
         "starem črkopisu.",
     },
-    "words.type.map": {
-        "en": "Map",
-        "sl": "Zemljevid",
-    },
-    "words.shared": {
-        "en": "Shared by the groups",
-        "sl": "Skupne skupinam",
-    },
+    "words.type.map": {"en": "Map", "sl": "Zemljevid"},
+    "words.shared": {"en": "Shared by the groups", "sl": "Skupne skupinam"},
     "words.map_needs_two": {
         "en": "The map compares two groups: under Compare in the sidebar, choose "
         "with and without shame, periods, author gender, two authors, or two "
@@ -983,10 +892,7 @@ STRINGS: dict[str, dict[str, str]] = {
         "en": "With shame ÷ without (log scale)",
         "sl": "S sramom ÷ brez (log. lestvica)",
     },
-    "words.col.belongs": {
-        "en": "Typical of",
-        "sl": "Značilna za",
-    },
+    "words.col.belongs": {"en": "Typical of", "sl": "Značilna za"},
     "words.read.cloud_none": {
         "en": "How to read: the bigger the word, the more typical it is of passages "
         "with shame. Click a word to read passages that contain it.",
@@ -1153,10 +1059,7 @@ STRINGS: dict[str, dict[str, str]] = {
         "Vsaka mera je primerjana znotraj vsakega romana in nato povzeta čez "
         "romane vsake skupine iz primerjave v stranski vrstici.",
     },
-    "style.x": {
-        "en": "Index (without shame = 100)",
-        "sl": "Indeks (brez sramu = 100)",
-    },
+    "style.x": {"en": "Index (without shame = 100)", "sl": "Indeks (brez sramu = 100)"},
     "style.read.raw": {
         "en": "How to read: one small chart per measure, each with its own scale; "
         "plum bars are passages with shame, grey bars passages without, in the "
@@ -1203,10 +1106,7 @@ STRINGS: dict[str, dict[str, str]] = {
         "sl": "Premalo romanov za primerjavo: {groups}. Skupina potrebuje vsaj {n} "
         "romane z vsaj {p} odstavki s sramom in brez njega.",
     },
-    "style.find.group": {
-        "en": "**{group}:** {items}.",
-        "sl": "**{group}:** {items}.",
-    },
+    "style.find.group": {"en": "**{group}:** {items}.", "sl": "**{group}:** {items}."},
     "style.find.more": {
         "en": "{feature} {x}× as frequent with shame",
         "sl": "{feature}: ob sramu {x}-krat pogostejši",
@@ -1223,14 +1123,8 @@ STRINGS: dict[str, dict[str, str]] = {
         "en": "the value tends to rise",
         "sl": "vrednost navadno narašča",
     },
-    "style.find.fall": {
-        "en": "the value tends to fall",
-        "sl": "vrednost navadno pada",
-    },
-    "style.find.flat": {
-        "en": "there is no clear trend",
-        "sl": "ni jasnega trenda",
-    },
+    "style.find.fall": {"en": "the value tends to fall", "sl": "vrednost navadno pada"},
+    "style.find.flat": {"en": "there is no clear trend", "sl": "ni jasnega trenda"},
     "style.find.none": {
         "en": "**{group}:** no clear difference.",
         "sl": "**{group}:** ni jasne razlike.",
