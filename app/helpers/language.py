@@ -389,10 +389,14 @@ STRINGS: dict[str, dict[str, str]] = {
     "words.type.cloud": {"en": "Word cloud", "sl": "Oblak besed"},
     "words.type.dots": {"en": "Dot chart", "sl": "Točkovni graf"},
     "words.n": {"en": "Words shown", "sl": "Prikazane besede"},
-    "words.hide_function": {
-        "en": "Hide function words",
-        "sl": "Skrij funkcijske besede",
+    "words.class": {"en": "Word class", "sl": "Besedna vrsta"},
+    "words.class.content": {"en": "Meaningful words", "sl": "Pomenske besede"},
+    "words.class.nouns": {
+        "en": "Nouns and adjectives",
+        "sl": "Samostalniki in pridevniki",
     },
+    "words.class.verbs": {"en": "Verbs (actions)", "sl": "Glagoli (dejanja)"},
+    "words.class.all": {"en": "All words", "sl": "Vse besede"},
     "words.hide_stem": {
         "en": "Hide words containing “{stem}”",
         "sl": "Skrij besede, ki vsebujejo »{stem}«",
@@ -406,16 +410,16 @@ STRINGS: dict[str, dict[str, str]] = {
         "on their own: pronouns (*jaz, ti, on*), auxiliary verbs (*biti* in *je "
         "bil*), prepositions (*v, na, z*), conjunctions (*in, da, ker*), "
         "particles (*ne, še, že*), determiners (*ta, vsak*) and numerals. They "
-        "dominate any word list, so they are hidden by default. They are "
+        "dominate any word list, so only *All words* shows them. They are "
         "recognised by their part of speech, as the grammatical analysis "
         "assigned it to most occurrences of the word. The commonest:",
         "sl": "Funkcijske besede so kratke slovnične besede, ki same po sebi "
         "nimajo veliko pomena: zaimki (*jaz, ti, on*), pomožni glagoli (*biti* v "
         "*je bil*), predlogi (*v, na, z*), vezniki (*in, da, ker*), členki "
         "(*ne, še, že*), določilniki (*ta, vsak*) in števniki. Prevladale bi v "
-        "vsakem seznamu, zato so privzeto skrite. Prepoznane so po besedni "
-        "vrsti, ki jo je slovnična analiza pripisala večini pojavitev besede. "
-        "Najpogostejše:",
+        "vsakem seznamu, zato jih kaže le izbira *Vse besede*. Prepoznane so "
+        "po besedni vrsti, ki jo je slovnična analiza pripisala večini "
+        "pojavitev besede. Najpogostejše:",
     },
     "words.counts": {"en": "Numbers behind the chart", "sl": "Številke za grafom"},
     "words.col.word": {"en": "Word", "sl": "Beseda"},
@@ -1012,7 +1016,9 @@ STRINGS: dict[str, dict[str, str]] = {
         "43). A lemma's part of speech is the one most of its tokens have. "
         "Names are removed: lemmas whose tokens are mostly proper nouns or "
         "inside a named entity. A passage contains a word if it has one of its "
-        "forms; each form belongs to the lemma most of its occurrences have.\n"
+        "forms; each form belongs to the lemma most of its occurrences have. "
+        "*Verbs* keeps lemmas tagged VERB, *Nouns and adjectives* NOUN and ADJ, "
+        "*Meaningful words* all but the function words.\n"
         "- **Sets:** the detected paragraphs of the compared novels against "
         "their comparison paragraphs (one low-score partner per detected "
         "paragraph, from the same novel, within a factor of 2 in length).\n"
@@ -1045,7 +1051,9 @@ STRINGS: dict[str, dict[str, str]] = {
         "pojavitev. Imena so odstranjena: leme, katerih pojavitve so večinoma "
         "lastna imena ali del imenske entitete. Odlomek vsebuje besedo, če "
         "vsebuje katero od njenih oblik; vsaka oblika pripada lemi, ki jo ima "
-        "večina njenih pojavitev.\n"
+        "večina njenih pojavitev. *Glagoli* obdržijo leme z oznako VERB, "
+        "*Samostalniki in pridevniki* NOUN in ADJ, *Pomenske besede* vse razen "
+        "funkcijskih.\n"
         "- **Nabora:** zaznani odstavki primerjanih romanov proti njihovim "
         "primerjalnim odstavkom (en par z nizko oceno na zaznani odstavek, iz "
         "istega romana, do 2-krat daljši ali krajši).\n"

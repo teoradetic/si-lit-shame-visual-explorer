@@ -80,3 +80,9 @@ def test_clicked_word_shows_its_cases(mode):
     at.run()
     assert not at.exception, [e.value for e in at.exception]
     assert at.subheader[0].value == "Cases of *sram*"
+
+
+@pytest.mark.parametrize("word_class", ["nouns", "verbs", "all"])
+def test_word_class_renders(word_class):
+    at = run("views/words.py", "en", {"words_class": word_class})
+    assert not at.exception, [e.value for e in at.exception]

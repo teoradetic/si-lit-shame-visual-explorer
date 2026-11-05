@@ -12,6 +12,8 @@ from helpers import charts, compare, filters, notes, reader, stats, tables
 from helpers.language import labels, num, t
 
 CHART_TYPES = ("cloud", "map", "dots")
+# AN-04: verbs, the actions; "content" leaves out the function words.
+WORD_CLASSES = {"content": None, "nouns": ("NOUN", "ADJ"), "verbs": ("VERB",)}
 # A word belongs to a group when its frequency ratio there is at least this
 # many times its ratio in every other group. Ratios, not z-scores: z grows
 # with the amount of text, and groups differ greatly in size.
@@ -34,14 +36,20 @@ split = compare.is_split()
 findings_box = st.container()
 st.caption(t("words.lemmas"))
 
-c1, c2 = st.columns([2, 3], vertical_alignment="bottom")
+c1, c2, c3 = st.columns([2, 2, 3], vertical_alignment="bottom")
 chart_type = c1.selectbox(
     t("chart.type"),
     CHART_TYPES,
     format_func=lambda v: t(f"words.type.{v}"),
     key="words_type",
 )
-n_words = c2.slider(
+word_class = c2.selectbox(
+    t("words.class"),
+    [*WORD_CLASSES, "all"],
+    format_func=lambda v: t(f"words.class.{v}"),
+    key="words_class",
+)
+n_words = c3.slider(
     t("words.n"),
     10,
     60,
@@ -49,10 +57,8 @@ n_words = c2.slider(
     step=5,
     key=f"words_n_{chart_type}",
 )
-c3, c4 = st.columns(2)
-hide_function = c3.toggle(t("words.hide_function"), value=True, key="words_hide_fn")
 stem = tables.meta()["paragraphs"]["stem"]
-hide_stem = c4.toggle(
+hide_stem = st.toggle(
     t("words.hide_stem", stem=stem), value=False, key="words_hide_stem"
 )
 with st.expander(t("words.function_title")):
@@ -63,11 +69,13 @@ with st.expander(t("words.function_title")):
 
 
 def prepare(table: pd.DataFrame) -> pd.DataFrame:
-    """Hide the words the toggles hide; `ratio` is how many times more frequent."""
+    """Keep the chosen word class; `ratio` is how many times more frequent."""
     if table.empty:
         return table.assign(strength=[], ratio=[])
-    if hide_function:
+    if word_class == "content":
         table = table[~table["function_word"]]
+    elif word_class != "all":
+        table = table[table["pos"].isin(WORD_CLASSES[word_class])]
     if hide_stem:
         table = table[~table["contains_stem"]]
     return table.assign(strength=table["z"])
