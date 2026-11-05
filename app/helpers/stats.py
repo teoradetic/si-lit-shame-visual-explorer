@@ -5,7 +5,7 @@ import math
 import numpy as np
 import pandas as pd
 
-# Words: prior strength relative to the size of the two compared sets.
+# Words: prior strength relative to the size of each compared set.
 PRIOR_WEIGHT = 1.0
 SIDES = ["emotion", "comparison"]
 MIN_COUNT = 10
@@ -32,14 +32,19 @@ def spread_rule(n_novels: int, n_authors: int) -> tuple[int, int]:
 
 
 def log_odds(ya: np.ndarray, yb: np.ndarray, prior: np.ndarray) -> pd.DataFrame:
-    """Weighted log-odds, A against B, informative Dirichlet prior (Monroe 2008)."""
+    """Weighted log-odds, A against B, informative Dirichlet prior (Monroe 2008).
+
+    The prior is scaled to each side's size, not to both together (APP-12): a
+    word as frequent on both sides then scores 0 however unequal the sides,
+    instead of leaning towards the larger one.
+    """
     na, nb = ya.sum(), yb.sum()
-    a0 = PRIOR_WEIGHT * (na + nb)
-    alpha = prior / prior.sum() * a0
-    delta = np.log((ya + alpha) / (na + a0 - ya - alpha)) - np.log(
-        (yb + alpha) / (nb + a0 - yb - alpha)
+    share = prior / prior.sum()
+    aa, ab = share * PRIOR_WEIGHT * na, share * PRIOR_WEIGHT * nb
+    delta = np.log((ya + aa) / ((1 + PRIOR_WEIGHT) * na - ya - aa)) - np.log(
+        (yb + ab) / ((1 + PRIOR_WEIGHT) * nb - yb - ab)
     )
-    variance = 1 / (ya + alpha) + 1 / (yb + alpha)
+    variance = 1 / (ya + aa) + 1 / (yb + ab)
     return pd.DataFrame(
         {
             "z": delta / np.sqrt(variance),
@@ -58,7 +63,7 @@ def log_odds(ya: np.ndarray, yb: np.ndarray, prior: np.ndarray) -> pd.DataFrame:
 def word_table(
     counts: pd.DataFrame, prior: pd.Series, authors: pd.Series
 ) -> pd.DataFrame:
-    """A group's typical words: recurring on their side, more frequent there."""
+    """A group's typical words: those that recur on their side."""
     if counts.empty:
         return pd.DataFrame()
     counts = counts.assign(author=counts["novel_id"].map(authors))
@@ -92,9 +97,7 @@ def word_table(
     keep = np.where(
         side == "emotion", recurs["emotion"].to_numpy(), recurs["comparison"]
     )
-    # The shared prior tips common words towards the side with more text.
-    more_frequent = np.where(side == "emotion", table["ratio"] > 1, table["ratio"] < 1)
-    return table[keep & more_frequent].reset_index(drop=True)
+    return table[keep].reset_index(drop=True)
 
 
 def sign_flip_p(diffs: np.ndarray, rng: np.random.Generator) -> float:
