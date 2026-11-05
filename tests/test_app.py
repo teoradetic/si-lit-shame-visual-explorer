@@ -1,6 +1,8 @@
 """Smoke test: every page and chart type renders in both languages and with
 every comparison."""
 
+from types import SimpleNamespace
+
 import pytest
 from streamlit.testing.v1 import AppTest
 
@@ -67,3 +69,14 @@ def test_chart_type_renders(page, key, chart, extra, lang):
 def test_chart_type_renders_with_each_comparison(page, key, chart, extra, mode):
     at = run(page, "en", {key: chart, "cmp_mode": mode, **extra})
     assert not at.exception, [e.value for e in at.exception]
+
+
+@pytest.mark.parametrize("mode", MODES)
+def test_clicked_word_shows_its_cases(mode):
+    # The chart's event, as Streamlit hands it to the page after a click.
+    click = SimpleNamespace(selection={"word": [{"word": "sram", "side": "emotion"}]})
+    at = run("views/words.py", "en", {"cmp_mode": mode, "words_type": "dots"})
+    at.session_state["words_dots"] = click
+    at.run()
+    assert not at.exception, [e.value for e in at.exception]
+    assert at.subheader[0].value == "Cases of *sram*"

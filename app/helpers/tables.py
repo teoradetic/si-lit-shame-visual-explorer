@@ -73,10 +73,17 @@ def focus_texts(set_name: str) -> pd.Series:
 
 
 @st.cache_resource
-def word_counts(tier: str) -> pd.DataFrame:
-    """Word counts per novel and side (emotion or comparison) of one tier."""
+def word_cases(tier: str) -> pd.DataFrame:
+    """Word counts per novel, side and case (null for no case) of one tier."""
     df = table("word_counts")
     return df[df["tier"] == tier].drop(columns="tier")
+
+
+@st.cache_resource
+def word_counts(tier: str) -> pd.DataFrame:
+    """Word counts per novel and side (emotion or comparison) of one tier."""
+    keys = ["novel_id", "word", "side"]
+    return word_cases(tier).groupby(keys, observed=True)["n"].sum().reset_index()
 
 
 @st.cache_resource

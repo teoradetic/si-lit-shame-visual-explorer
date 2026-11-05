@@ -171,19 +171,18 @@ def step_words() -> None:
                 in_sets[key].append(words[inside].assign(novel_id=novel_id))
     corpus = lexicon(pd.concat(stats, ignore_index=True))
     names = set(corpus.index[corpus["name"]])
+    sets = {k: pd.concat(v, ignore_index=True) for k, v in in_sets.items()}
     # The matched tier holds every other tier, so its two sides are the largest.
-    largest = pd.concat(
-        [pd.concat(in_sets[(MATCHED_TIER, side)]) for side in SIDES], ignore_index=True
-    )
+    largest = pd.concat([sets[(MATCHED_TIER, s)] for s in SIDES], ignore_index=True)
     keep = vocabulary(largest["word"].value_counts(), names)
-    tables = [
-        count_words(pd.concat(frames, ignore_index=True), keep).assign(
-            tier=tier, side=side
-        )
-        for (tier, side), frames in in_sets.items()
-    ]
-    counts = pd.concat(tables, ignore_index=True)
-    categories = {c: "category" for c in ("novel_id", "word", "tier", "side")}
+    counts = pd.concat(
+        [
+            count_words(frame, keep).assign(tier=tier, side=side)
+            for (tier, side), frame in sets.items()
+        ],
+        ignore_index=True,
+    )
+    categories = {c: "category" for c in ("novel_id", "word", "case", "tier", "side")}
     write_parquet(counts.astype({**categories, "n": "int32"}), WORD_COUNTS)
     vocab = corpus.loc[sorted(keep)]
     write_parquet(

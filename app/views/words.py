@@ -9,7 +9,7 @@ import pandas as pd
 import streamlit as st
 
 from helpers import charts, compare, filters, notes, reader, stats, tables
-from helpers.language import num, t
+from helpers.language import labels, num, t
 
 CHART_TYPES = ("cloud", "map", "dots")
 # A word belongs to a group when its frequency ratio there is at least this
@@ -22,6 +22,7 @@ MAP_WIDTH, MAP_HEIGHT = 720, 520
 N_FINDINGS = 5
 # Function words listed in their explanation, the commonest first.
 N_FUNCTION_LISTED = 40
+CASES = ("Nom", "Gen", "Dat", "Acc", "Loc", "Ins")
 
 f = filters.current()
 st.title(t("words.title"))
@@ -455,7 +456,69 @@ def finding_lines() -> list[str]:
 with findings_box:
     notes.findings(finding_lines())
 
+
+def case_chart(word: str) -> None:
+    """The word's share in each case: per group, or with against without shame."""
+    sides = groups
+    if not split:
+        sides = [
+            compare.Group(s, t(f"set.{s}"), charts.set_color(s), pool_ids, s)
+            for s in stats.SIDES
+        ]
+    cases = tables.word_cases(f.tier)
+    cases = cases[(cases["word"] == word) & cases["case"].notna()]
+    df = pd.concat(
+        cases[cases["novel_id"].isin(g.novel_ids) & (cases["side"] == g.set_name)]
+        .groupby("case", observed=True)["n"]
+        .sum()
+        .reset_index()
+        .assign(group=g.label)
+        for g in sides
+    )
+    if df.empty:  # no case, e.g. a verb
+        return
+    totals = (
+        df.groupby("group")["n"].sum().reindex([g.label for g in sides], fill_value=0)
+    )
+    legend = {
+        g: t("words.cases.legend", group=g, n=num(n, 0)) for g, n in totals.items()
+    }
+    names = labels("case", CASES)
+    df = df.assign(
+        share=df["n"] / df["group"].map(totals),
+        group=df["group"].map(legend),
+        case=df["case"].map(names),
+    )
+    chart = (
+        alt.Chart(df)
+        .mark_bar()
+        .encode(
+            y=alt.Y("case:N", scale=alt.Scale(domain=list(names.values())), title=None),
+            yOffset=alt.YOffset("group:N", sort=list(legend.values())),
+            x=alt.X("share:Q", title=t("words.cases.share"), axis=alt.Axis(format="%")),
+            color=alt.Color(
+                "group:N",
+                scale=alt.Scale(
+                    domain=list(legend.values()), range=[g.color for g in sides]
+                ),
+                legend=alt.Legend(title=None),
+            ),
+            tooltip=[
+                alt.Tooltip("group:N", title=t("field.group")),
+                alt.Tooltip("case:N", title=t("words.cases.case")),
+                alt.Tooltip("share:Q", title=t("words.cases.share"), format=".0%"),
+                alt.Tooltip("n:Q", title=t("words.cases.n")),
+            ],
+        )
+        .properties(height=len(CASES) * (12 * len(sides) + 8))
+    )
+    st.subheader(t("words.cases.title", word=word))
+    charts.show_chart(chart, key="words_cases", select=False)
+    st.caption(t("words.cases.read"))
+
+
 if chosen:
+    case_chart(chosen)
     side = "emotion"
     if shame_mode and chosen in set(words.loc[words["side"] == "comparison", "word"]):
         side = "comparison"

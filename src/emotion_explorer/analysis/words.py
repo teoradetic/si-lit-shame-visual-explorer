@@ -21,12 +21,12 @@ MIN_COUNT = 10
 
 
 def read_words(path: Path) -> pd.DataFrame:
-    """para_id, lemma (`word`, lower-cased, unaccented), form, POS, `name`.
+    """para_id, lemma (`word`, lower-cased, unaccented), form, POS, case, `name`.
 
     Forms keep their accents: the app searches the text with them.
     """
     tokens = pd.read_parquet(
-        path, columns=["para_id", "form", "lemma", "upos", "entity"]
+        path, columns=["para_id", "form", "lemma", "upos", "feats", "entity"]
     )
     tokens = tokens[tokens["upos"].isin(FUNCTION_POS | CONTENT_POS | {"PROPN"})]
     word = tokens["lemma"].str.lower().str.translate(UNACCENT)
@@ -38,6 +38,7 @@ def read_words(path: Path) -> pd.DataFrame:
             "word": word,
             "form": tokens["form"].str.lower(),
             "pos": tokens["upos"],
+            "case": tokens["feats"].str.extract(r"Case=(\w+)", expand=False),
             "name": (tokens["upos"] == "PROPN") | tokens["entity"].notna(),
         }
     )[keep]
@@ -78,10 +79,10 @@ def vocabulary(counts: pd.Series, names: set[str]) -> set[str]:
 
 
 def count_words(words: pd.DataFrame, keep: set[str]) -> pd.DataFrame:
-    """Occurrences of each kept lemma per novel; `words` has novel_id and word."""
+    """Occurrences of each kept lemma per novel and case (null for no case)."""
     kept = words[words["word"].isin(keep)]
     return (
-        kept.groupby(["novel_id", "word"], observed=True)
+        kept.groupby(["novel_id", "word", "case"], observed=True, dropna=False)
         .size()
         .rename("n")
         .reset_index()

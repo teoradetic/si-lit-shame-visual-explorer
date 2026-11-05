@@ -18,6 +18,7 @@ def test_read_words_lowercases_lemmas_and_drops_what_is_no_word(tmp_path):
             "form": ["Sram", "ga", ".", "Janez", "1848", "Očí"],
             "lemma": ["Sram", "on", ".", "Janez", "1848", "očí"],
             "upos": ["NOUN", "PRON", "PUNCT", "PROPN", "NUM", "NOUN"],
+            "feats": ["Case=Nom", "Case=Acc", None, "Case=Nom", None, "Case=Gen"],
             "entity": [None, None, None, "PER", None, None],
         }
     ).to_parquet(path)
@@ -25,6 +26,7 @@ def test_read_words_lowercases_lemmas_and_drops_what_is_no_word(tmp_path):
     assert words["word"].tolist() == ["sram", "on", "janez", "oči"]
     assert words["form"].tolist() == ["sram", "ga", "janez", "očí"]
     assert words["name"].tolist() == [False, False, True, False]
+    assert words["case"].tolist() == ["Nom", "Acc", "Nom", "Gen"]
 
 
 def test_lexicon_takes_the_commonest_pos_and_finds_names():
@@ -49,12 +51,19 @@ def test_vocabulary_drops_names_and_rare_lemmas():
     assert vocabulary(counts, names={"janez"}) == {"sram"}
 
 
-def test_count_words_per_novel():
+def test_count_words_per_novel_and_case():
     words = pd.DataFrame(
-        {"novel_id": ["N1", "N1", "N2"], "word": ["sram", "sram", "biti"]}
+        {
+            "novel_id": ["N1", "N1", "N1", "N2"],
+            "word": ["sram", "sram", "sram", "biti"],
+            "case": ["Nom", "Nom", None, None],
+        }
     )
     counts = count_words(words, keep={"sram"})
-    assert counts.to_dict("records") == [{"novel_id": "N1", "word": "sram", "n": 2}]
+    assert counts.fillna("-").to_dict("records") == [
+        {"novel_id": "N1", "word": "sram", "case": "Nom", "n": 2},
+        {"novel_id": "N1", "word": "sram", "case": "-", "n": 1},
+    ]
 
 
 def test_each_form_finds_one_lemma():

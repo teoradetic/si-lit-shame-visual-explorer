@@ -987,6 +987,25 @@ STRINGS: dict[str, dict[str, str]] = {
         "en": "Tied to shame in every group: {words}.",
         "sl": "S sramom povezane v vseh skupinah: {words}.",
     },
+    "words.cases.title": {"en": "Cases of *{word}*", "sl": "Skloni besede *{word}*"},
+    "words.cases.case": {"en": "Case", "sl": "Sklon"},
+    "words.cases.share": {"en": "Share of uses", "sl": "Delež rab"},
+    "words.cases.n": {"en": "Uses", "sl": "Rabe"},
+    "words.cases.legend": {"en": "{group} ({n} uses)", "sl": "{group} (rab: {n})"},
+    "words.cases.read": {
+        "en": "How to read: each bar is the share of the word's uses in one "
+        "grammatical case; the bars of one colour add up to 100%. Shares of a "
+        "few uses mean little.",
+        "sl": "Kako brati: vsak stolpec je delež rab besede v enem sklonu; "
+        "stolpci ene barve dajo skupaj 100 %. Deleži maloštevilnih rab povedo "
+        "malo.",
+    },
+    "case.Nom": {"en": "Nominative", "sl": "Imenovalnik"},
+    "case.Gen": {"en": "Genitive", "sl": "Rodilnik"},
+    "case.Dat": {"en": "Dative", "sl": "Dajalnik"},
+    "case.Acc": {"en": "Accusative", "sl": "Tožilnik"},
+    "case.Loc": {"en": "Locative", "sl": "Mestnik"},
+    "case.Ins": {"en": "Instrumental", "sl": "Orodnik"},
     "words.methodology": {
         "en": "- **Words:** lemmas, lower-cased, from CLASSLA tagging (the source "
         "corpora's annotation for 262 novels, CLASSLA run here for the other "
@@ -1015,6 +1034,9 @@ STRINGS: dict[str, dict[str, str]] = {
         "belongs to a group when its ratio there is at least {factor}× that of "
         "every other group; z is not compared across groups, because it grows "
         "with the amount of text.\n"
+        "- **Cases:** the CLASSLA case of each occurrence of a clicked word, "
+        "counted in the same sets; words without case (verbs, adverbs) show "
+        "no chart.\n"
         "- Thousands of words are compared, so the lists are descriptive: z > "
         "3 is not a corrected significance level.",
         "sl": "- **Besede:** leme z malimi črkami, iz označevanja s CLASSLA "
@@ -1045,6 +1067,8 @@ STRINGS: dict[str, dict[str, str]] = {
         "pripada skupini, če je njeno razmerje tam vsaj {factor}-krat večje kot v "
         "vsaki drugi skupini; z med skupinami ni primerjan, ker raste s "
         "količino besedila.\n"
+        "- **Skloni:** sklon vsake pojavitve izbrane besede po CLASSLA, štet v "
+        "istih naborih; besede brez sklona (glagoli, prislovi) grafa nimajo.\n"
         "- Primerjamo na tisoče besed, zato so seznami opisni: z > 3 ni "
         "popravljena raven statistične značilnosti.",
     },
