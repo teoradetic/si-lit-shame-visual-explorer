@@ -21,6 +21,7 @@ emotion-explorer = "emotion_explorer.cli:main"
 # Data preparation: reads the raw entry points and writes the compact
 # outputs in data/processed.
 prep = [
+    "scikit-learn>=1.9.1",
     "zstandard>=0.25",
 ]
 # Lemmas and tags (`emotion-explorer tokens`). Heavy, and only needed to rebuild

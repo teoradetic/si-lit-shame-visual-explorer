@@ -481,14 +481,7 @@ if feature and feature != "mattr":
         paragraphs["n_words"] >= 20
     ]
     top = ranked.nlargest(200, "value")[["novel_id", "para_id", "value"]]
-    excerpts = tables.excerpts(f.tier)
-    exploded = excerpts[["excerpt_id", "novel_id", "focus_ids"]].explode("focus_ids")
-    exploded["para_id"] = exploded["focus_ids"].astype(int)
-    hits = exploded.merge(top, on=["novel_id", "para_id"])
-    best = hits.groupby("excerpt_id")["value"].max()
-    picked = excerpts[excerpts["excerpt_id"].isin(best.index)].assign(
-        rank=lambda d: d["excerpt_id"].map(best)
-    )
+    picked = tables.ranked_excerpts(f.tier, top)
     reader.show_excerpts(
         picked,
         key="style_reader",

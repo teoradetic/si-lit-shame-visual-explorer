@@ -31,7 +31,7 @@ cols[2].metric(t("home.m_tagged"), num(int(selected[f"n_{f.tier}"].sum()), 0))
 cols[3].metric(t("home.m_excerpts"), num(len(excerpts), 0))
 
 st.subheader(t("home.views"))
-for view in ("time", "position", "words", "style", "method"):
+for view in ("time", "position", "words", "themes", "style", "method"):
     st.markdown(f"- {t(f'home.view.{view}')}")
 
 filters.stop_if_empty()

@@ -60,6 +60,19 @@ def tagged(tier: str) -> pd.DataFrame:
     return df[df[tier]].reset_index()
 
 
+def ranked_excerpts(set_name: str, ranked: pd.DataFrame) -> pd.DataFrame:
+    """The excerpts whose focus paragraphs are in `ranked` (novel_id, para_id,
+    value), with the best value of each as `rank`."""
+    df = excerpts(set_name)
+    exploded = df[["excerpt_id", "novel_id", "focus_ids"]].explode("focus_ids")
+    exploded["para_id"] = exploded["focus_ids"].astype(int)
+    hits = exploded.merge(ranked, on=["novel_id", "para_id"])
+    best = hits.groupby("excerpt_id")["value"].max()
+    return df[df["excerpt_id"].isin(best.index)].assign(
+        rank=lambda d: d["excerpt_id"].map(best)
+    )
+
+
 @st.cache_resource
 def focus_texts(set_name: str) -> pd.Series:
     """The focus paragraphs of each excerpt joined, by excerpt_id, for search."""

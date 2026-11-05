@@ -31,6 +31,7 @@ pages = [
     st.Page("views/over_time.py", title=t("nav.time"), url_path="over-time"),
     st.Page("views/position.py", title=t("nav.position"), url_path="position"),
     st.Page("views/words.py", title=t("nav.words"), url_path="words"),
+    st.Page("views/themes.py", title=t("nav.themes"), url_path="themes"),
     st.Page("views/stylistics.py", title=t("nav.style"), url_path="style"),
     st.Page("views/method.py", title=t("nav.method"), url_path="method"),
 ]

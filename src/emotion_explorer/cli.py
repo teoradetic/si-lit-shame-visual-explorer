@@ -32,6 +32,13 @@ from emotion_explorer.analysis.style import (
     pool,
 )
 from emotion_explorer.analysis.text import split_speech, words
+from emotion_explorer.analysis.themes import (
+    MAX_SHARE,
+    MIN_PARAGRAPHS,
+    N_THEMES,
+    THEME_POS,
+    fit_themes,
+)
 from emotion_explorer.analysis.words import (
     FUNCTION_POS,
     MIN_COUNT,
@@ -55,6 +62,8 @@ from emotion_explorer.paths import (
     STYLE_NOVELS,
     STYLE_PARAGRAPHS,
     TEXTS,
+    THEME_PARAGRAPHS,
+    THEMES,
     TOKENS_DIR,
     WORD_COUNTS,
     WORD_FORMS,
@@ -159,7 +168,8 @@ def add_text(paragraphs: pd.DataFrame, annotations: dict) -> pd.DataFrame:
     )
 
 
-def step_words() -> None:
+def read_sets() -> tuple[dict[tuple[str, str], pd.DataFrame], pd.DataFrame]:
+    """The words of each (tier, side) set, and per-lemma stats of the corpus."""
     paragraphs = pd.read_parquet(PARAGRAPHS)
     comparison = pd.read_parquet(COMPARISON)
     by_novel = {
@@ -178,9 +188,13 @@ def step_words() -> None:
             if novel_id in para_ids.groups:
                 inside = words["para_id"].isin(para_ids.get_group(novel_id))
                 in_sets[key].append(words[inside].assign(novel_id=novel_id))
-    corpus = lexicon(pd.concat(stats, ignore_index=True))
-    names = set(corpus.index[corpus["name"]])
     sets = {k: pd.concat(v, ignore_index=True) for k, v in in_sets.items()}
+    return sets, lexicon(pd.concat(stats, ignore_index=True))
+
+
+def step_words() -> None:
+    sets, corpus = read_sets()
+    names = set(corpus.index[corpus["name"]])
     # The matched tier holds every other tier, so its two sides are the largest.
     largest = pd.concat([sets[(MATCHED_TIER, s)] for s in SIDES], ignore_index=True)
     keep = vocabulary(largest["word"].value_counts(), names)
@@ -229,6 +243,37 @@ def step_words() -> None:
             "pair_min_sentences": MIN_SENTENCES,
             "pair_min_novels": MIN_NOVELS,
             "pair_min_pmi": MIN_PMI,
+        },
+    )
+
+
+def step_themes() -> None:
+    sets, _ = read_sets()
+    prior = pd.read_parquet(WORD_PRIOR)
+    # Without the emotion's own words, which would make a theme of themselves.
+    usable = prior["pos"].isin(THEME_POS) & ~prior["contains_stem"]
+    vocabulary = set(prior.loc[usable, "word"])
+    words = pd.concat([sets[(MATCHED_TIER, side)] for side in SIDES])
+    themes, main = fit_themes(words[words["word"].isin(vocabulary)])
+    write_parquet(themes.astype({"theme": "int8", "rank": "int8"}), THEMES)
+    keys = ["novel_id", "para_id"]
+    sides = pd.concat(
+        [sets[(MATCHED_TIER, s)][keys].drop_duplicates().assign(set=s) for s in SIDES]
+    )
+    core = pd.concat([sets[("core", s)][keys] for s in SIDES]).drop_duplicates()
+    main = main.merge(sides, on=keys).merge(core.assign(core=True), on=keys, how="left")
+    main = main.assign(core=main["core"].fillna(False).astype(bool))
+    write_parquet(
+        main.astype({"novel_id": "category", "set": "category", "theme": "int8"}),
+        THEME_PARAGRAPHS,
+    )
+    write_meta_section(
+        "themes",
+        {
+            "n_themes": N_THEMES,
+            "pos": list(THEME_POS),
+            "min_paragraphs": MIN_PARAGRAPHS,
+            "max_share": MAX_SHARE,
         },
     )
 
@@ -323,6 +368,7 @@ STEPS: dict[str, Callable[[], None]] = {
     "excerpts": step_excerpts,
     "overview": step_overview,
     "words": step_words,
+    "themes": step_themes,
     "style": step_style,
 }
 

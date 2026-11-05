@@ -21,6 +21,7 @@ STRINGS: dict[str, dict[str, str]] = {
     "nav.time": {"en": "Over time", "sl": "Skozi čas"},
     "nav.position": {"en": "Within the novel", "sl": "Znotraj romana"},
     "nav.words": {"en": "Words", "sl": "Besede"},
+    "nav.themes": {"en": "Themes", "sl": "Teme"},
     "nav.style": {"en": "Style", "sl": "Slog"},
     "nav.method": {"en": "Method and caveats", "sl": "Metodologija in omejitve"},
     "chart.type": {"en": "Chart", "sl": "Graf"},
@@ -170,6 +171,10 @@ STRINGS: dict[str, dict[str, str]] = {
         "middle or the end of a story.",
         "sl": "**Znotraj romana:** ali se sram pojavi na začetku, v sredini ali na "
         "koncu zgodbe.",
+    },
+    "home.view.themes": {
+        "en": "**Themes:** which themes come with shame, and which without.",
+        "sl": "**Teme:** katere teme spremljajo sram in katere ne.",
     },
     "home.view.words": {
         "en": "**Words:** the words that come with shame, compared with passages "
@@ -1285,6 +1290,86 @@ STRINGS: dict[str, dict[str, str]] = {
         "normalni interval čez romane. Trend v ugotovitvah je Spearmanov ρ med "
         "letom in vrednostjo s sramom; |ρ| < {clear} šteje kot brez jasnega "
         "trenda.",
+    },
+    # Themes (AN-10)
+    "themes.title": {
+        "en": "Themes with and without shame",
+        "sl": "Teme s sramom in brez njega",
+    },
+    "themes.intro": {
+        "en": "Every paragraph is given its main theme, found automatically from "
+        "its nouns and adjectives. Which themes are more common in passages "
+        "about shame than in passages from the same novels without it? A theme "
+        "without detected shame may still hold shame the model missed.",
+        "sl": "Vsak odstavek dobi glavno temo, najdeno samodejno iz njegovih "
+        "samostalnikov in pridevnikov. Katere teme so pogostejše v odlomkih o "
+        "sramu kot v odlomkih iz istih romanov brez njega? Tema brez zaznanega "
+        "sramu lahko še vedno vsebuje sram, ki ga model ni zaznal.",
+    },
+    "themes.x": {"en": "Share of paragraphs", "sl": "Delež odstavkov"},
+    "themes.col.theme": {"en": "Theme", "sl": "Tema"},
+    "themes.col.ratio": {
+        "en": "Times more common with shame",
+        "sl": "Kolikokrat pogostejša ob sramu",
+    },
+    "themes.col.words": {"en": "Top words", "sl": "Glavne besede"},
+    "themes.words": {
+        "en": "The ten top words of each theme",
+        "sl": "Deset glavnih besed vsake teme",
+    },
+    "themes.read": {
+        "en": "How to read: each row is a theme, named by its top four words; "
+        "the dots give the share of paragraphs whose main theme it is, with "
+        "and without shame. Themes are ordered from the most typical of shame "
+        "down. Click a dot to read its passages, those most about the theme "
+        "first.",
+        "sl": "Kako brati: vsaka vrstica je tema, poimenovana po štirih glavnih "
+        "besedah; točke kažejo delež odstavkov, katerih glavna tema je, s "
+        "sramom in brez njega. Teme so urejene od najbolj značilne za sram "
+        "navzdol. Kliknite točko za njene odlomke, najprej tiste, ki so temi "
+        "najbolj posvečeni.",
+    },
+    "themes.find.with": {
+        "en": "More common with shame: {themes}.",
+        "sl": "Pogostejše ob sramu: {themes}.",
+    },
+    "themes.find.without": {
+        "en": "More common without it: {themes}.",
+        "sl": "Pogostejše brez njega: {themes}.",
+    },
+    "themes.selected": {
+        "en": "Passages on the theme “{theme}”",
+        "sl": "Odlomki na temo »{theme}«",
+    },
+    "themes.methodology": {
+        "en": "- **Paragraphs:** the broad tier's detected paragraphs and their "
+        "comparison paragraphs (as on the Words page), pooled, so that both "
+        "share one set of themes; the core tier uses its own part of them.\n"
+        "- **Words:** noun and adjective lemmas, without names and without the "
+        "emotion's own words (those containing its stem); a lemma must occur "
+        "in at least {min_paragraphs} paragraphs and in at most {max_share} % "
+        "of them.\n"
+        "- **Themes:** non-negative matrix factorization (NMF) of the "
+        "paragraphs' TF-IDF weights into {n} themes, not the LDA of the "
+        "earlier study. A paragraph's main theme is the one with the largest "
+        "weight; its share of the paragraph's weights ranks the passages.\n"
+        "- **Shares:** the share of each set's paragraphs whose main theme it "
+        "is; *times more common* divides the share with shame by the share "
+        "without, both over all compared novels. Descriptive, not tested.",
+        "sl": "- **Odstavki:** zaznani odstavki širšega nabora in njihovi "
+        "primerjalni odstavki (kot na strani Besede), združeni, da si delijo "
+        "iste teme; jedro uporablja svoj del.\n"
+        "- **Besede:** leme samostalnikov in pridevnikov, brez imen in brez "
+        "besed samega čustva (tistih, ki vsebujejo njegov koren); lema se mora "
+        "pojaviti v vsaj {min_paragraphs} odstavkih in v največ {max_share} % "
+        "odstavkov.\n"
+        "- **Teme:** nenegativna matrična faktorizacija (NMF) uteži TF-IDF "
+        "odstavkov v {n} tem, ne LDA prejšnje študije. Glavna tema odstavka je "
+        "tista z največjo utežjo; njen delež med utežmi odstavka razvršča "
+        "odlomke.\n"
+        "- **Deleži:** delež odstavkov vsakega nabora, katerih glavna tema je; "
+        "*kolikokrat pogostejša* deli delež s sramom z deležem brez njega, "
+        "oba čez vse primerjane romane. Opisno, brez testa.",
     },
     # Method (APP-04)
     "method.title": {"en": "Method and caveats", "sl": "Metodologija in omejitve"},

@@ -91,6 +91,15 @@
     "mattr_window": 100,
     "repeat_window": 10
   },
+  "themes": {
+    "max_share": 0.3,
+    "min_paragraphs": 10,
+    "n_themes": 20,
+    "pos": [
+      "NOUN",
+      "ADJ"
+    ]
+  },
   "words": {
     "function_pos": [
       "ADP",

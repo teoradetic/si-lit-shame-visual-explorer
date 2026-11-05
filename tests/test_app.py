@@ -11,6 +11,7 @@ PAGES = [
     "views/over_time.py",
     "views/position.py",
     "views/words.py",
+    "views/themes.py",
     "views/stylistics.py",
     "views/method.py",
 ]
@@ -91,3 +92,13 @@ def test_clicked_word_shows_its_neighbours_and_cases(mode):
 def test_word_options_render(state):
     at = run("views/words.py", "en", state)
     assert not at.exception, [e.value for e in at.exception]
+
+
+@pytest.mark.parametrize("mode", MODES)
+def test_clicked_theme_shows_its_passages(mode):
+    click = SimpleNamespace(selection={"theme": [{"theme": 1, "set": "emotion"}]})
+    at = run("views/themes.py", "en", {"cmp_mode": mode})
+    at.session_state["themes_chart"] = click
+    at.run()
+    assert not at.exception, [e.value for e in at.exception]
+    assert at.subheader[0].value.startswith("Passages on the theme")
