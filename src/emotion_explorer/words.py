@@ -1,67 +1,117 @@
-"""AN-03 (preliminary): word counts behind the lists of typical words.
+"""AN-03: lemma counts behind the lists of typical words.
 
-The pipeline counts each word per novel in the detected set and in its
+The pipeline counts each lemma per novel in the detected set and in its
 comparison set; the app compares any group of novels with a weighted
-log-odds ratio (`app/stats.py`), with the whole corpus as the prior. Without
-a tagger (DATA-04) the counts hold every part of speech and the forms are
-not lemmatized; names are dropped by capitalization.
+log-odds ratio (`app/stats.py`), with the whole corpus as the prior. Lemmas,
+parts of speech and names come from the token tables (DATA-04).
 """
 
-from collections import Counter
-from importlib.resources import files
+import unicodedata
+from pathlib import Path
 
 import pandas as pd
 
-from emotion_explorer.text import capitalization, words
-
-# A word is a name if it is capitalized in more than this share of its
-# occurrences that do not start a sentence.
-NAME_CAPITAL_SHARE = 0.5
+# Parts of speech that carry little meaning on their own; the app hides them
+# by default. Interjections (ah, oh) stay visible: they may express emotion.
+FUNCTION_POS = frozenset({"ADP", "AUX", "CCONJ", "DET", "NUM", "PART", "PRON", "SCONJ"})
+CONTENT_POS = frozenset({"ADJ", "ADV", "INTJ", "NOUN", "VERB"})
+# A lemma is a name if more than this share of its tokens are proper nouns or
+# inside a named entity (which also covers adjectives from names, *Janezov*).
+NAME_SHARE = 0.5
+# Some editions mark stress on vowels (takó, očí), which would split a lemma
+# in two. The marks are dropped from lemmas; č, š, ž and ć are letters and stay.
+ACCENTED = "áàâäéèêëíìîïóòôöúùûüŕȁȃȅȇȉȋȍȏȑȓȕȗ"
+UNACCENT = str.maketrans({c: unicodedata.normalize("NFD", c)[0] for c in ACCENTED})
 MIN_LENGTH = 2
 MIN_COUNT = 10
 
 
-def function_words() -> set[str]:
-    text = files("emotion_explorer").joinpath("resources/function_words_sl.txt")
-    lines = text.read_text(encoding="utf-8").splitlines()
-    return {line.strip() for line in lines if line.strip() and not line.startswith("#")}
+def read_words(path: Path) -> pd.DataFrame:
+    """The words of one novel: para_id, lemma as `word`, form, POS, and `name`.
 
-
-def corpus_counts(texts: pd.Series) -> tuple[Counter, set[str]]:
-    """Word counts over the whole corpus, and the words that are names."""
-    counts: Counter = Counter()
-    seen: Counter = Counter()
-    capitals: Counter = Counter()
-    for text in texts:
-        counts.update(words(text))
-        for word, is_capital in capitalization(text):
-            seen[word] += 1
-            capitals[word] += is_capital
-    names = {w for w, n in seen.items() if capitals[w] / n > NAME_CAPITAL_SHARE}
-    return counts, names
-
-
-def vocabulary(counts: Counter, names: set[str]) -> set[str]:
-    """Words that can enter a word list.
-
-    `counts` are the words of the compared sets at their largest (the broad
-    tier and its partners). Any slice of them counts a word at most as often,
-    so a word below MIN_COUNT here can never pass it in a slice.
+    Lemmas are lower-cased, because the sources differ in capitals, and lose
+    stress marks. Forms keep them, since the app searches the text with them.
+    Punctuation, symbols, foreign words and lemmas with digits are left out.
     """
-    return {
-        w
-        for w, n in counts.items()
-        if n >= MIN_COUNT and len(w) >= MIN_LENGTH and w not in names
-    }
+    tokens = pd.read_parquet(
+        path, columns=["para_id", "form", "lemma", "upos", "entity"]
+    )
+    tokens = tokens[tokens["upos"].isin(FUNCTION_POS | CONTENT_POS | {"PROPN"})]
+    word = tokens["lemma"].str.lower().str.translate(UNACCENT)
+    # isalpha, not a regex: pandas runs regexes through RE2, whose \w is ASCII-only.
+    keep = word.str.isalpha() & (word.str.len() >= MIN_LENGTH)
+    return pd.DataFrame(
+        {
+            "para_id": tokens["para_id"],
+            "word": word,
+            "form": tokens["form"].str.lower(),
+            "pos": tokens["upos"],
+            "name": (tokens["upos"] == "PROPN") | tokens["entity"].notna(),
+        }
+    )[keep]
 
 
-def count_words(paragraphs: pd.DataFrame, keep: set[str]) -> pd.DataFrame:
-    """Occurrences of each kept word per novel; `paragraphs` has a `words` column."""
-    rows = [
-        (novel_id, word, n)
-        for novel_id, group in paragraphs.groupby("novel_id", observed=True)
-        for word, n in Counter(
-            w for ws in group["words"] for w in ws if w in keep
-        ).items()
-    ]
-    return pd.DataFrame(rows, columns=["novel_id", "word", "n"])
+def lemma_stats(words: pd.DataFrame) -> pd.DataFrame:
+    """Tokens and name tokens per lemma and POS, to be summed over novels."""
+    return (
+        words.groupby(["word", "pos"], observed=True)
+        .agg(n=("name", "size"), n_name=("name", "sum"))
+        .reset_index()
+    )
+
+
+def lexicon(stats: pd.DataFrame) -> pd.DataFrame:
+    """Per lemma in the corpus: count, commonest POS, and whether it is a name."""
+    stats = stats.groupby(["word", "pos"], observed=True)[["n", "n_name"]].sum()
+    stats = stats.reset_index()
+    totals = stats.groupby("word")[["n", "n_name"]].sum()
+    # Ties go to the alphabetically first POS, so rebuilds are identical.
+    pos = (
+        stats.sort_values(["n", "pos"], ascending=[False, True])
+        .drop_duplicates("word")
+        .set_index("word")["pos"]
+    )
+    return pd.DataFrame(
+        {
+            "n_corpus": totals["n"],
+            "pos": pos.reindex(totals.index),
+            "name": totals["n_name"] / totals["n"] > NAME_SHARE,
+        }
+    )
+
+
+def vocabulary(counts: pd.Series, names: set[str]) -> set[str]:
+    """Lemmas that can enter a word list.
+
+    `counts` are the lemmas of the compared sets at their largest (the broad
+    tier and its partners). Any slice of them counts a lemma at most as often,
+    so a lemma below MIN_COUNT here can never pass it in a slice.
+    """
+    return {w for w, n in counts.items() if n >= MIN_COUNT and w not in names}
+
+
+def count_words(words: pd.DataFrame, keep: set[str]) -> pd.DataFrame:
+    """Occurrences of each kept lemma per novel; `words` has novel_id and word."""
+    kept = words[words["word"].isin(keep)]
+    return (
+        kept.groupby(["novel_id", "word"], observed=True)
+        .size()
+        .rename("n")
+        .reset_index()
+    )
+
+
+def word_forms(words: pd.DataFrame, keep: set[str]) -> pd.DataFrame:
+    """The forms by which the app finds a lemma's passages.
+
+    Each form goes to the lemma most of its occurrences have, so that no form
+    finds the passages of two lemmas (*je*: *biti*, not *on*).
+    """
+    counts = words.groupby(["form", "word"], observed=True).size().rename("n")
+    best = (
+        counts.reset_index()
+        .sort_values(["n", "word"], ascending=[False, True])
+        .drop_duplicates("form")
+    )
+    best = best[best["word"].isin(keep)]
+    return best[["word", "form"]].sort_values(["word", "form"]).reset_index(drop=True)

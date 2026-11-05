@@ -31,7 +31,7 @@ Primerjalni nabor ni »vsi drugi odstavki«: ti še vedno vsebujejo večino sram
 - **Ocene niso intenzivnost.** Merijo, kako močno je odstavek povezan s sramom, in imajo le nekaj različnih vrednosti. Kjer jih aplikacija povpreči, povpreči to povezanost.
 - **Veliko razčlemb na majhnih podatkih da naključne vzorce.** Pogled *Slog* označi, katere razlike prestanejo test s popravkom za večkratne primerjave. Vse drugo je opisno.
 - **Moteči dejavniki:** Cankar je napisal 32 od 67 modernističnih romanov; avtorice so napisale le 31 romanov; realizem in modernizem se časovno prekrivata; pred letom 1870 je izšlo malo romanov; dolžina odstavkov se zelo razlikuje; dialog in pripoved se slogovno razlikujeta.
-- **Seznami besed so predhodni.** Do oblikoskladenjskega označevanja uporabljajo besedne oblike, ne leme, in vse besedne vrste.
+- **Leme in besedne vrste so samodejne.** Pripisal jih je označevalnik, naučen na sodobni slovenščini, zato so nekatere napačne, pogosteje v starem črkopisu. Uporabljeni sta bili dve poti (označbe izvornih korpusov in CLASSLA, zagnan tukaj, za Wikivir in Wikisource), ki se ujemata v približno 97 % lem.
 
 ## Opombe o podatkih
 

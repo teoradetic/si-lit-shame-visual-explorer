@@ -43,7 +43,7 @@ uv run emotion-explorer words
 | `comparison` | `comparison.parquet`: low-score partners of the broad-tier paragraphs | DATA-03 |
 | `excerpts` | `excerpts.parquet`, `texts.parquet`: excerpts with ±2 paragraphs of context | DATA-02 |
 | `overview` | `novels.parquet`, `position_bins.parquet` | AN-01, AN-02 |
-| `words` | `word_counts.parquet`, `word_prior.parquet`: word counts per novel and set, corpus counts (preliminary) | AN-03 |
+| `words` | `word_counts.parquet`, `word_prior.parquet`, `word_forms.parquet`: lemma counts per novel and set, corpus counts with part of speech, and the forms by which the app finds a lemma's passages; read from `data/tokens/` | AN-03, DATA-06 |
 | `style` | `style_paragraphs.parquet`, `style_novels.parquet`: style features per paragraph, pooled per novel and set | AN-08 |
 
 Lemmas and tags are a separate build, because they need downloads and a heavy optional dependency group (`corpus`: CLASSLA and torch). `all` doesn't run them.

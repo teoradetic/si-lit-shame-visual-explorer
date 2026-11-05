@@ -143,7 +143,7 @@ def show_excerpts(
     excerpts: pd.DataFrame,
     key: str,
     title: str | None = None,
-    highlight_word: str | None = None,
+    highlight_words: list[str] | None = None,
     default_sort: str = "score",
 ) -> None:
     """A sortable, paged list of excerpts (rows of the excerpts table)."""
@@ -191,9 +191,10 @@ def show_excerpts(
         + f" · {t('reader.page')} {page} {t('reader.of', n=n_pages)}"
     )
     highlight = None
-    if highlight_word:
-        highlight = re.compile(
-            rf"(?<!\w){re.escape(html.escape(highlight_word))}(?!\w)", re.IGNORECASE
-        )
+    if highlight_words:
+        # Longest first, so that a form is not cut short by one of its prefixes.
+        forms = sorted(highlight_words, key=len, reverse=True)
+        alternatives = "|".join(re.escape(html.escape(w)) for w in forms)
+        highlight = re.compile(rf"(?<!\w)(?:{alternatives})(?!\w)", re.IGNORECASE)
     for row in ordered.iloc[(page - 1) * PAGE_SIZE : page * PAGE_SIZE].itertuples():
         _excerpt(row, highlight)

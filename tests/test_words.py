@@ -1,23 +1,72 @@
-from collections import Counter
-
 import pandas as pd
 
-from emotion_explorer.words import count_words, function_words, vocabulary
+from emotion_explorer.words import (
+    count_words,
+    lemma_stats,
+    lexicon,
+    read_words,
+    vocabulary,
+    word_forms,
+)
 
 
-def test_vocabulary_drops_names_rare_and_short_words():
-    counts = Counter({"sram": 12, "janez": 30, "redko": 2, "v": 50})
+def test_read_words_lowercases_lemmas_and_drops_what_is_no_word(tmp_path):
+    path = tmp_path / "N1.parquet"
+    pd.DataFrame(
+        {
+            "para_id": [0, 0, 0, 1, 1, 1],
+            "form": ["Sram", "ga", ".", "Janez", "1848", "Očí"],
+            "lemma": ["Sram", "on", ".", "Janez", "1848", "očí"],
+            "upos": ["NOUN", "PRON", "PUNCT", "PROPN", "NUM", "NOUN"],
+            "entity": [None, None, None, "PER", None, None],
+        }
+    ).to_parquet(path)
+    words = read_words(path)
+    assert words["word"].tolist() == ["sram", "on", "janez", "oči"]
+    assert words["form"].tolist() == ["sram", "ga", "janez", "očí"]
+    assert words["name"].tolist() == [False, False, True, False]
+
+
+def test_lexicon_takes_the_commonest_pos_and_finds_names():
+    words = pd.DataFrame(
+        {
+            "word": ["sram"] * 3 + ["janez"] * 2 + ["zora"] * 3,
+            "pos": ["NOUN", "NOUN", "ADV", "PROPN", "PROPN", "NOUN", "NOUN", "PROPN"],
+            "name": [False] * 3 + [True] * 2 + [False, False, True],
+        }
+    )
+    halves = [lemma_stats(words.iloc[:4]), lemma_stats(words.iloc[4:])]
+    lex = lexicon(pd.concat(halves))
+    assert lex.loc["sram", "pos"] == "NOUN"
+    assert lex.loc["sram", "n_corpus"] == 3
+    assert lex.loc["janez", "name"]
+    # A name in a minority of uses is not a name.
+    assert not lex.loc["zora", "name"]
+
+
+def test_vocabulary_drops_names_and_rare_lemmas():
+    counts = pd.Series({"sram": 12, "janez": 30, "redko": 2})
     assert vocabulary(counts, names={"janez"}) == {"sram"}
 
 
 def test_count_words_per_novel():
-    paragraphs = pd.DataFrame(
-        {"novel_id": ["N1", "N1", "N2"], "words": [["sram", "je"], ["sram"], ["je"]]}
+    words = pd.DataFrame(
+        {"novel_id": ["N1", "N1", "N2"], "word": ["sram", "sram", "biti"]}
     )
-    counts = count_words(paragraphs, keep={"sram"})
+    counts = count_words(words, keep={"sram"})
     assert counts.to_dict("records") == [{"novel_id": "N1", "word": "sram", "n": 2}]
 
 
-def test_function_words():
-    assert {"je", "in", "ti"} <= function_words()
-    assert "sram" not in function_words()
+def test_each_form_finds_one_lemma():
+    words = pd.DataFrame(
+        {
+            "form": ["je", "je", "je", "sramu", "ga"],
+            "word": ["biti", "biti", "on", "sram", "on"],
+        }
+    )
+    forms = word_forms(words, keep={"biti", "on", "sram"})
+    assert forms.to_dict("records") == [
+        {"word": "biti", "form": "je"},
+        {"word": "on", "form": "ga"},
+        {"word": "sram", "form": "sramu"},
+    ]

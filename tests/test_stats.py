@@ -53,6 +53,24 @@ def test_word_table_requires_spread():
     assert "sram" not in set(table["word"])
 
 
+def test_word_table_drops_words_the_prior_tips():
+    # Four times more text with shame; "tam" is as frequent on both sides, and
+    # far more frequent than in the corpus, so the shared prior gives it z > 0.
+    counts = pd.DataFrame(
+        {
+            "novel_id": "N1",
+            "word": ["tam", "dan", "tam", "dan"],
+            "side": ["emotion", "emotion", "comparison", "comparison"],
+            "n": [40, 360, 10, 90],
+        }
+    )
+    prior = pd.Series({"tam": 10, "dan": 990})
+    raw = log_odds(np.array([40.0, 360]), np.array([10.0, 90]), np.array([10.0, 990]))
+    assert raw.loc[0, "z"] > 0 and raw.loc[0, "ratio"] < 1
+    table = word_table(counts, prior, pd.Series({"N1": "X"}))
+    assert "tam" not in set(table["word"])
+
+
 def test_spread_rule():
     assert spread_rule(305, 88) == (5, 3)
     assert spread_rule(1, 1) == (1, 1)

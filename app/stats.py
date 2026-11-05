@@ -73,7 +73,7 @@ def word_table(
     `counts` has one row per novel, word and side (emotion or comparison)
     for the group's novels; `prior` is the corpus count by word and
     `authors` the author by novel. A word typical of either side must recur
-    on that side (`spread_rule`).
+    on that side (`spread_rule`) and be more frequent there.
     """
     if counts.empty:
         return pd.DataFrame()
@@ -108,7 +108,11 @@ def word_table(
     keep = np.where(
         side == "emotion", recurs["emotion"].to_numpy(), recurs["comparison"]
     )
-    return table[keep].reset_index(drop=True)
+    # Both sides share the prior, so when one side has much more text (Cankar:
+    # four times more with shame) a word common in both can lean towards it
+    # without being more frequent there.
+    more_frequent = np.where(side == "emotion", table["ratio"] > 1, table["ratio"] < 1)
+    return table[keep & more_frequent].reset_index(drop=True)
 
 
 def sign_flip_p(diffs: np.ndarray, rng: np.random.Generator) -> float:

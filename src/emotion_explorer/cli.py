@@ -11,7 +11,6 @@ uv run --group corpus emotion-explorer tokens --novels SHAME_086   # only these
 """
 
 import argparse
-from collections import Counter
 from collections.abc import Callable
 
 import pandas as pd
@@ -39,6 +38,7 @@ from emotion_explorer.paths import (
     TEXTS,
     TOKENS_DIR,
     WORD_COUNTS,
+    WORD_FORMS,
     WORD_PRIOR,
 )
 from emotion_explorer.raw import load_annotations, load_metadata
@@ -60,12 +60,16 @@ from emotion_explorer.tokens import (
     write_table,
 )
 from emotion_explorer.words import (
+    CONTENT_POS,
+    FUNCTION_POS,
     MIN_COUNT,
-    NAME_CAPITAL_SHARE,
-    corpus_counts,
+    NAME_SHARE,
     count_words,
-    function_words,
+    lemma_stats,
+    lexicon,
+    read_words,
     vocabulary,
+    word_forms,
 )
 
 EMOTION = SHAME
@@ -164,54 +168,76 @@ def analysis_sets(annotations: dict) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def step_words() -> None:
-    annotations = load_annotations()
     paragraphs = pd.read_parquet(PARAGRAPHS)
-    prior, names = corpus_counts(add_text(paragraphs, annotations)["text"])
     comparison = pd.read_parquet(COMPARISON)
     keys = ["novel_id", "para_id"]
-    # The matched tier holds every other tier, so it is tokenized once.
-    largest = [
-        add_text(frame, annotations).assign(words=lambda d: d.text.map(words))
-        for frame in tier_sets(paragraphs, comparison, MATCHED_TIER)
-    ]
-    keep = vocabulary(
-        Counter(w for frame in largest for ws in frame["words"] for w in ws), names
-    )
-    tables = []
-    for tier in EMOTION.tiers:
-        for side, in_tier, frame in zip(
+    sets = {
+        (tier, side): frame[keys]
+        for tier in EMOTION.tiers
+        for side, frame in zip(
             ["emotion", "comparison"],
             tier_sets(paragraphs, comparison, tier),
-            largest,
             strict=True,
-        ):
-            frame = frame.merge(in_tier[keys], on=keys)
-            tables.append(count_words(frame, keep).assign(tier=tier, side=side))
+        )
+    }
+    by_novel = {
+        key: frame.groupby("novel_id")["para_id"] for key, frame in sets.items()
+    }
+    stats = []
+    in_sets: dict[tuple[str, str], list[pd.DataFrame]] = {key: [] for key in sets}
+    for novel_id in sorted(paragraphs["novel_id"].unique()):
+        words = read_words(TOKENS_DIR / f"{novel_id}.parquet")
+        stats.append(lemma_stats(words))
+        for key, para_ids in by_novel.items():
+            if novel_id in para_ids.groups:
+                inside = words["para_id"].isin(para_ids.get_group(novel_id))
+                in_sets[key].append(words[inside].assign(novel_id=novel_id))
+    corpus = lexicon(pd.concat(stats, ignore_index=True))
+    names = set(corpus.index[corpus["name"]])
+    # The matched tier holds every other tier, so its two sides are the largest.
+    largest = pd.concat(
+        [
+            pd.concat(in_sets[(MATCHED_TIER, side)])
+            for side in ("emotion", "comparison")
+        ],
+        ignore_index=True,
+    )
+    keep = vocabulary(largest["word"].value_counts(), names)
+    tables = [
+        count_words(pd.concat(frames, ignore_index=True), keep).assign(
+            tier=tier, side=side
+        )
+        for (tier, side), frames in in_sets.items()
+    ]
     counts = pd.concat(tables, ignore_index=True)
     categories = {c: "category" for c in ("novel_id", "word", "tier", "side")}
     write_parquet(counts.astype({**categories, "n": "int32"}), WORD_COUNTS)
-    vocab = sorted(keep)
-    grammatical = function_words()
+    vocab = corpus.loc[sorted(keep)]
     write_parquet(
         pd.DataFrame(
             {
-                "word": vocab,
-                "n_corpus": [prior[w] for w in vocab],
-                "function_word": [w in grammatical for w in vocab],
-                "contains_stem": [EMOTION.stem in w for w in vocab],
+                "word": vocab.index,
+                "n_corpus": vocab["n_corpus"].to_numpy(),
+                "pos": vocab["pos"].to_numpy(),
+                "function_word": vocab["pos"].isin(FUNCTION_POS).to_numpy(),
+                "contains_stem": [EMOTION.stem in w for w in vocab.index],
             }
         ),
         WORD_PRIOR,
     )
+    write_parquet(word_forms(largest, keep), WORD_FORMS)
     write_meta_section(
         "words",
         {
             "method": "weighted log-odds, informative Dirichlet prior (Monroe 2008)",
-            "prior": "word counts of the whole corpus",
+            "unit": "lower-cased lemma (data/tokens)",
+            "prior": "lemma counts of the whole corpus",
+            "function_pos": sorted(FUNCTION_POS),
+            "content_pos": sorted(CONTENT_POS),
+            "name_share": NAME_SHARE,
             "n_names_removed": len(names),
-            "name_capital_share": NAME_CAPITAL_SHARE,
             "min_count": MIN_COUNT,
-            "vocabulary": len(vocab),
+            "vocabulary": len(keep),
         },
     )
 

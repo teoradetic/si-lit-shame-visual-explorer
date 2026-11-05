@@ -31,7 +31,7 @@ When *with and without shame* is chosen under *Compare*, the *Over time* and *Wi
 - **The scores are not intensity.** They measure how strongly a paragraph relates to shame and take only a few distinct values. Where the app averages them, it averages this relatedness.
 - **Many breakdowns on small data produce chance patterns.** The *Style* view marks which differences survive a test with correction for multiple comparisons. Everything else is descriptive.
 - **Confounds:** Cankar wrote 32 of the 67 Modernist novels; only 31 novels are by female authors; Realism and Modernism overlap in time; few novels were published before 1870; paragraph length varies widely; dialogue and narration differ in style.
-- **Word lists are preliminary.** They use word forms, not lemmas, and every part of speech, until part-of-speech tagging is added.
+- **Lemmas and parts of speech are automatic.** They come from a tagger trained on modern Slovene, so some are wrong, more often in old spelling. Two routes were used (the source corpora's annotation and CLASSLA run here, for Wikisource and Wikivir); they agree on about 97 % of lemmas.
 
 ## Data notes
 

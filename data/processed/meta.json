@@ -92,11 +92,29 @@
     "repeat_window": 10
   },
   "words": {
+    "content_pos": [
+      "ADJ",
+      "ADV",
+      "INTJ",
+      "NOUN",
+      "VERB"
+    ],
+    "function_pos": [
+      "ADP",
+      "AUX",
+      "CCONJ",
+      "DET",
+      "NUM",
+      "PART",
+      "PRON",
+      "SCONJ"
+    ],
     "method": "weighted log-odds, informative Dirichlet prior (Monroe 2008)",
     "min_count": 10,
-    "n_names_removed": 38832,
-    "name_capital_share": 0.5,
-    "prior": "word counts of the whole corpus",
-    "vocabulary": 19920
+    "n_names_removed": 22703,
+    "name_share": 0.5,
+    "prior": "lemma counts of the whole corpus",
+    "unit": "lower-cased lemma (data/tokens)",
+    "vocabulary": 11368
   }
 }

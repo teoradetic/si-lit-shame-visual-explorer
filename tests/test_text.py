@@ -1,4 +1,4 @@
-from emotion_explorer.text import capitalization, has_dialogue, sentences, words
+from emotion_explorer.text import has_dialogue, sentences, words
 
 TEXT = "»Kaj pa ti, Janez?« je vprašala Marija. Sram ga je bilo … Potem je šel."
 
@@ -13,13 +13,6 @@ def test_sentences():
         "Sram ga je bilo …",
         "Potem je šel.",
     ]
-
-
-def test_capitalization_skips_sentence_starts():
-    caps = dict(capitalization(TEXT))
-    assert caps["janez"] and caps["marija"]
-    assert "kaj" not in caps and "sram" not in caps and "potem" not in caps
-    assert caps["ga"] is False
 
 
 def test_dialogue():

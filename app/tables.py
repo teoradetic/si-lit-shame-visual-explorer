@@ -102,6 +102,12 @@ def group_words(tier: str, novel_ids: frozenset[str]) -> pd.DataFrame:
     return table_.join(prior[["function_word", "contains_stem"]], on="word")
 
 
+@st.cache_resource
+def word_forms() -> pd.Series:
+    """The lower-cased forms of each lemma that can enter a word list."""
+    return table("word_forms").groupby("word", observed=True)["form"].agg(list)
+
+
 @st.cache_data(max_entries=64)
 def group_style(
     tier: str, split: str, novel_ids: frozenset[str], features: tuple[str, ...]

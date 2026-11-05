@@ -1,13 +1,13 @@
-"""AN-03 (preliminary): words typical of the detected passages.
+"""AN-03: words typical of the detected passages.
 
 Three chart types: a word cloud, a map that places each word by two
-measures, and a dot chart. The word lists are computed for the novels and
-the comparison set in the sidebar (`stats.word_table`).
+measures, and a dot chart. A word is a lemma (DATA-06). The word lists are
+computed for the novels and the comparison set in the sidebar
+(`stats.word_table`).
 """
 
 import math
 import re
-from pathlib import Path
 
 import altair as alt
 import numpy as np
@@ -23,13 +23,6 @@ import stats
 import tables
 from language import num, t
 
-FUNCTION_WORDS = (
-    Path(__file__).resolve().parents[2]
-    / "src"
-    / "emotion_explorer"
-    / "resources"
-    / "function_words_sl.txt"
-)
 CHART_TYPES = ("cloud", "map", "dots")
 # A word belongs to a group when its frequency ratio there is at least this
 # many times its ratio in every other group. Ratios, not z-scores: z grows
@@ -39,6 +32,8 @@ CLOUD_WIDTH, CLOUD_HEIGHT = 900, 420
 # The map has a fixed size, so that its labels can be placed without overlap.
 MAP_WIDTH, MAP_HEIGHT = 720, 520
 N_FINDINGS = 5
+# Function words listed in their explanation, the commonest first.
+N_FUNCTION_LISTED = 40
 
 f = filters.current()
 st.title(t("words.title"))
@@ -48,7 +43,7 @@ groups = compare.require()
 shame_mode = compare.mode() == "shame"
 split = compare.is_split()
 findings_box = st.container()
-st.warning(t("words.prelim"), icon=":material/construction:")
+st.caption(t("words.lemmas"))
 
 c1, c2 = st.columns([2, 3], vertical_alignment="bottom")
 chart_type = c1.selectbox(
@@ -72,13 +67,10 @@ hide_stem = c4.toggle(
     t("words.hide_stem", stem=stem), value=False, key="words_hide_stem"
 )
 with st.expander(t("words.function_title")):
-    listed = [
-        line.strip()
-        for line in FUNCTION_WORDS.read_text(encoding="utf-8").splitlines()
-        if line.strip() and not line.startswith("#")
-    ]
-    st.markdown(t("words.function_help", n=len(set(listed))))
-    st.write(", ".join(sorted(set(listed))))
+    st.markdown(t("words.function_help"))
+    prior = tables.word_prior()
+    commonest = prior[prior["function_word"]]["n_corpus"].nlargest(N_FUNCTION_LISTED)
+    st.write(", ".join(commonest.index))
 
 
 def prepare(table: pd.DataFrame) -> pd.DataFrame:
@@ -482,8 +474,10 @@ if chosen:
     set_name = f.tier if side == "emotion" else "comparison"
     excerpts = tables.excerpts(set_name)
     excerpts = excerpts[excerpts["novel_id"].isin(pool_ids)]
-    # Only the focus paragraphs must have the word.
-    pattern = rf"(?<!\w){re.escape(chosen)}(?!\w)"
+    # Only the focus paragraphs must have the word, in any of its forms.
+    forms = tables.word_forms().get(chosen, [chosen])
+    alternatives = "|".join(map(re.escape, sorted(forms, key=len, reverse=True)))
+    pattern = rf"(?<!\w)(?:{alternatives})(?!\w)"
     has_word = tables.focus_texts(set_name).str.contains(
         pattern, case=False, regex=True
     )
@@ -492,7 +486,7 @@ if chosen:
         picked,
         key="words_reader",
         title=t("words.selected", word=chosen),
-        highlight_word=chosen,
+        highlight_words=forms,
     )
 else:
     st.info(t("reader.empty"))

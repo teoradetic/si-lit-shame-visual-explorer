@@ -404,17 +404,19 @@ STRINGS: dict[str, dict[str, str]] = {
     },
     "words.function_help": {
         "en": "Function words are short grammatical words that carry little meaning "
-        "on their own: pronouns (*jaz, ti, njega*), forms of *biti* (*sem, je, "
-        "bi*), prepositions (*v, na, z*), conjunctions (*in, da, ker*) and "
-        "particles (*ne, še, že*). They dominate any word list, so they are "
-        "hidden by default. They come from a hand-made list of {n} words, which "
-        "also holds a few old spellings (*sim, de, ino*):",
+        "on their own: pronouns (*jaz, ti, on*), auxiliary verbs (*biti* in *je "
+        "bil*), prepositions (*v, na, z*), conjunctions (*in, da, ker*), "
+        "particles (*ne, še, že*), determiners (*ta, vsak*) and numerals. They "
+        "dominate any word list, so they are hidden by default. They are "
+        "recognised by their part of speech, as the grammatical analysis "
+        "assigned it to most occurrences of the word. The commonest:",
         "sl": "Funkcijske besede so kratke slovnične besede, ki same po sebi "
-        "nimajo veliko pomena: zaimki (*jaz, ti, njega*), oblike glagola *biti* "
-        "(*sem, je, bi*), predlogi (*v, na, z*), vezniki (*in, da, ker*) in "
-        "členki (*ne, še, že*). Prevladale bi v vsakem seznamu, zato so privzeto "
-        "skrite. Izhajajo iz ročno sestavljenega seznama {n} besed, ki vsebuje "
-        "tudi nekaj starih zapisov (*sim, de, ino*):",
+        "nimajo veliko pomena: zaimki (*jaz, ti, on*), pomožni glagoli (*biti* v "
+        "*je bil*), predlogi (*v, na, z*), vezniki (*in, da, ker*), členki "
+        "(*ne, še, že*), določilniki (*ta, vsak*) in števniki. Prevladale bi v "
+        "vsakem seznamu, zato so privzeto skrite. Prepoznane so po besedni "
+        "vrsti, ki jo je slovnična analiza pripisala večini pojavitev besede. "
+        "Najpogostejše:",
     },
     "words.counts": {"en": "Numbers behind the chart", "sl": "Številke za grafom"},
     "words.col.word": {"en": "Word", "sl": "Beseda"},
@@ -432,8 +434,8 @@ STRINGS: dict[str, dict[str, str]] = {
     },
     "words.col.n_novels": {"en": "Novels", "sl": "Romani"},
     "words.selected": {
-        "en": "Passages containing “{word}”",
-        "sl": "Odlomki z besedo »{word}«",
+        "en": "Passages containing a form of “{word}”",
+        "sl": "Odlomki z obliko besede »{word}«",
     },
     # Style (AN-08)
     "style.title": {"en": "How shame is written", "sl": "Kako je sram napisan"},
@@ -939,15 +941,15 @@ STRINGS: dict[str, dict[str, str]] = {
         "istih romanov, ki ne govorijo o sramu? Seznami so izračunani za "
         "romane in primerjavo, izbrane v stranski vrstici.",
     },
-    "words.prelim": {
-        "en": "Preliminary: the lists count word forms as they appear (*sram*, "
-        "*sramu* and *sramota* separately) and all kinds of words. Names are "
-        "removed because they are capitalized. A grammatical analysis will "
-        "replace this.",
-        "sl": "Predhodno: seznami štejejo besedne oblike, kot se pojavijo (*sram*, "
-        "*sramu* in *sramota* posebej), in vse vrste besed. Imena so "
-        "odstranjena, ker se pišejo z veliko začetnico. Nadomestila jih bo "
-        "slovnična analiza.",
+    "words.lemmas": {
+        "en": "Words are counted in their dictionary form: *sramu* and *sramom* "
+        "count as *sram*, *sramota* as a word of its own. Names are left out. "
+        "The forms were analysed automatically, so a few are wrong, more often "
+        "in old spelling.",
+        "sl": "Besede so štete v slovarski obliki: *sramu* in *sramom* štejeta "
+        "kot *sram*, *sramota* pa kot samostojna beseda. Imena so izpuščena. "
+        "Oblike so bile analizirane samodejno, zato je nekaj napak, pogosteje v "
+        "starem črkopisu.",
     },
     "words.type.map": {
         "en": "Map",
@@ -1080,9 +1082,12 @@ STRINGS: dict[str, dict[str, str]] = {
         "sl": "S sramom povezane v vseh skupinah: {words}.",
     },
     "words.methodology": {
-        "en": "- **Words:** lower-cased runs of letters; no lemmas or parts of "
-        "speech yet. Names are removed: words capitalized in more than half of "
-        "their uses in the corpus that do not start a sentence.\n"
+        "en": "- **Words:** lemmas, lower-cased, from CLASSLA tagging (the source "
+        "corpora's annotation for 262 novels, CLASSLA run here for the other "
+        "43). A lemma's part of speech is the one most of its tokens have. "
+        "Names are removed: lemmas whose tokens are mostly proper nouns or "
+        "inside a named entity. A passage contains a word if it has one of its "
+        "forms; each form belongs to the lemma most of its occurrences have.\n"
         "- **Sets:** the detected paragraphs of the compared novels against "
         "their comparison paragraphs (one low-score partner per detected "
         "paragraph, from the same novel, within a factor of 2 in length).\n"
@@ -1096,16 +1101,23 @@ STRINGS: dict[str, dict[str, str]] = {
         "word.\n"
         "- **Filters:** at least {min_count} occurrences in the two sets; a "
         "typical word must recur on its side in at least {novels} novels by "
-        "{authors} authors (the rule is relaxed for small groups).\n"
+        "{authors} authors (the rule is relaxed for small groups), and be more "
+        "frequent on that side. The last rule matters when one side has much "
+        "more text: both share the prior, which can then tip a word that is "
+        "common on both sides towards the larger one.\n"
         "- **Groups:** each group is computed on its own novels. A word "
         "belongs to a group when its ratio there is at least {factor}× that of "
         "every other group; z is not compared across groups, because it grows "
         "with the amount of text.\n"
         "- Thousands of words are compared, so the lists are descriptive: z > "
         "3 is not a corrected significance level.",
-        "sl": "- **Besede:** zaporedja črk z malimi črkami; brez lem in besednih "
-        "vrst. Imena so odstranjena: besede, ki so z veliko začetnico zapisane "
-        "v več kot polovici pojavitev v korpusu, ki niso na začetku povedi.\n"
+        "sl": "- **Besede:** leme z malimi črkami, iz označevanja s CLASSLA "
+        "(označbe izvornih korpusov za 262 romanov, CLASSLA, zagnan tukaj, za "
+        "preostalih 43). Besedna vrsta leme je tista, ki jo ima večina njenih "
+        "pojavitev. Imena so odstranjena: leme, katerih pojavitve so večinoma "
+        "lastna imena ali del imenske entitete. Odlomek vsebuje besedo, če "
+        "vsebuje katero od njenih oblik; vsaka oblika pripada lemi, ki jo ima "
+        "večina njenih pojavitev.\n"
         "- **Nabora:** zaznani odstavki primerjanih romanov proti njihovim "
         "primerjalnim odstavkom (en par z nizko oceno na zaznani odstavek, iz "
         "istega romana, do 2-krat daljši ali krajši).\n"
@@ -1119,7 +1131,10 @@ STRINGS: dict[str, dict[str, str]] = {
         "vleče proti 1, tem bolj, čim redkejša je beseda.\n"
         "- **Filtri:** vsaj {min_count} pojavitev v obeh naborih; značilna "
         "beseda se mora na svoji strani ponoviti v vsaj {novels} romanih "
-        "{authors} avtorjev (za majhne skupine je pravilo blažje).\n"
+        "{authors} avtorjev (za majhne skupine je pravilo blažje) in biti na "
+        "njej pogostejša. Zadnje pravilo je pomembno, kadar ima ena stran veliko "
+        "več besedila: obe si delita predhodno porazdelitev, ki lahko besedo, "
+        "pogosto na obeh straneh, nagne k večji strani.\n"
         "- **Skupine:** vsaka skupina je izračunana na svojih romanih. Beseda "
         "pripada skupini, če je njeno razmerje tam vsaj {factor}-krat večje kot v "
         "vsaki drugi skupini; z med skupinami ni primerjan, ker raste s "
