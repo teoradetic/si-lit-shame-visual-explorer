@@ -472,13 +472,10 @@ if feature and feature != "mattr":
     paragraphs = tables.table("style_paragraphs")
     paragraphs = paragraphs[
         (paragraphs["set"] == "emotion")
+        & (paragraphs["split"] == paragraph_split)
         & paragraphs[f.tier]
         & paragraphs["novel_id"].isin(ids)
     ]
-    if paragraph_split != "all":
-        paragraphs = paragraphs[
-            paragraphs["dialogue"] == (paragraph_split == "dialogue")
-        ]
     # Rank excerpts by their best focus paragraph; short ones have noisy rates.
     ranked = paragraphs.assign(value=paragraph_value(feature, paragraphs))[
         paragraphs["n_words"] >= 20

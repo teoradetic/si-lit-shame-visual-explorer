@@ -17,4 +17,8 @@ def test_paragraph_features():
     assert f["n_exclamation"] == 1
     assert f["n_question"] == 1
     assert f["n_ellipsis"] == 1
-    assert f["dialogue"]
+
+
+def test_every_ellipsis_counts_once():
+    text = "a.. b... c.... d. . . e…. f!.. g……… h."
+    assert paragraph_features(text)["n_ellipsis"] == 7

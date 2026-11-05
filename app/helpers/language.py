@@ -58,9 +58,9 @@ STRINGS: dict[str, dict[str, str]] = {
     "period.unknown": {"en": "Period unknown", "sl": "obdobje neznano"},
     "set.emotion": {"en": "With shame", "sl": "S sramom"},
     "set.comparison": {"en": "Without shame", "sl": "Brez sramu"},
-    "paragraphs.all": {"en": "All paragraphs", "sl": "Vsi odstavki"},
-    "paragraphs.narration": {"en": "Narration only", "sl": "Samo pripoved"},
-    "paragraphs.dialogue": {"en": "With dialogue", "sl": "Z dialogom"},
+    "paragraphs.all": {"en": "All text", "sl": "Vse besedilo"},
+    "paragraphs.narration": {"en": "Narration", "sl": "Pripoved"},
+    "paragraphs.dialogue": {"en": "Speech", "sl": "Govor"},
     "field.novel": {"en": "Novel", "sl": "Roman"},
     "field.group": {"en": "Group", "sl": "Skupina"},
     "field.novels": {"en": "Novels", "sl": "Romani"},
@@ -449,7 +449,7 @@ STRINGS: dict[str, dict[str, str]] = {
         "en": "{feature} per 1,000 characters",
         "sl": "{feature} na 1.000 znakov",
     },
-    "style.split": {"en": "Paragraphs", "sl": "Odstavki"},
+    "style.split": {"en": "Text", "sl": "Besedilo"},
     "style.measures_title": {
         "en": "What do the measures mean?",
         "sl": "Kaj pomenijo mere?",
@@ -502,12 +502,12 @@ STRINGS: dict[str, dict[str, str]] = {
         "negotovost. Kliknite mero za odlomke z najvišjo vrednostjo.",
     },
     "style.caveat": {
-        "en": "Old spelling makes splitting sentences unreliable. Dialogue is "
+        "en": "Old spelling makes splitting sentences unreliable. Speech is "
         "recognized by quotation marks and speech dashes. Only novels with at "
         "least 5 paragraphs of each kind are compared. Whether a difference is "
         "clear was tested with a permutation test over novels, corrected for "
         "testing nine measures at once (Holm).",
-        "sl": "Zaradi starega črkopisa je delitev na povedi nezanesljiva. Dialog je "
+        "sl": "Zaradi starega črkopisa je delitev na povedi nezanesljiva. Govor je "
         "prepoznan po narekovajih in pomišljajih pred govorom. Primerjani so le "
         "romani z vsaj 5 odstavki vsake vrste. Ali je razlika jasna, je "
         "preverjeno s permutacijskim testom po romanih, popravljenim za hkratno "
@@ -1182,8 +1182,11 @@ STRINGS: dict[str, dict[str, str]] = {
         "per-novel difference ({perms} permutations), with Holm's correction "
         "across the {n_features} measures of each group. Filled dots: "
         "Holm-adjusted p < 0.05.\n"
-        "- **Dialogue:** paragraphs with quotation marks (» « „ “) or starting "
-        "with a speech dash.\n"
+        '- **Speech:** the text between quotation marks (» « „ “ ", each mark '
+        "opening or closing); without quotes, a paragraph that starts with a "
+        "dash is all speech. *Narration* is the rest of the paragraph.\n"
+        "- **Ellipses:** any run of two or more dots, spaced or not (.. ... "
+        ". . . …), counts once.\n"
         "- **Over time:** the per-novel values of each set, averaged over the "
         "novels published within {window} years around each year; years with "
         "fewer than {min_window} novels are left out. The band is a 95 % normal "
@@ -1205,8 +1208,11 @@ STRINGS: dict[str, dict[str, str]] = {
         "predznakov povprečne razlike po romanih ({perms} permutacij), s "
         "Holmovim popravkom čez {n_features} mer vsake skupine. Polne točke: p "
         "po Holmu < 0,05.\n"
-        "- **Dialog:** odstavki z narekovaji (» « „ “) ali s pomišljajem pred "
-        "govorom na začetku.\n"
+        '- **Govor:** besedilo med narekovaji (» « „ “ ", vsak narekovaj govor '
+        "odpre ali zapre); brez narekovajev je govor ves odstavek, ki se začne s "
+        "pomišljajem. *Pripoved* je preostanek odstavka.\n"
+        "- **Tropičja:** vsak niz dveh ali več pik, s presledki ali brez (.. "
+        "... . . . …), šteje enkrat.\n"
         "- **Skozi čas:** vrednosti posameznih romanov v vsakem naboru, "
         "povprečene čez romane, izdane v {window} letih okoli vsakega leta; leta "
         "z manj kot {min_window} romani so izpuščena. Pas je 95-odstotni "

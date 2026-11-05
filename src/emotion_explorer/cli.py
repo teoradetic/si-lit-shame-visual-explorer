@@ -23,7 +23,7 @@ from emotion_explorer.analysis.style import (
     paragraph_features,
     pool,
 )
-from emotion_explorer.analysis.text import words
+from emotion_explorer.analysis.text import split_speech, words
 from emotion_explorer.analysis.words import (
     FUNCTION_POS,
     MIN_COUNT,
@@ -222,18 +222,24 @@ def step_style() -> None:
         ),
         annotations,
     )
-    features = pd.DataFrame.from_records(sets["text"].map(paragraph_features).tolist())
     keep = ["novel_id", "para_id", "set", "author", "period", "gender", *EMOTION.tiers]
-    style = pd.concat([sets[keep], features.drop(columns="n_chars")], axis=1)
-    style["n_chars"] = sets["n_chars"]
-    write_parquet(style.astype({"set": "category"}), STYLE_PARAGRAPHS)
+    # One row per paragraph and split: all of it, its narration, its speech.
+    parts = split_speech(sets["text"])
+    frames = []
+    for split, texts in parts.items():
+        texts = texts[texts.str.len() > 0]
+        features = pd.DataFrame.from_records(
+            texts.map(paragraph_features).tolist(), index=texts.index
+        )
+        frames.append(
+            sets.loc[texts.index, keep]
+            .join(features)
+            .assign(split=split, words=texts.map(words))
+        )
+    style = pd.concat(frames, ignore_index=True)
+    categories = {"set": "category", "split": "category"}
+    write_parquet(style.drop(columns="words").astype(categories), STYLE_PARAGRAPHS)
 
-    style["words"] = sets["text"].map(words)
-    splits = {
-        "all": style,
-        "narration": style[~style["dialogue"]],
-        "dialogue": style[style["dialogue"]],
-    }
     tables = []
     for tier in EMOTION.tiers:
         # Comparison paragraphs belong to a tier through their partner.
@@ -245,7 +251,7 @@ def step_style() -> None:
                 )
             ]
         )
-        for split, frame in splits.items():
+        for split, frame in style.groupby("split", observed=True):
             frame = frame.merge(in_tier, on=["novel_id", "para_id", "set"])
             per_novel = frame.groupby(["novel_id", "set"], observed=True).apply(
                 pool, include_groups=False

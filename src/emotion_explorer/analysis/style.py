@@ -1,18 +1,24 @@
 """AN-08: style features per paragraph, pooled per novel and set."""
 
+import re
+
 import numpy as np
 import pandas as pd
 
-from emotion_explorer.analysis.text import has_dialogue, sentences, words
+from emotion_explorer.analysis.text import sentences, words
 
-# Punctuation counted per 1,000 characters.
+# Punctuation counted per 1,000 characters. Any run of two or more dots or
+# ellipses, spaced or not (.. ... . . . …. !..), is one ellipsis.
 PUNCTUATION = {
-    "exclamation": ("!",),
-    "question": ("?",),
-    "semicolon": (";",),
-    "comma": (",",),
-    "ellipsis": ("…", "..."),
-    "dash": ("–", "—", " - "),
+    name: re.compile(pattern)
+    for name, pattern in {
+        "exclamation": r"!",
+        "question": r"\?",
+        "semicolon": r";",
+        "comma": r",",
+        "ellipsis": r"[.…](?: ?[.…])+|…",
+        "dash": r"[–—]| - ",
+    }.items()
 }
 # A word repeats if it occurred within this many words before it.
 REPEAT_WINDOW = 10
@@ -42,17 +48,13 @@ def paragraph_features(text: str) -> dict:
     """Raw counts; rates are formed only after pooling."""
     tokens = words(text)
     repeats, eligible = count_repeats(tokens)
-    counts = {
-        name: sum(text.count(mark) for mark in marks)
-        for name, marks in PUNCTUATION.items()
-    }
+    counts = {name: len(mark.findall(text)) for name, mark in PUNCTUATION.items()}
     return {
         "n_chars": len(text),
         "n_words": len(tokens),
         "n_sentences": max(len(sentences(text)), 1),
         "n_repeats": repeats,
         "n_eligible": eligible,
-        "dialogue": has_dialogue(text),
         **{f"n_{name}": n for name, n in counts.items()},
     }
 
