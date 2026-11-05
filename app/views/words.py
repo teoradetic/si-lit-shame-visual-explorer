@@ -63,19 +63,7 @@ n_words = c3.slider(
     step=5,
     key=f"words_n_{chart_type}",
 )
-c4, c5 = st.columns([3, 4], vertical_alignment="bottom")
-text_split = c4.segmented_control(
-    t("paragraphs.split"),
-    ["all", "narration", "dialogue"],
-    default="all",
-    required=True,
-    format_func=lambda v: t(f"paragraphs.{v}"),
-    key="words_split",
-)
-stem = tables.meta()["paragraphs"]["stem"]
-hide_stem = c5.toggle(
-    t("words.hide_stem", stem=stem), value=False, key="words_hide_stem"
-)
+text_split = f.text
 with st.expander(t("words.function_title")):
     st.markdown(t("words.function_help"))
     prior = tables.word_prior()
@@ -91,8 +79,6 @@ def prepare(table: pd.DataFrame) -> pd.DataFrame:
         table = table[~table["function_word"]]
     elif word_class != "all":
         table = table[table["pos"].isin(WORD_CLASSES[word_class])]
-    if hide_stem:
-        table = table[~table["contains_stem"]]
     return table.assign(strength=table["z"])
 
 

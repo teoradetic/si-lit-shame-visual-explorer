@@ -44,8 +44,9 @@ def _keep_valid(key: str, options: list, default) -> None:
 def sidebar() -> None:
     novels = filters.filtered_novels()
     authors = _authors(novels)
-    with st.sidebar:
-        st.header(t("compare.header"))
+    with st.sidebar, st.container(border=True):
+        st.header(t("compare.header"), divider="gray")
+        st.caption(t("compare.caption"))
         st.selectbox(
             t("compare.mode"),
             MODES,

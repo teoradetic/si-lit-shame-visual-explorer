@@ -28,6 +28,16 @@ STRINGS: dict[str, dict[str, str]] = {
     "chart.type": {"en": "Chart", "sl": "Graf"},
     # Filters
     "filters.header": {"en": "Filters", "sl": "Filtri"},
+    "filters.caption": {
+        "en": "Which novels and passages are counted.",
+        "sl": "Kateri romani in odlomki se štejejo.",
+    },
+    "filters.text_help": {
+        "en": "Words and Style only: count all of each passage, its narration, "
+        "or the speech in it (between quotation marks).",
+        "sl": "Le Besede in Slog: štejejo cele odlomke, njihovo pripoved ali "
+        "govor v njih (med narekovaji).",
+    },
     "filters.tier": {"en": "Which passages", "sl": "Kateri odlomki"},
     "filters.tier_help": {
         "en": "Broad: the passages the model is fairly sure are about shame. "
@@ -237,11 +247,6 @@ STRINGS: dict[str, dict[str, str]] = {
     "time.decade": {"en": "Decade of publication", "sl": "Desetletje izida"},
     "time.window_centre": {"en": "Years around", "sl": "Leta okoli"},
     "time.median": {"en": "Median", "sl": "Mediana"},
-    "time.min_novels": {
-        "en": "Authors with at least this many novels",
-        "sl": "Avtorji z vsaj toliko romani",
-    },
-    "time.n_top": {"en": "Novels shown", "sl": "Prikazani romani"},
     "time.read.trend": {
         "en": "How to read: the line is the average of the novels published within "
         "{window} years around each year (only where at least {n} novels are "
@@ -262,18 +267,20 @@ STRINGS: dict[str, dict[str, str]] = {
         "posamezni romani; kliknite eno, da preberete odlomke.",
     },
     "time.read.authors": {
-        "en": "How to read: each row is an author (number of novels in brackets), "
+        "en": "How to read: each row is an author with at least {min_novels} "
+        "selected novels (their number in brackets), "
         "each dot one of their novels, the dark bar their median. Authors are "
         "sorted from most to least shame. Click a dot to read its passages.",
-        "sl": "Kako brati: vsaka vrstica je avtor (v oklepaju število romanov), "
+        "sl": "Kako brati: vsaka vrstica je avtor (najmanj izbranih romanov: "
+        "{min_novels}; v oklepaju njihovo število), "
         "vsaka točka eden od njegovih romanov, temna črtica mediana. Avtorji so "
         "razvrščeni od največ do najmanj sramu. Kliknite točko za odlomke.",
     },
     "time.read.top": {
-        "en": "How to read: the novels with the highest value on the chosen "
-        "measure, from the top. Click a bar to read the novel's passages.",
-        "sl": "Kako brati: romani z najvišjo vrednostjo izbrane mere, od zgoraj "
-        "navzdol. Kliknite stolpec, da preberete odlomke romana.",
+        "en": "How to read: the {n_top} novels with the highest value on the "
+        "chosen measure, from the top. Click a bar to read the novel's passages.",
+        "sl": "Kako brati: romani z najvišjo vrednostjo izbrane mere (prikazanih: "
+        "{n_top}), od zgoraj navzdol. Kliknite stolpec, da preberete odlomke romana.",
     },
     "time.descriptive": {
         "en": "These charts describe; they do not test. Keep in mind: Cankar wrote "
@@ -312,6 +319,10 @@ STRINGS: dict[str, dict[str, str]] = {
         "sl": "Porazdelitev (violine)",
     },
     "position.type.heatmap": {
+        "en": "Heatmap: decades side by side",
+        "sl": "Toplotni zemljevid: desetletja drugo ob drugem",
+    },
+    "position.type.heatmap_novels": {
         "en": "Heatmap: novels side by side",
         "sl": "Toplotni zemljevid: romani drug ob drugem",
     },
@@ -350,12 +361,6 @@ STRINGS: dict[str, dict[str, str]] = {
         "en": "Smooth (average each part with its neighbours)",
         "sl": "Zgladi (vsak del povpreči s sosednjima)",
     },
-    "position.columns": {"en": "Columns", "sl": "Stolpci"},
-    "position.columns.novels": {"en": "One per novel", "sl": "Po en za roman"},
-    "position.columns.decades": {
-        "en": "Novels grouped by decade",
-        "sl": "Romani, združeni po desetletjih",
-    },
     "position.relative": {
         "en": "Relative to each column's average",
         "sl": "Glede na povprečje stolpca",
@@ -378,14 +383,13 @@ STRINGS: dict[str, dict[str, str]] = {
         "sl": "deležu odstavkov o sramu (najvišji prvi)",
     },
     "position.order.author": {"en": "Author (A–Z)", "sl": "avtorju (A–Ž)"},
+    "position.limit": {
+        "en": "Showing {n} of {total} novels; narrow the filters to see others.",
+        "sl": "Prikazanih romanov: {n} od {total}; za druge zožite filtre.",
+    },
     "position.marks": {"en": "Show", "sl": "Prikaži"},
     "position.marks.marks": {"en": "Each paragraph", "sl": "Vsak odstavek"},
     "position.marks.smoothed": {"en": "Smoothed", "sl": "Zglajeno"},
-    "position.show_all": {"en": "All novels", "sl": "Vsi romani"},
-    "position.limit": {
-        "en": "Showing {n} of {total} novels. Tick “All novels” to see them all.",
-        "sl": "Prikazanih romanov: {n} od {total}. Za vse označite »Vsi romani«.",
-    },
     "position.read.concentration": {
         "en": "How to read: 1 means a part of the novel has as much shame as the "
         "novel as a whole; 1.2 means 20 % more, 0.8 means 20 % less. Each novel "
@@ -434,10 +438,6 @@ STRINGS: dict[str, dict[str, str]] = {
     },
     "words.class.verbs": {"en": "Verbs (actions)", "sl": "Glagoli (dejanja)"},
     "words.class.all": {"en": "All words", "sl": "Vse besede"},
-    "words.hide_stem": {
-        "en": "Hide words containing “{stem}”",
-        "sl": "Skrij besede, ki vsebujejo »{stem}«",
-    },
     "words.function_title": {
         "en": "What are function words?",
         "sl": "Kaj so funkcijske besede?",
@@ -597,6 +597,10 @@ STRINGS: dict[str, dict[str, str]] = {
     "gender_short.unknown": {"en": "Unknown", "sl": "Neznan"},
     "field.counted": {"en": "Paragraphs counted", "sl": "Prešteti odstavki"},
     "compare.header": {"en": "Compare", "sl": "Primerjaj"},
+    "compare.caption": {
+        "en": "How every chart splits the counted novels into groups.",
+        "sl": "Kako vsak graf razdeli štete romane v skupine.",
+    },
     "compare.mode": {"en": "What to compare", "sl": "Kaj primerjati"},
     "compare.help": {
         "en": "Every chart on every page is broken down by this choice. The filters "

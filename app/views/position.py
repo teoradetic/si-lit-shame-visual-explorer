@@ -8,7 +8,15 @@ import streamlit as st
 from helpers import charts, compare, filters, notes, reader, stats, tables
 from helpers.language import num, t
 
-CHART_TYPES = ("concentration", "share", "violin", "heatmap", "novels", "arcs")
+CHART_TYPES = (
+    "concentration",
+    "share",
+    "violin",
+    "heatmap",
+    "heatmap_novels",
+    "novels",
+    "arcs",
+)
 # Novels with fewer counted paragraphs make the relative measure noisy.
 MIN_TAGGED = 5
 DEFAULT_ROWS = 30
@@ -280,19 +288,11 @@ elif chart_type == "violin":
     )
     charts.show_chart(violin, key="pos_violin", select=False)
 
-elif chart_type == "heatmap":
+elif chart_type in ("heatmap", "heatmap_novels"):
     if shame_mode:
         st.caption(t("position.heatmap_shame_only"))
-    c3, c4 = st.columns(2)
-    columns = c3.segmented_control(
-        t("position.columns"),
-        ["decades", "novels"],
-        default="decades",
-        required=True,
-        format_func=lambda v: t(f"position.columns.{v}"),
-        key="pos_heat_cols",
-    )
-    relative = c4.toggle(t("position.relative"), value=False, key="pos_heat_rel")
+    columns = "novels" if chart_type == "heatmap_novels" else "decades"
+    relative = st.toggle(t("position.relative"), value=False, key="pos_heat_rel")
     heat = bins[bins["group"] == groups[0].label] if shame_mode else bins
     prefix = heat["group"] + " · " if split else ""
     if columns == "novels":
@@ -512,7 +512,7 @@ elif chart_type == "arcs":
         picked = excerpts_in(f.tier, [novel], 0, 100.1)
         picked_title = filters.novel_titles().get(novel)
 else:  # novels
-    c3, c4, c5 = st.columns([2, 2, 1], vertical_alignment="bottom")
+    c3, c4 = st.columns(2, vertical_alignment="bottom")
     order_by = c3.selectbox(
         t("position.order"),
         ["year", "count", "share", "author"],
@@ -527,7 +527,6 @@ else:  # novels
         format_func=lambda v: t(f"position.marks.{v}"),
         key="pos_marks",
     )
-    show_all = c5.checkbox(t("position.show_all"), value=False, key="pos_all")
     sort_cols, ascending = {
         "year": (["year", "author"], True),
         "count": ([tagged_col, "year"], False),
@@ -544,7 +543,7 @@ else:  # novels
     ranked = in_groups.sort_values(sort_cols, ascending=ascending)
     # The first rows of every group, so that no group falls off the list.
     per_group = max(DEFAULT_ROWS // len(groups), 1) if split else DEFAULT_ROWS
-    shown = ranked if show_all else ranked.groupby("group", sort=False).head(per_group)
+    shown = ranked.groupby("group", sort=False).head(per_group)
     if len(shown) < len(ranked):
         st.caption(t("position.limit", n=len(shown), total=len(ranked)))
     order = shown["novel_label"].tolist()
@@ -751,7 +750,7 @@ else:  # novels
 
 st.caption(
     t(
-        f"position.read.{chart_type}",
+        f"position.read.{chart_type.removesuffix('_novels')}",
         min_tagged=MIN_TAGGED,
         arc_min=tables.meta()["overview"]["arc_min_tagged"],
     )

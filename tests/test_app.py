@@ -25,8 +25,16 @@ CHART_TYPES = {
     ),
     "views/position.py": (
         "pos_type",
-        ["concentration", "share", "violin", "heatmap", "novels", "arcs"],
-        {"pos_marks": "smoothed", "pos_all": True},
+        [
+            "concentration",
+            "share",
+            "violin",
+            "heatmap",
+            "heatmap_novels",
+            "novels",
+            "arcs",
+        ],
+        {"pos_marks": "smoothed"},
     ),
     "views/words.py": ("words_type", ["cloud", "map", "dots", "network"], {}),
     "views/stylistics.py": ("style_type", ["index", "raw", "time"], {}),
@@ -88,7 +96,7 @@ def test_clicked_word_shows_its_neighbours_and_cases(mode):
 @pytest.mark.parametrize(
     "state",
     [{"words_class": c} for c in ("nouns", "verbs", "all")]
-    + [{"words_split": s} for s in ("narration", "dialogue")],
+    + [{"f_text": s} for s in ("narration", "dialogue")],
 )
 def test_word_options_render(state):
     at = run("views/words.py", "en", state)

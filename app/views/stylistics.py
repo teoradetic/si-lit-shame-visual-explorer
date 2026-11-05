@@ -35,21 +35,13 @@ groups = compare.require()
 split = compare.is_split()
 findings_box = st.container()
 
-c1, c2 = st.columns([2, 3])
-chart_type = c1.selectbox(
+chart_type = st.columns([2, 3])[0].selectbox(
     t("chart.type"),
     CHART_TYPES,
     format_func=lambda v: t(f"style.type.{v}"),
     key="style_type",
 )
-paragraph_split = c2.segmented_control(
-    t("paragraphs.split"),
-    ["all", "narration", "dialogue"],
-    default="all",
-    required=True,
-    format_func=lambda v: t(f"paragraphs.{v}"),
-    key="style_split",
-)
+paragraph_split = filters.current().text
 if compare.mode() == "shame":
     st.caption(t("style.shame_mode"))
 with st.expander(t("style.measures_title")):

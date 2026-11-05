@@ -136,7 +136,7 @@ def group_words(tier: str, split: str, novel_ids: frozenset[str]) -> pd.DataFram
     table_ = stats.word_table(counts, prior["n_corpus"], authors)
     if table_.empty:
         return table_
-    return table_.join(prior[["pos", "function_word", "contains_stem"]], on="word")
+    return table_.join(prior[["pos", "function_word"]], on="word")
 
 
 @st.cache_data(max_entries=64)

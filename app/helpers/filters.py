@@ -20,6 +20,8 @@ class Filters:
     authors: list[str]
     novels: list[str]
     years: tuple[int, int]
+    # Which part of the passages Words and Style count (AN-09, AN-14).
+    text: str
 
 
 def _year_bounds() -> tuple[int, int]:
@@ -34,14 +36,16 @@ def _reset() -> None:
     st.session_state["f_authors"] = []
     st.session_state["f_novels"] = []
     st.session_state["f_years"] = _year_bounds()
+    st.session_state["f_text"] = "all"
 
 
 def sidebar() -> None:
     if "f_tier" not in st.session_state:
         _reset()
     novels = tables.novels()
-    with st.sidebar:
-        st.header(t("filters.header"))
+    with st.sidebar, st.container(border=True):
+        st.header(t("filters.header"), divider="gray")
+        st.caption(t("filters.caption"))
         tiers = list(tables.meta()["paragraphs"]["tiers"])
         st.radio(
             t("filters.tier"),
@@ -49,6 +53,14 @@ def sidebar() -> None:
             format_func=lambda v: label("tier", v),
             key="f_tier",
             help=t("filters.tier_help"),
+        )
+        st.segmented_control(
+            t("paragraphs.split"),
+            ["all", "narration", "dialogue"],
+            required=True,
+            format_func=lambda v: t(f"paragraphs.{v}"),
+            key="f_text",
+            help=t("filters.text_help"),
         )
         st.pills(
             t("filters.period"),
@@ -98,6 +110,7 @@ def current() -> Filters:
         authors=list(s.get("f_authors", [])),
         novels=list(s.get("f_novels", [])),
         years=tuple(s.get("f_years", _year_bounds())),
+        text=s.get("f_text", "all"),
     )
 
 

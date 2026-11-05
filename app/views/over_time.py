@@ -17,6 +17,9 @@ MIN_FOR_TREND = 10
 CLEAR_TREND = 0.2
 # Height per row of the charts with one row per author or novel, in pixels.
 ROW = 22
+# Authors need this many selected novels to get a row; the top list's length.
+MIN_AUTHOR_NOVELS = 5
+N_TOP = 15
 
 f = filters.current()
 st.title(t("time.title"))
@@ -208,9 +211,8 @@ elif chart_type == "decades":
     chosen = chosen_from(charts.show_chart(chart, key="time_decades"))
 
 elif chart_type == "authors":
-    min_novels = st.slider(t("time.min_novels"), 1, 10, 5, key="time_min_novels")
     counts = selected.groupby("author")["novel_id"].size()
-    keep = counts[counts >= min_novels]
+    keep = counts[counts >= MIN_AUTHOR_NOVELS]
     shown = novels[novels["author"].isin(keep.index)].assign(
         author_label=lambda d: (
             d["author"] + " (" + d["author"].map(keep).astype(str) + ")"
@@ -260,10 +262,9 @@ elif chart_type == "authors":
     chosen = chosen_from(charts.show_chart(chart, key="time_authors"))
 
 elif chart_type == "top":
-    n_top = st.slider(t("time.n_top"), 10, 40, 15, step=5, key="time_n_top")
     if shame_mode:
         st.caption(t("time.top_shame_only"))
-    top = novels[novels["group"] == groups[0].label].nlargest(n_top, "value")
+    top = novels[novels["group"] == groups[0].label].nlargest(N_TOP, "value")
     y = alt.Y(
         "novel_label:N",
         sort="-x",
@@ -323,7 +324,15 @@ else:  # groups
         chart = chart.resolve_scale(y="independent")
     chosen = chosen_from(charts.show_chart(chart, key="time_groups"))
 
-st.caption(t(f"time.read.{chart_type}", window=WINDOW, n=MIN_IN_WINDOW))
+st.caption(
+    t(
+        f"time.read.{chart_type}",
+        window=WINDOW,
+        n=MIN_IN_WINDOW,
+        min_novels=MIN_AUTHOR_NOVELS,
+        n_top=N_TOP,
+    )
+)
 st.caption(t("time.descriptive"))
 notes.methodology(
     "time",
