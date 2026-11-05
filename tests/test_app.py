@@ -24,7 +24,7 @@ CHART_TYPES = {
     ),
     "views/position.py": (
         "pos_type",
-        ["concentration", "share", "violin", "heatmap", "novels"],
+        ["concentration", "share", "violin", "heatmap", "novels", "arcs"],
         {"pos_marks": "smoothed", "pos_all": True},
     ),
     "views/words.py": ("words_type", ["cloud", "map", "dots", "network"], {}),

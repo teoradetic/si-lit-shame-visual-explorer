@@ -309,6 +309,30 @@ STRINGS: dict[str, dict[str, str]] = {
         "sl": "Toplotni zemljevid: romani drug ob drugem",
     },
     "position.type.novels": {"en": "Novel by novel", "sl": "Roman za romanom"},
+    "position.type.arcs": {"en": "Typical arcs", "sl": "Tipični loki"},
+    "position.arc": {"en": "Arc {arc} · {n} novels", "sl": "Lok {arc} · romanov: {n}"},
+    "position.arc_y": {
+        "en": "Share of the novel's shame",
+        "sl": "Delež sramu v romanu",
+    },
+    "position.arc_share": {"en": "Share of novels", "sl": "Delež romanov"},
+    "position.find.arc": {
+        "en": "{group}: most often arc {arc} ({share} of the novels).",
+        "sl": "{group}: najpogosteje lok {arc} (delež romanov: {share}).",
+    },
+    "position.read.arcs": {
+        "en": "How to read: every novel with at least {arc_min} passages about "
+        "shame is drawn as a thin line: how its shame spreads over the ten "
+        "tenths of the novel. Novels with a similar course are grouped into "
+        "four arcs; the thick line is the arc's average. The arcs are found "
+        "automatically, numbered from the earliest shame to the latest. "
+        "Click a line to read that novel's passages.",
+        "sl": "Kako brati: vsak roman z vsaj {arc_min} odlomki o sramu je tanka "
+        "črta: kako se njegov sram razporedi po desetinah romana. Romani s "
+        "podobnim potekom so združeni v štiri loke; debela črta je povprečje "
+        "loka. Loki so najdeni samodejno in oštevilčeni od najzgodnejšega "
+        "sramu do najpoznejšega. Kliknite črto za odlomke tega romana.",
+    },
     "position.share_x": {"en": "About shame (%)", "sl": "O sramu (%)"},
     "position.part_from": {"en": "Part starting at (%)", "sl": "Del od (%)"},
     "position.density": {
@@ -842,8 +866,13 @@ STRINGS: dict[str, dict[str, str]] = {
         "- **Without shame:** paragraphs with a low rating on all three "
         "scales; in *Novel by novel* the length-matched comparison set of the "
         "Words and Style pages.\n"
+        "- **Arcs:** per novel, the share of detected paragraphs in each tenth, "
+        "scaled to sum to 1 (the shape, not the amount); novels need at least "
+        "{arc_min} detected paragraphs. k-means with four clusters, fitted once "
+        "on all novels of the tier; the filters only choose which are shown.\n"
         "- **Findings:** the part with the highest concentration, and the mean "
-        "concentration of the first and last fifth. Descriptive only.",
+        "concentration of the first and last fifth; with *Typical arcs*, each "
+        "group's commonest arc. Descriptive only.",
         "sl": "- **Deli:** mesto odstavka i od N je (i + 0,5) / N; mesta so "
         "razdeljena na {bins} enakih delov po {part} %.\n"
         "- **Kje se sram zgosti:** za vsak roman delež zaznanih odstavkov v "
@@ -859,8 +888,14 @@ STRINGS: dict[str, dict[str, str]] = {
         "- **Brez sramu:** odstavki z nizko oceno na vseh treh lestvicah; v "
         "pogledu *Roman za romanom* po dolžini usklajeni primerjalni nabor "
         "strani Besede in Slog.\n"
+        "- **Loki:** za vsak roman delež zaznanih odstavkov v vsaki desetini, "
+        "umerjen na vsoto 1 (oblika, ne količina); roman potrebuje vsaj "
+        "{arc_min} zaznanih odstavkov. Metoda k-voditeljev s štirimi skupinami, "
+        "izračunana enkrat na vseh romanih nabora; filtri izberejo le, kateri "
+        "so prikazani.\n"
         "- **Ugotovitve:** del z največjo zgostitvijo ter povprečna zgostitev "
-        "prve in zadnje petine. Le opisno.",
+        "prve in zadnje petine; pri *Tipičnih lokih* najpogostejši lok vsake "
+        "skupine. Le opisno.",
     },
     "words.intro": {
         "en": "Which words are used more often in passages about shame than in "

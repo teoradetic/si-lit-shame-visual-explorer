@@ -10,6 +10,13 @@ from collections.abc import Callable
 
 import pandas as pd
 
+from emotion_explorer.analysis.arcs import (
+    MIN_TAGGED,
+    N_ARCS,
+    N_PARTS,
+    cluster,
+    curves,
+)
 from emotion_explorer.analysis.overview import (
     N_POSITION_BINS,
     build_novels,
@@ -53,6 +60,7 @@ from emotion_explorer.analysis.words import (
 from emotion_explorer.emotion import SHAME
 from emotion_explorer.meta import write_meta_section
 from emotion_explorer.paths import (
+    ARCS,
     COMPARISON,
     EXCERPTS,
     NOVELS,
@@ -155,8 +163,31 @@ def step_overview() -> None:
     paragraphs = pd.read_parquet(PARAGRAPHS)
     tiers = tuple(EMOTION.tiers)
     write_parquet(build_novels(paragraphs, load_metadata(), tiers), NOVELS)
-    write_parquet(build_position_bins(paragraphs, tiers), POSITION_BINS)
-    write_meta_section("overview", {"n_position_bins": N_POSITION_BINS})
+    bins = build_position_bins(paragraphs, tiers)
+    write_parquet(bins, POSITION_BINS)
+    arcs = []
+    for tier in tiers:
+        shapes = curves(bins, tier)
+        arcs.append(
+            shapes.stack()
+            .rename("share")
+            .reset_index()
+            .merge(cluster(shapes).reset_index(), on="novel_id")
+            .assign(tier=tier)
+        )
+    arcs = pd.concat(arcs, ignore_index=True).round({"share": 5})
+    write_parquet(
+        arcs.astype({"tier": "category", "part": "int8", "arc": "int8"}), ARCS
+    )
+    write_meta_section(
+        "overview",
+        {
+            "n_position_bins": N_POSITION_BINS,
+            "n_arcs": N_ARCS,
+            "arc_parts": N_PARTS,
+            "arc_min_tagged": MIN_TAGGED,
+        },
+    )
 
 
 def add_text(paragraphs: pd.DataFrame, annotations: dict) -> pd.DataFrame:

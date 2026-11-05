@@ -29,6 +29,9 @@
     "n_text_paragraphs": 130177
   },
   "overview": {
+    "arc_min_tagged": 20,
+    "arc_parts": 10,
+    "n_arcs": 4,
     "n_position_bins": 20
   },
   "paragraphs": {

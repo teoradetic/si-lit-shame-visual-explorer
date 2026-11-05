@@ -8,7 +8,7 @@ import streamlit as st
 from helpers import charts, compare, filters, notes, reader, stats, tables
 from helpers.language import num, t
 
-CHART_TYPES = ("concentration", "share", "violin", "heatmap", "novels")
+CHART_TYPES = ("concentration", "share", "violin", "heatmap", "novels", "arcs")
 # Novels with fewer counted paragraphs make the relative measure noisy.
 MIN_TAGGED = 5
 DEFAULT_ROWS = 30
@@ -127,6 +127,7 @@ def group_novels(group_label: str) -> set[str]:
 
 picked = None
 picked_title = None
+arc_findings: list[str] = []
 concentrated = concentration(bins)
 
 if chart_type in ("concentration", "share"):
@@ -415,6 +416,101 @@ elif chart_type == "heatmap":
         picked = excerpts_in(f.tier, group_ids, low, low + part)
         picked_title = t("position.bin_selected", a=round(low), b=round(low + part))
 
+elif chart_type == "arcs":
+    # AN-15: the arcs come from the pipeline; with shame only, so the shame
+    # mode shows one group.
+    arcs = tables.table("arcs")
+    arcs = arcs[(arcs["tier"] == f.tier) & arcs["novel_id"].isin(novels["novel_id"])]
+    shown = groups if split else groups[:1]
+    arcs = compare.with_group(arcs) if split else arcs.assign(group=shown[0].label)
+    sizes = arcs.drop_duplicates("novel_id")["arc"].value_counts()
+    arc_names = {
+        a: t("position.arc", arc=a, n=n) for a, n in sizes.sort_index().items()
+    }
+    parts = tables.meta()["overview"]["arc_parts"]
+    arcs = arcs.assign(
+        position=(arcs["part"].astype(int) + 0.5) * 100 / parts,
+        arc_name=arcs["arc"].map(arc_names),
+        novel_label=arcs["novel_id"].map(filters.novel_titles()),
+    )
+    arc_color = alt.Color(
+        "group:N",
+        scale=alt.Scale(
+            domain=[g.label for g in shown], range=[g.color for g in shown]
+        ),
+        legend=alt.Legend(title=None) if split else None,
+    )
+    pick = alt.selection_point(name="novel", fields=["novel_id"], on="click")
+    base = alt.Chart(arcs).encode(
+        x=alt.X("position:Q", title=t("position.x"), scale=alt.Scale(domain=[0, 100])),
+        color=arc_color,
+    )
+    lines = (
+        base.mark_line(strokeWidth=1)
+        .encode(
+            y=alt.Y("share:Q", title=t("position.arc_y"), axis=alt.Axis(format="%")),
+            detail="novel_id:N",
+            opacity=alt.condition(pick, alt.value(0.35), alt.value(0.08)),
+            tooltip=[alt.Tooltip("novel_label:N", title=t("field.novel"))],
+        )
+        .add_params(pick)
+    )
+    means = base.mark_line(strokeWidth=3).encode(y="mean(share):Q")
+    chart = (
+        alt.layer(lines, means)
+        .properties(width=210, height=220)
+        .facet(
+            column=alt.Column(
+                "arc_name:N",
+                sort=list(arc_names.values()),
+                title=None,
+                header=alt.Header(labelFontSize=13),
+            )
+        )
+    )
+    event = charts.show_chart(chart, key="pos_arcs")
+    if split:
+        counts = arcs.drop_duplicates("novel_id").groupby("group")["arc_name"]
+        share = counts.value_counts(normalize=True).rename("share").reset_index()
+        bars = (
+            alt.Chart(share)
+            .mark_bar()
+            .encode(
+                x=alt.X(
+                    "arc_name:N",
+                    sort=list(arc_names.values()),
+                    title=None,
+                    axis=alt.Axis(labelAngle=0),
+                ),
+                xOffset=alt.XOffset("group:N", sort=[g.label for g in shown]),
+                y=alt.Y(
+                    "share:Q", title=t("position.arc_share"), axis=alt.Axis(format="%")
+                ),
+                color=arc_color,
+                tooltip=[
+                    alt.Tooltip("group:N", title=t("field.group")),
+                    alt.Tooltip("share:Q", title=t("position.arc_share"), format=".0%"),
+                ],
+            )
+            .properties(height=200)
+        )
+        charts.show_chart(bars, key="pos_arc_shares", select=False)
+    per_group = arcs.drop_duplicates("novel_id").groupby("group")["arc"]
+    for g in shown:
+        if g.label in per_group.groups:
+            share = per_group.get_group(g.label).value_counts(normalize=True)
+            arc_findings.append(
+                t(
+                    "position.find.arc",
+                    group=g.label,
+                    arc=share.idxmax(),
+                    share=f"{share.max():.0%}",
+                )
+            )
+    novel = (charts.selected(event, "novel", "novel_id") or [None])[0]
+    if novel:
+        picked = excerpts_in(f.tier, [novel], 0, 100.1)
+        picked_title = filters.novel_titles().get(novel)
 else:  # novels
     c3, c4, c5 = st.columns([2, 2, 1], vertical_alignment="bottom")
     order_by = c3.selectbox(
@@ -653,9 +749,20 @@ else:  # novels
                 b=round(p["position"] + 5),
             )
 
-st.caption(t(f"position.read.{chart_type}", min_tagged=MIN_TAGGED))
+st.caption(
+    t(
+        f"position.read.{chart_type}",
+        min_tagged=MIN_TAGGED,
+        arc_min=tables.meta()["overview"]["arc_min_tagged"],
+    )
+)
 notes.methodology(
-    "position", bins=n_bins, part=round(part), min_tagged=MIN_TAGGED, bw=num(BANDWIDTH)
+    "position",
+    bins=n_bins,
+    part=round(part),
+    min_tagged=MIN_TAGGED,
+    bw=num(BANDWIDTH),
+    arc_min=tables.meta()["overview"]["arc_min_tagged"],
 )
 
 
@@ -683,7 +790,7 @@ def finding_lines() -> list[str]:
 
 
 with findings_box:
-    notes.findings(finding_lines())
+    notes.findings(arc_findings + finding_lines())
 
 if picked is not None:
     reader.show_excerpts(picked, key="pos_reader", title=picked_title)
