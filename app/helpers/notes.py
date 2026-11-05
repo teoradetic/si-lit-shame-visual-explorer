@@ -7,7 +7,7 @@ shows, not more.
 
 import streamlit as st
 
-from language import t
+from helpers.language import t
 
 
 def findings(lines: list[str]) -> None:

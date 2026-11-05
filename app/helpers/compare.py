@@ -15,9 +15,8 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 
-import charts
-import filters
-from language import label, t
+from helpers import charts, filters
+from helpers.language import label, t
 
 MODES = ("none", "shame", "period", "gender", "authors", "novels")
 MAX_NOVELS = 3

@@ -59,4 +59,4 @@ allowed-confusables = ["–", "×", "−", "ρ"]
 
 [tool.ruff.lint.per-file-ignores]
 # Typographic quotes and dashes are the point of these patterns.
-"src/emotion_explorer/text.py" = ["RUF001"]
+"src/emotion_explorer/analysis/text.py" = ["RUF001"]

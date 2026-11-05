@@ -1,8 +1,8 @@
 import numpy as np
 
-from emotion_explorer.comparison import build_comparison, near_tagged
 from emotion_explorer.emotion import SHAME
-from emotion_explorer.paragraphs import build_paragraphs
+from emotion_explorer.prep.comparison import build_comparison, near_tagged
+from emotion_explorer.prep.paragraphs import build_paragraphs
 
 
 def test_near_tagged():

@@ -4,10 +4,10 @@ from pathlib import Path
 
 import streamlit as st
 
-import tables
-from language import lang, t
+from helpers import tables
+from helpers.language import lang, t
 
-CONTENT_DIR = Path(__file__).resolve().parents[1] / "content"
+CONTENT_DIR = Path(__file__).resolve().parents[1] / "assets"
 
 
 def number(value: float) -> str:

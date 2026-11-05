@@ -15,17 +15,34 @@ from collections.abc import Callable
 
 import pandas as pd
 
-from emotion_explorer.comparison import build_comparison, summarize_comparison
-from emotion_explorer.corpora import SOURCES, download_corpora, tei_path
-from emotion_explorer.emotion import SHAME
-from emotion_explorer.excerpts import CONTEXT, build_excerpts, excerpt_texts
-from emotion_explorer.meta import write_meta_section
-from emotion_explorer.overview import (
+from emotion_explorer.analysis.overview import (
     N_POSITION_BINS,
     build_novels,
     build_position_bins,
 )
-from emotion_explorer.paragraphs import OVER_CONTEXT_CHARS, build_paragraphs
+from emotion_explorer.analysis.slices import tier_sets
+from emotion_explorer.analysis.style import (
+    FEATURES,
+    MATTR_WINDOW,
+    REPEAT_WINDOW,
+    paragraph_features,
+    pool,
+)
+from emotion_explorer.analysis.text import words
+from emotion_explorer.analysis.words import (
+    CONTENT_POS,
+    FUNCTION_POS,
+    MIN_COUNT,
+    NAME_SHARE,
+    count_words,
+    lemma_stats,
+    lexicon,
+    read_words,
+    vocabulary,
+    word_forms,
+)
+from emotion_explorer.emotion import SHAME
+from emotion_explorer.meta import write_meta_section
 from emotion_explorer.paths import (
     COMPARISON,
     EXCERPTS,
@@ -41,35 +58,18 @@ from emotion_explorer.paths import (
     WORD_FORMS,
     WORD_PRIOR,
 )
-from emotion_explorer.raw import load_annotations, load_metadata
-from emotion_explorer.slices import tier_sets
-from emotion_explorer.style import (
-    FEATURES,
-    MATTR_WINDOW,
-    REPEAT_WINDOW,
-    paragraph_features,
-    pool,
-)
-from emotion_explorer.text import words
-from emotion_explorer.tokens import (
+from emotion_explorer.prep.comparison import build_comparison, summarize_comparison
+from emotion_explorer.prep.corpora import SOURCES, download_corpora, tei_path
+from emotion_explorer.prep.excerpts import CONTEXT, build_excerpts, excerpt_texts
+from emotion_explorer.prep.paragraphs import OVER_CONTEXT_CHARS, build_paragraphs
+from emotion_explorer.prep.raw import load_annotations, load_metadata
+from emotion_explorer.prep.tokens import (
     assign_paragraphs,
     load_tagger,
     read_tei,
     tagged_rows,
     to_table,
     write_table,
-)
-from emotion_explorer.words import (
-    CONTENT_POS,
-    FUNCTION_POS,
-    MIN_COUNT,
-    NAME_SHARE,
-    count_words,
-    lemma_stats,
-    lexicon,
-    read_words,
-    vocabulary,
-    word_forms,
 )
 
 EMOTION = SHAME

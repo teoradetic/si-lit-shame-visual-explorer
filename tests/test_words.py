@@ -1,6 +1,6 @@
 import pandas as pd
 
-from emotion_explorer.words import (
+from emotion_explorer.analysis.words import (
     count_words,
     lemma_stats,
     lexicon,

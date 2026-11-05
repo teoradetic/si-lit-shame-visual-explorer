@@ -1,5 +1,5 @@
 from emotion_explorer.emotion import SHAME
-from emotion_explorer.paragraphs import build_paragraphs
+from emotion_explorer.prep.paragraphs import build_paragraphs
 
 
 def test_one_row_per_paragraph_in_order(annotations, metadata):

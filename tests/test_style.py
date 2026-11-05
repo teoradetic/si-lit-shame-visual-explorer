@@ -1,6 +1,6 @@
 import numpy as np
 
-from emotion_explorer.style import count_repeats, mattr, paragraph_features
+from emotion_explorer.analysis.style import count_repeats, mattr, paragraph_features
 
 
 def test_count_repeats_within_window():

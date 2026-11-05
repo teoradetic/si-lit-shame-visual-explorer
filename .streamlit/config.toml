@@ -1,4 +1,4 @@
-# App theme (SET-03). Chart colours repeat app/charts.py, which sets the
+# App theme (SET-03). Chart colours repeat app/helpers/charts.py, which sets the
 # period and set colours explicitly so that they never depend on order.
 # Font URLs must not contain commas (they separate fallback fonts), and font
 # names must not contain digits (Streamlit leaves them unquoted in CSS).

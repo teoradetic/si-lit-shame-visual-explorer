@@ -8,7 +8,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "app"))
 
-from charts import place_labels
+from helpers.charts import place_labels
 
 
 def boxes(placed, domain, width, height, font_size=12):

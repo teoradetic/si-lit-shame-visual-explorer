@@ -2,10 +2,8 @@
 
 import streamlit as st
 
-import filters
-import reader
-import tables
-from language import num, t
+from helpers import filters, reader, tables
+from helpers.language import num, t
 
 meta = tables.meta()["paragraphs"]
 f = filters.current()

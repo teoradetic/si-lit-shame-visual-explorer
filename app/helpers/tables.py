@@ -10,9 +10,9 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-import stats
+from helpers import stats
 
-PROCESSED_DIR = Path(__file__).resolve().parents[1] / "data" / "processed"
+PROCESSED_DIR = Path(__file__).resolve().parents[2] / "data" / "processed"
 
 
 @st.cache_resource

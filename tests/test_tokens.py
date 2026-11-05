@@ -2,9 +2,9 @@ from types import SimpleNamespace
 
 import pytest
 
-from emotion_explorer.corpora import tei_path
 from emotion_explorer.paths import CORPORA_DIR
-from emotion_explorer.tokens import (
+from emotion_explorer.prep.corpora import tei_path
+from emotion_explorer.prep.tokens import (
     assign_paragraphs,
     entity_of,
     paragraph_of_tokens,

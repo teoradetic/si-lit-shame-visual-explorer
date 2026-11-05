@@ -9,9 +9,9 @@ from dataclasses import dataclass
 import pandas as pd
 import streamlit as st
 
-import tables
-from charts import GENDERS, PERIODS
-from language import label, num, t
+from helpers import tables
+from helpers.charts import GENDERS, PERIODS
+from helpers.language import label, num, t
 
 DEFAULT_TIER = "broad"
 

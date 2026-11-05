@@ -14,14 +14,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-import charts
-import compare
-import filters
-import notes
-import reader
-import stats
-import tables
-from language import num, t
+from helpers import charts, compare, filters, notes, reader, stats, tables
+from helpers.language import num, t
 
 CHART_TYPES = ("cloud", "map", "dots")
 # A word belongs to a group when its frequency ratio there is at least this

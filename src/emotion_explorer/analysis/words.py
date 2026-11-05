@@ -2,7 +2,7 @@
 
 The pipeline counts each lemma per novel in the detected set and in its
 comparison set; the app compares any group of novels with a weighted
-log-odds ratio (`app/stats.py`), with the whole corpus as the prior. Lemmas,
+log-odds ratio (`app/helpers/stats.py`), with the whole corpus as the prior. Lemmas,
 parts of speech and names come from the token tables (DATA-04).
 """
 

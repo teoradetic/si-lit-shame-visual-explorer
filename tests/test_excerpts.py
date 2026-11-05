@@ -1,8 +1,8 @@
 import pandas as pd
 
 from emotion_explorer.emotion import SHAME
-from emotion_explorer.excerpts import build_excerpts, excerpt_texts, merge_spans
-from emotion_explorer.paragraphs import build_paragraphs
+from emotion_explorer.prep.excerpts import build_excerpts, excerpt_texts, merge_spans
+from emotion_explorer.prep.paragraphs import build_paragraphs
 
 
 def test_merge_spans_clips_and_merges_overlaps():

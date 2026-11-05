@@ -2,10 +2,8 @@
 
 import streamlit as st
 
-import compare
-import filters
-import reader
-from language import LANGUAGES, t
+from helpers import compare, filters, reader
+from helpers.language import LANGUAGES, t
 
 st.set_page_config(page_title=t("app.title"), layout="wide")
 reader.inject_css()

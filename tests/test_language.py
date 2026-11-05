@@ -8,7 +8,7 @@ from pathlib import Path
 APP_DIR = Path(__file__).resolve().parents[1] / "app"
 sys.path.insert(0, str(APP_DIR))
 
-from language import LANGUAGES, STRINGS  # noqa: E402
+from helpers.language import LANGUAGES, STRINGS  # noqa: E402
 
 
 def placeholders(text: str) -> set[str]:

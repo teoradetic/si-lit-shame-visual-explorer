@@ -1,6 +1,6 @@
+from emotion_explorer.analysis.overview import build_novels, build_position_bins
 from emotion_explorer.emotion import SHAME, TIERS
-from emotion_explorer.overview import build_novels, build_position_bins
-from emotion_explorer.paragraphs import build_paragraphs
+from emotion_explorer.prep.paragraphs import build_paragraphs
 
 
 def test_novel_shares(annotations, metadata):

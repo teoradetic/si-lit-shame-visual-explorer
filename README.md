@@ -56,14 +56,14 @@ uv run --group corpus emotion-explorer tokens   # write the missing files in dat
 | Step | Writes | Ticket |
 |---|---|---|
 | `corpora` | `data/corpora/`: the annotated editions of [KDSP](http://hdl.handle.net/11356/1823), [PriLit](http://hdl.handle.net/11356/1319) and [ELTeC-slv](https://github.com/COST-ELTeC/ELTeC-slv) (262 novels) | DATA-04 |
-| `tokens` | `data/tokens/<novel_id>.parquet`: the corpus's own annotation for those 262 novels, CLASSLA for the other 43 (Wikisource and Wikivir), whose text comes from the annotated corpus. The models are set in `src/emotion_explorer/tokens.py` | DATA-04 |
+| `tokens` | `data/tokens/<novel_id>.parquet`: the corpus's own annotation for those 262 novels, CLASSLA for the other 43 (Wikisource and Wikivir), whose text comes from the annotated corpus. The models are set in `src/emotion_explorer/prep/tokens.py` | DATA-04 |
 
-The pipeline only counts. The app compares whichever novels the sidebar selects and splits (`app/stats.py`: weighted log-odds for words, a permutation test for style), so every filter and comparison applies to every view.
+The pipeline only counts. The app compares whichever novels the sidebar selects and splits (`app/helpers/stats.py`: weighted log-odds for words, a permutation test for style), so every filter and comparison applies to every view.
 
 The emotion-specific parts (raw field names, tiers, the low-score rule) are in `src/emotion_explorer/emotion.py`.
 
 ## Layout
 
-- `src/emotion_explorer/`: the library and the data CLI.
-- `app/`: the Streamlit app (`streamlit_app.py` is the entry point, `views/` the pages, `content/` the method texts).
+- `src/emotion_explorer/`: the data CLI (`cli.py`), `prep/` (sources, paragraphs, comparison set, excerpts, tokens) and `analysis/` (the counts behind each view).
+- `app/`: the Streamlit app: `streamlit_app.py` (entry point), `views/` (pages), `helpers/` (filters, comparison, statistics, charts, reader, texts), `assets/` (method texts).
 - `tests/`: unit tests for the pipeline and the app's statistics, and a smoke test that renders every page and chart type in both languages and with every comparison.

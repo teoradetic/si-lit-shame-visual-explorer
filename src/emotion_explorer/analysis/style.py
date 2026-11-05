@@ -2,13 +2,13 @@
 
 Features are measured per paragraph and pooled per novel and set. The app
 compares the sets within each novel, since the comparison set is matched by
-novel, and tests the per-novel differences of any group (`app/stats.py`).
+novel, and tests the per-novel differences of any group (`app/helpers/stats.py`).
 """
 
 import numpy as np
 import pandas as pd
 
-from emotion_explorer.text import has_dialogue, sentences, words
+from emotion_explorer.analysis.text import has_dialogue, sentences, words
 
 # Punctuation counted per 1,000 characters.
 PUNCTUATION = {

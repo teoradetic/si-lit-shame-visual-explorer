@@ -11,8 +11,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-import tables
-from language import label, num, t
+from helpers import tables
+from helpers.language import label, num, t
 
 PAGE_SIZE = 5
 FOCUS_CHARS = 2_500
