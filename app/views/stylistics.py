@@ -157,15 +157,16 @@ if chart_type == "index":
     )
     offset = alt.YOffset("who:N", sort=who_order)
     # A dumbbell per row: without shame at 100, a line to with shame, its CI.
+    # Helper lines in ink, so they don't read as passages without shame.
     baseline = (
         alt.Chart(pd.DataFrame({"x": [100]}))
-        .mark_rule(strokeWidth=1, strokeDash=[4, 3], color=without)
+        .mark_rule(strokeWidth=1, strokeDash=[4, 3], color=ink, opacity=0.8)
         .encode(x="x:Q")
     )
     reference = rows.assign(base=100.0)
     connector = (
         alt.Chart(reference)
-        .mark_rule(strokeWidth=1, color=without)
+        .mark_rule(strokeWidth=1, color=ink, opacity=0.7)
         .encode(y=y, yOffset=offset, x="base:Q", x2="index:Q")
     )
     without_dots = (
