@@ -29,7 +29,7 @@ CHART_TYPES = {
     "views/words.py": ("words_type", ["cloud", "map", "dots"], {}),
     "views/stylistics.py": ("style_type", ["index", "raw", "time"], {}),
 }
-MODES = ["none", "shame", "period", "gender", "authors", "novels"]
+MODES = ["none", "shame", "period", "gender", "authors", "rest", "novels"]
 
 
 def run(page: str, lang: str, state: dict) -> AppTest:

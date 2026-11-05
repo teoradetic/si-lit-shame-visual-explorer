@@ -9,7 +9,7 @@ import streamlit as st
 from helpers import charts, filters
 from helpers.language import label, t
 
-MODES = ("none", "shame", "period", "gender", "authors", "novels")
+MODES = ("none", "shame", "period", "gender", "authors", "rest", "novels")
 MAX_NOVELS = 3
 
 
@@ -60,9 +60,10 @@ def sidebar() -> None:
             _keep_valid("cmp_author_b", authors, authors[min(1, len(authors) - 1)])
             st.selectbox(t("compare.author_a"), authors, key="cmp_author_a")
             st.selectbox(t("compare.author_b"), authors, key="cmp_author_b")
-        elif mode() == "novels":
+        elif mode() in ("rest", "novels"):
             _keep_valid("cmp_author", authors, authors[0])
             st.selectbox(t("compare.author"), authors, key="cmp_author")
+        if mode() == "novels":
             own = novels[novels["author"] == st.session_state["cmp_author"]]
             ids = own.sort_values("year")["novel_id"].tolist()
             chosen = [i for i in st.session_state.get("cmp_novels", []) if i in ids]
@@ -135,6 +136,21 @@ def groups() -> list[Group]:
                 frozenset(novels.loc[novels["author"] == a, "novel_id"]),
             )
             for i, a in enumerate(n for n in names if n)
+        ]
+    elif m == "rest":
+        # By exact name: a namesake (another Cankar) falls into the rest.
+        author = st.session_state.get("cmp_author")
+        own = novels["author"] == author
+        found = [
+            Group(
+                key,
+                name,
+                charts.group_color(i),
+                frozenset(novels.loc[mask, "novel_id"]),
+            )
+            for i, (key, name, mask) in enumerate(
+                [("author", author, own), ("rest", t("compare.rest"), ~own)]
+            )
         ]
     else:
         chosen = novels.set_index("novel_id").reindex(

@@ -586,6 +586,11 @@ STRINGS: dict[str, dict[str, str]] = {
     },
     "compare.mode.authors": {"en": "Two authors", "sl": "Dva avtorja"},
     "compare.mode.novels": {"en": "Novels of one author", "sl": "Romane enega avtorja"},
+    "compare.mode.rest": {
+        "en": "One author and the rest",
+        "sl": "Enega avtorja in ostale",
+    },
+    "compare.rest": {"en": "Other authors", "sl": "Drugi avtorji"},
     "compare.author_a": {"en": "First author", "sl": "Prvi avtor"},
     "compare.author_b": {"en": "Second author", "sl": "Drugi avtor"},
     "compare.author": {"en": "Author", "sl": "Avtor"},
