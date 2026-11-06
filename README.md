@@ -4,48 +4,75 @@ A free, public web app for exploring the shame passages an LLM detected in 305 S
 
 **Live app:** https://shame-visual-explorer-slovenian-literature.streamlit.app/
 
-## Setup and run
+## How it fits together
+
+1. **Prepare data:** the raw entry points and the source corpora become paragraph tables and token tables (`src/emotion_explorer/prep/`).
+2. **Analyze data:** the tables are counted into the small files the app reads, `data/processed/` (`src/emotion_explorer/analysis/`).
+3. **Explore:** the app (`app/`) reads only `data/processed/` and compares whichever novels the sidebar selects; it runs no NLP.
+
+Everything in `data/processed/` and `data/tokens/` is committed, so the app runs without steps 1 and 2.
+
+## Dependencies
+
+| Group | Installed by | Needed for |
+|---|---|---|
+| runtime | `uv sync`, and the deployed app | the app: Streamlit, Altair, pandas, pyarrow, PyYAML |
+| `prep` | `uv sync` (default group) | steps 1 and 2: zstandard reads the raw corpus, scikit-learn fits the themes and arcs |
+| `corpus` | `uv sync --group corpus` | the `tokens` step only: CLASSLA, with torch |
+| `dev` | `uv sync` (default group) | tests, ruff, pre-commit |
 
 ```bash
 uv sync
 uv run pre-commit install
-uv run streamlit run app/streamlit_app.py
 ```
 
-The interface is in English and Slovene; the excerpts stay in Slovene.
-
-## Data
+## 1. Prepare data
 
 | Folder | Contents |
 |---|---|
 | `data/raw/` | The entry points from [shame_sl_lit](https://github.com/teoradetic/shame_sl_lit) (commit `e075df3`), never edited: `corpus_metadata.csv` and the annotated corpus `main_shame_annotations.json.zst`. |
-| `data/tokens/` | Every token with lemma, part of speech, morphology and named entity, one file per novel. |
-| `data/processed/` | What the app reads: parquet tables and `meta.json`. |
 | `data/corpora/`, `data/models/` | Downloaded source corpora and CLASSLA models; not committed. |
-
-```bash
-uv run emotion-explorer all                     # rebuild data/processed
-uv run emotion-explorer words                   # or one step
-uv run emotion-explorer corpora                 # download KDSP, PriLit, ELTeC (1.6 GB)
-uv run --group corpus emotion-explorer tokens   # write missing data/tokens files
-```
+| `data/tokens/` | Every token with lemma, part of speech, morphology and named entity, one file per novel. |
 
 | Step | Writes | Ticket |
 |---|---|---|
+| `corpora` | downloads the annotated [KDSP](http://hdl.handle.net/11356/1823), [PriLit](http://hdl.handle.net/11356/1319) and [ELTeC-slv](https://github.com/COST-ELTeC/ELTeC-slv) editions (262 novels, 1.6 GB) | DATA-04 |
+| `tokens` | `data/tokens/`: their annotation, and CLASSLA for the other 43 novels | DATA-04 |
 | `paragraphs` | one row per paragraph: scores, tier flags, novel metadata | DATA-01 |
 | `comparison` | low-score partners of the broad-tier paragraphs | DATA-03 |
 | `excerpts` | excerpts with ±2 paragraphs of context, and their texts | DATA-02 |
+
+```bash
+uv run emotion-explorer corpora                 # only to rebuild the tokens
+uv run --group corpus emotion-explorer tokens   # writes missing data/tokens files
+```
+
+## 2. Analyze data
+
+| Step | Writes | Ticket |
+|---|---|---|
 | `overview` | per-novel counts, counts by position in the novel, typical arcs | AN-01, AN-02, AN-15 |
 | `words` | lemma counts per novel, set, case and narration or speech; pairs in a sentence; names and the gender of past-tense subjects; corpus counts, word forms | AN-03, AN-06, AN-11, AN-14, DATA-06 |
 | `themes` | NMF themes and the main theme of each paragraph | AN-10 |
 | `style` | style features per paragraph (whole, narration, speech), pooled per novel and set | AN-08, AN-09 |
-| `corpora` | the annotated [KDSP](http://hdl.handle.net/11356/1823), [PriLit](http://hdl.handle.net/11356/1319) and [ELTeC-slv](https://github.com/COST-ELTeC/ELTeC-slv) editions (262 novels) | DATA-04 |
-| `tokens` | their annotation, and CLASSLA for the other 43 novels | DATA-04 |
 
-`corpora` and `tokens` are not part of `all`; `tokens` needs the optional `corpus` group (CLASSLA, torch). The pipeline only counts; the app compares whichever novels the sidebar selects (`app/helpers/stats.py`). What is specific to shame is in `src/emotion_explorer/emotion.py`.
+```bash
+uv run emotion-explorer all     # paragraphs to style: rebuilds data/processed
+uv run emotion-explorer words   # or one step
+```
 
-## Layout
+`all` runs the steps from `paragraphs` on, not `corpora` and `tokens`. What is specific to shame is in `src/emotion_explorer/emotion.py`.
 
-- `src/emotion_explorer/`: `cli.py`, `prep/` (sources, paragraphs, comparison set, excerpts, tokens), `analysis/` (the counts behind each view).
-- `app/`: `streamlit_app.py`, `views/` (pages), `helpers/`, `assets/languages/` (one YAML file of interface text, a flag and a method page per language; a new language is a new file).
+## 3. Run the app
+
+```bash
+uv run streamlit run app/streamlit_app.py
+```
+
+The interface is in English and Slovene; the excerpts stay in Slovene. Each language has two files in `app/assets/languages/`: a YAML file with its interface text, name, flag and number format, and its method page. Adding them adds the language to the menu.
+
+## Code layout
+
+- `src/emotion_explorer/`: `cli.py`, `prep/` (step 1), `analysis/` (step 2).
+- `app/`: `streamlit_app.py`, `views/` (pages), `helpers/` (filters, comparison, statistics, charts), `assets/languages/`.
 - `tests/`: unit tests, and a smoke test of every page and chart type in both languages and every comparison.
