@@ -500,27 +500,35 @@ strings:
     - **Who acts:** CLASSLA tokens tagged as singular past-tense verbs (l-participles, VERB or AUX) with feminine or masculine gender, in the detected paragraphs and their comparison set (as on the Words page), pooled over the compared novels. Neuter and plural forms are left out. Descriptive, not tested.
     - **Names:** lemmas whose tokens are mostly proper nouns or inside a named entity, with at least {min_count} occurrences; ranked like the words (weighted log-odds), with the same rules on recurrence across novels and authors.
   themes.title: Themes with and without shame
-  themes.intro: Every paragraph is given its main theme, found automatically from
-    its nouns and adjectives. Which themes are more common in passages about shame
-    than in passages from the same novels without it? A theme without detected shame
-    may still hold shame the model missed.
+  themes.intro: 'This page sorts the passages into themes. A theme is a set of words
+    that often appear together in the same paragraphs, found by the computer without
+    knowing what the words mean: *oče, sin, hči, brat*, for instance, form a family
+    theme. Each theme is named by its four most characteristic words, and themes can
+    share words: a theme around the father and one around the mother both have *sin*
+    and *hči*. Every paragraph gets the theme it fits best. What a theme stands for
+    is for a literary scholar to interpret. The chart shows which themes are more
+    common in passages about shame than in passages from the same novels without it;
+    a passage without detected shame may still hold shame the model missed.'
   themes.x: Share of paragraphs
   themes.col.theme: Theme
-  themes.col.ratio: Times more common with shame
+  themes.col.ratio: Times as common with shame
   themes.col.words: Top words
   themes.words: The ten top words of each theme
-  themes.read: 'How to read: each row is a theme, named by its top four words; the
-    dots give the share of paragraphs whose main theme it is, with and without shame.
-    Themes are ordered from the most typical of shame down. Click a dot to read its
+  themes.read: 'How to read: each row is a theme, named by its four most characteristic
+    words (hover a dot for ten). The dots give the share of paragraphs whose main
+    theme it is, in passages with shame and in passages without shame from the same
+    novels. The themes most typical of shame are at the top. Click a dot to read its
     passages, those most about the theme first.'
-  themes.find.with: 'More common with shame: {themes}.'
-  themes.find.without: 'More common without it: {themes}.'
+  themes.find.with: 'The themes most typical of passages with shame, with how many
+    times as common they are there as in passages without shame: {themes}.'
+  themes.find.without: 'The themes most typical of passages without shame, with how
+    many times as common they are there: {themes}.'
   themes.selected: Passages on the theme “{theme}”
   themes.methodology: |-
     - **Paragraphs:** the broad tier's detected paragraphs and their comparison paragraphs (as on the Words page), pooled, so that both share one set of themes; the core tier uses its own part of them.
     - **Words:** noun and adjective lemmas, without names and without the emotion's own words (those containing its stem); a lemma must occur in at least {min_paragraphs} paragraphs and in at most {max_share} % of them.
-    - **Themes:** non-negative matrix factorization (NMF) of the paragraphs' TF-IDF weights into {n} themes, not the LDA of the earlier study. A paragraph's main theme is the one with the largest weight; its share of the paragraph's weights ranks the passages.
-    - **Shares:** the share of each set's paragraphs whose main theme it is; *times more common* divides the share with shame by the share without, both over all compared novels. Descriptive, not tested.
+    - **Themes:** non-negative matrix factorization (NMF) of the paragraphs' TF-IDF weights into {n} themes, not the LDA of the earlier study. A paragraph's main theme is the one with the largest weight; its share of the paragraph's weights ranks the passages. A theme is named by the words with the highest weight times the share of the word's weight that falls on this theme, so that words common to many themes come later.
+    - **Shares:** the share of each set's paragraphs whose main theme it is; *times as common* divides the share with shame by the share without; with groups, each group against its own passages without shame. Descriptive, not tested.
   method.title: Method and caveats
   paragraphs.note.narration: Counting only the narration of each passage (*Text* in
     the sidebar).
@@ -537,3 +545,9 @@ strings:
     people, things and their qualities. *Verbs*: actions. *All words*: the function
     words too.'
   words.all_novels: All compared novels
+  themes.read.split: 'How to read: for each group, how many times as common a theme
+    is in its passages with shame as in its own passages without shame; the dashed
+    line at 1 means equally common. Themes are ordered by all compared novels together.
+    Click a dot to read that group''s passages on the theme.'
+  themes.find.group: '**{group}**: the themes most tied to shame, with how many times
+    as common they are in its passages with shame as in its passages without: {themes}.'

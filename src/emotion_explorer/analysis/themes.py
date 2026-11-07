@@ -33,10 +33,15 @@ def fit_themes(words: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     matrix = sparse.csr_matrix((counts.to_numpy(float), (doc, term)))
     model = NMF(N_THEMES, init="nndsvda", random_state=0, max_iter=500)
     weights = model.fit_transform(TfidfTransformer().fit_transform(matrix))
-    top = np.argsort(-model.components_, axis=1)[:, :N_TOP_WORDS]
+    # A theme's words ranked by weight times the share of the word's weight
+    # that falls on this theme: words common to many themes (*sin, hči*) give
+    # way to those that set the theme apart.
+    weight = model.components_
+    distinct = weight * weight / weight.sum(axis=0).clip(min=1e-12)
+    top = np.argsort(-distinct, axis=1)[:, :N_TOP_WORDS]
     themes = pd.DataFrame(
         [
-            (theme, rank, terms[j], model.components_[theme, j])
+            (theme, rank, terms[j], weight[theme, j])
             for theme, row in enumerate(top)
             for rank, j in enumerate(row)
         ],

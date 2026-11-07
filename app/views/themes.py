@@ -27,62 +27,92 @@ main = tables.table("theme_paragraphs")
 if f.tier == "core":
     main = main[main["core"]]
 pool_ids = frozenset().union(*(g.novel_ids for g in groups))
-with_, without = (
-    compare.Group(s, t(f"set.{s}"), charts.set_color(s), pool_ids, s)
-    for s in ("emotion", "comparison")
-)
-# Each group's passages with shame, against all compared passages without.
-series = [*(groups if compare.is_split() else [with_]), without]
+split = compare.is_split()
 
 
-def shares(g: compare.Group) -> pd.Series:
-    """Share of the group's paragraphs whose main theme is each theme."""
-    rows = main[(main["set"] == g.set_name) & main["novel_id"].isin(g.novel_ids)]
+def shares(novel_ids, set_name: str) -> pd.Series:
+    """Share of the paragraphs of a set whose main theme is each theme."""
+    rows = main[(main["set"] == set_name) & main["novel_id"].isin(novel_ids)]
     counts = rows["theme"].value_counts().reindex(names.index, fill_value=0)
     return counts / max(counts.sum(), 1)
 
 
-df = pd.concat(
-    shares(g).rename("share").reset_index().assign(group=g.label, set=g.set_name)
-    for g in series
-)
-ratio = (shares(with_) / shares(without)).replace(float("inf"), float("nan"))
-df = df.assign(name=df["theme"].map(names), ratio=df["theme"].map(ratio))
-order = names.reindex(ratio.sort_values(ascending=False).index).tolist()
+def ratio_in(novel_ids) -> pd.Series:
+    """How many times as common each theme is with shame as without."""
+    ratio = shares(novel_ids, "emotion") / shares(novel_ids, "comparison")
+    return ratio.replace(float("inf"), float("nan"))
 
-pick = alt.selection_point(name="theme", fields=["theme", "set"], on="click")
+
+ratio = ratio_in(pool_ids)
+order = names.reindex(ratio.sort_values(ascending=False).index).tolist()
 y = alt.Y("name:N", sort=order, title=None, axis=alt.Axis(labelLimit=300))
-rule = (
+pick = alt.selection_point(name="theme", fields=["theme", "set", "group"], on="click")
+tooltip = [
+    alt.Tooltip("name:N", title=t("themes.col.theme")),
+    alt.Tooltip("words:N", title=t("themes.col.words")),
+    alt.Tooltip("group:N", title=t("field.group")),
+]
+all_words = top_words.groupby("theme")["word"].agg(", ".join)
+if split:
+    # Each group against its own passages without shame.
+    df = (
+        pd.concat(
+            ratio_in(g.novel_ids).rename("ratio").reset_index().assign(group=g.label)
+            for g in groups
+        )
+        .dropna(subset=["ratio"])
+        .assign(set="emotion")
+    )
+    x = alt.X(
+        "ratio:Q", title=t("themes.col.ratio"), scale=alt.Scale(type="log", nice=False)
+    )
+    marks = [
+        alt.Chart(pd.DataFrame({"one": [1.0]}))
+        .mark_rule(strokeDash=[4, 3], color=charts.ink(), opacity=0.6)
+        .encode(x=alt.X("one:Q", scale=alt.Scale(type="log"))),
+    ]
+    tooltip.append(alt.Tooltip("ratio:Q", title=t("themes.col.ratio"), format=".2f"))
+    color = compare.color()
+    read_key = "themes.read.split"
+else:
+    series = [
+        (s, t(f"set.{s}"), charts.set_color(s)) for s in ("emotion", "comparison")
+    ]
+    df = pd.concat(
+        shares(pool_ids, s).rename("share").reset_index().assign(group=label, set=s)
+        for s, label, _ in series
+    )
+    x = alt.X("share:Q", title=t("themes.x"), axis=alt.Axis(format="%"))
+    marks = []
+    tooltip.append(alt.Tooltip("share:Q", title=t("themes.x"), format=".1%"))
+    color = alt.Color(
+        "group:N",
+        scale=alt.Scale(domain=[s[1] for s in series], range=[s[2] for s in series]),
+        legend=alt.Legend(title=None),
+    )
+    read_key = "themes.read"
+df = df.assign(name=df["theme"].map(names), words=df["theme"].map(all_words))
+field = "ratio" if split else "share"
+spread = (
     alt.Chart(df)
     .mark_rule(color=charts.ink(), opacity=0.4)
-    .encode(y=y, x="min(share):Q", x2="max(share):Q")
+    .encode(y=y, x=f"min({field}):Q", x2=f"max({field}):Q")
 )
 dots = (
     alt.Chart(df)
     .mark_point(filled=True, size=100, strokeWidth=0)
     .encode(
         y=y,
-        x=alt.X("share:Q", title=t("themes.x"), axis=alt.Axis(format="%")),
-        color=alt.Color(
-            "group:N",
-            scale=alt.Scale(
-                domain=[g.label for g in series], range=[g.color for g in series]
-            ),
-            legend=alt.Legend(title=None),
-        ),
+        x=x,
+        color=color,
         opacity=alt.condition(pick, alt.value(1), alt.value(0.4)),
-        tooltip=[
-            alt.Tooltip("name:N", title=t("themes.col.theme")),
-            alt.Tooltip("group:N", title=t("field.group")),
-            alt.Tooltip("share:Q", title=t("themes.x"), format=".1%"),
-            alt.Tooltip("ratio:Q", title=t("themes.col.ratio"), format=".2f"),
-        ],
+        tooltip=tooltip,
     )
     .add_params(pick)
 )
-chart = alt.layer(rule, dots).properties(height=24 * len(order) + 60)
+chart = alt.layer(*marks, spread, dots).properties(height=24 * len(order) + 60)
 event = charts.show_chart(chart, key="themes_chart")
-st.caption(t("themes.read"))
+st.caption(t(read_key))
 meta = tables.meta()["themes"]
 notes.methodology(
     "themes",
@@ -92,38 +122,55 @@ notes.methodology(
 )
 with st.expander(t("themes.words")):
     st.dataframe(
-        top_words.groupby("theme")["word"]
-        .agg(", ".join)
-        .reindex(ratio.sort_values(ascending=False).index)
+        all_words.reindex(ratio.sort_values(ascending=False).index)
         .rename(t("themes.col.words"))
         .reset_index(drop=True),
         hide_index=True,
     )
 
 
-def listing(themes: pd.Index) -> str:
-    return "; ".join(f"*{names[i]}* ({num(ratio[i])}×)" for i in themes)
+def listing(ratios: pd.Series, themes) -> str:
+    return "; ".join(f"*{names[i]}* ({num(ratios[i])}×)" for i in themes)
 
 
-ranked = ratio.dropna().sort_values(ascending=False)
-with findings_box:
-    notes.findings(
-        [
-            t("themes.find.with", themes=listing(ranked.index[:N_FINDINGS])),
-            t("themes.find.without", themes=listing(ranked.index[::-1][:N_FINDINGS])),
+def finding_lines() -> list[str]:
+    if not split:
+        ranked = ratio.dropna().sort_values(ascending=False)
+        if len(ranked) <= 2 * N_FINDINGS:
+            return []
+        return [
+            t("themes.find.with", themes=listing(ranked, ranked.index[:N_FINDINGS])),
+            t(
+                "themes.find.without",
+                themes=listing(1 / ranked, ranked.index[::-1][:N_FINDINGS]),
+            ),
         ]
-        if len(ranked) > 2 * N_FINDINGS
-        else []
-    )
+    lines = []
+    for g in groups:
+        ranked = ratio_in(g.novel_ids).dropna().sort_values(ascending=False)
+        if len(ranked) > N_FINDINGS:
+            lines.append(
+                t(
+                    "themes.find.group",
+                    group=g.label,
+                    themes=listing(ranked, ranked.index[:N_FINDINGS]),
+                )
+            )
+    return lines
 
-points = charts.selected(event, "theme", "theme")
+
+with findings_box:
+    notes.findings(finding_lines())
+
+points = (event.selection.get("theme") if event else None) or []
 if points:
-    theme = int(points[0])
-    set_name = (charts.selected(event, "theme", "set") or ["emotion"])[0]
+    p = points[0]
+    theme, set_name = int(p["theme"]), p.get("set", "emotion")
+    ids = next((g.novel_ids for g in groups if g.label == p.get("group")), pool_ids)
     rows = main[
         (main["theme"] == theme)
         & (main["set"] == set_name)
-        & main["novel_id"].isin(pool_ids)
+        & main["novel_id"].isin(ids)
     ]
     reader.show_excerpts(
         tables.ranked_excerpts(

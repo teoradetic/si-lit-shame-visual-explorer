@@ -495,27 +495,35 @@ strings:
     - **Kdo deluje:** pojavnice, ki jih CLASSLA označi kot glagole v pretekliku ednine (deležniki na -l, VERB ali AUX) z ženskim ali moškim spolom, v zaznanih odstavkih in njihovem primerjalnem naboru (kot na strani Besede), seštete čez primerjane romane. Srednji spol in množina sta izpuščena. Opisno, brez testa.
     - **Imena:** leme, katerih pojavitve so večinoma lastna imena ali del imenske entitete, z vsaj {min_count} pojavitvami; razvrščene kot besede (uteženo razmerje logaritemskih obetov), z enakimi pravili o ponavljanju v romanih in pri avtorjih.
   themes.title: Teme s sramom in brez njega
-  themes.intro: Vsak odstavek dobi glavno temo, najdeno samodejno iz njegovih samostalnikov
-    in pridevnikov. Katere teme so pogostejše v odlomkih o sramu kot v odlomkih iz
-    istih romanov brez njega? Tema brez zaznanega sramu lahko še vedno vsebuje sram,
-    ki ga model ni zaznal.
+  themes.intro: 'Ta stran razvrsti odlomke v teme. Tema je skupina besed, ki se pogosto
+    pojavljajo skupaj v istih odstavkih; računalnik jih najde, ne da bi vedel, kaj
+    besede pomenijo: *oče, sin, hči, brat* na primer tvorijo družinsko temo. Vsaka
+    tema je poimenovana po štirih najbolj značilnih besedah, teme pa si lahko besede
+    delijo: tema okoli očeta in tema okoli matere imata obe *sin* in *hči*. Vsak odstavek
+    dobi temo, ki mu najbolj ustreza. Kaj tema pomeni, mora razložiti literarni zgodovinar.
+    Graf kaže, katere teme so pogostejše v odlomkih o sramu kot v odlomkih iz istih
+    romanov brez njega; odlomek brez zaznanega sramu lahko še vedno vsebuje sram,
+    ki ga model ni zaznal.'
   themes.x: Delež odstavkov
   themes.col.theme: Tema
   themes.col.ratio: Kolikokrat pogostejša ob sramu
   themes.col.words: Glavne besede
   themes.words: Deset glavnih besed vsake teme
-  themes.read: 'Kako brati: vsaka vrstica je tema, poimenovana po štirih glavnih besedah;
-    točke kažejo delež odstavkov, katerih glavna tema je, s sramom in brez njega.
-    Teme so urejene od najbolj značilne za sram navzdol. Kliknite točko za njene odlomke,
+  themes.read: 'Kako brati: vsaka vrstica je tema, poimenovana po štirih najbolj značilnih
+    besedah (za deset besed se postavite na točko). Točki kažeta delež odstavkov,
+    katerih glavna tema je, v odlomkih s sramom in v odlomkih brez sramu iz istih
+    romanov. Na vrhu so teme, najbolj značilne za sram. Kliknite točko za njene odlomke,
     najprej tiste, ki so temi najbolj posvečeni.'
-  themes.find.with: 'Pogostejše ob sramu: {themes}.'
-  themes.find.without: 'Pogostejše brez njega: {themes}.'
+  themes.find.with: 'Teme, najbolj značilne za odlomke s sramom, in kolikokrat pogostejše
+    so tam kot v odlomkih brez sramu: {themes}.'
+  themes.find.without: 'Teme, najbolj značilne za odlomke brez sramu, in kolikokrat
+    pogostejše so tam: {themes}.'
   themes.selected: Odlomki na temo »{theme}«
   themes.methodology: |-
     - **Odstavki:** zaznani odstavki širšega nabora in njihovi primerjalni odstavki (kot na strani Besede), združeni, da si delijo iste teme; jedro uporablja svoj del.
     - **Besede:** leme samostalnikov in pridevnikov, brez imen in brez besed samega čustva (tistih, ki vsebujejo njegov koren); lema se mora pojaviti v vsaj {min_paragraphs} odstavkih in v največ {max_share} % odstavkov.
-    - **Teme:** nenegativna matrična faktorizacija (NMF) uteži TF-IDF odstavkov v {n} tem, ne LDA prejšnje študije. Glavna tema odstavka je tista z največjo utežjo; njen delež med utežmi odstavka razvršča odlomke.
-    - **Deleži:** delež odstavkov vsakega nabora, katerih glavna tema je; *kolikokrat pogostejša* deli delež s sramom z deležem brez njega, oba čez vse primerjane romane. Opisno, brez testa.
+    - **Teme:** nenegativna matrična faktorizacija (NMF) uteži TF-IDF odstavkov v {n} tem, ne LDA prejšnje študije. Glavna tema odstavka je tista z največjo utežjo; njen delež med utežmi odstavka razvršča odlomke. Temo poimenujejo besede z največjo utežjo, pomnoženo z deležem uteži besede, ki pade na to temo, tako da so besede, skupne mnogim temam, nižje.
+    - **Deleži:** delež odstavkov vsakega nabora, katerih glavna tema je; *kolikokrat pogostejša* deli delež s sramom z deležem brez njega; pri skupinah vsako skupino z njenimi lastnimi odlomki brez sramu. Opisno, brez testa.
   method.title: Metodologija in omejitve
   paragraphs.note.narration: Šteje se le pripoved vsakega odlomka (*Besedilo* v stranski
     vrstici).
@@ -532,3 +540,9 @@ strings:
     in pridevniki*: osebe, stvari in njihove lastnosti. *Glagoli*: dejanja. *Vse besede*:
     tudi funkcijske.'
   words.all_novels: Vsi primerjani romani
+  themes.read.split: 'Kako brati: za vsako skupino, kolikokrat pogostejša je tema
+    v njenih odlomkih s sramom kot v njenih lastnih odlomkih brez sramu; črtkana črta
+    pri 1 pomeni enako pogosto. Teme so urejene po vseh primerjanih romanih skupaj.
+    Kliknite točko za odlomke te skupine na to temo.'
+  themes.find.group: '**{group}**: teme, najbolj povezane s sramom, in kolikokrat
+    pogostejše so v njenih odlomkih s sramom kot v odlomkih brez njega: {themes}.'
