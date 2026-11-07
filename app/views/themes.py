@@ -8,7 +8,6 @@ import streamlit as st
 from helpers import charts, compare, filters, notes, reader, stats, tables
 from helpers.language import num, t
 
-N_LABEL_WORDS = 4
 N_FINDINGS = 3
 # Words on each side of the two-theme chart.
 N_PAIR_WORDS = 15
@@ -20,11 +19,11 @@ groups = compare.require()
 findings_box = st.container()
 
 top_words = tables.table("themes")
-names = (
-    top_words[top_words["rank"] < N_LABEL_WORDS]
-    .groupby("theme")["word"]
-    .agg(" · ".join)
-)
+# Names and descriptions written once by an AI model; `tests/test_themes.py`
+# fails when a refit changes the themes they were written for.
+theme_ids = sorted(top_words["theme"].unique())
+names = pd.Series({i: t(f"themes.name.{i}") for i in theme_ids}).rename_axis("theme")
+about = pd.Series({i: t(f"themes.about.{i}") for i in theme_ids})
 main = tables.table("theme_paragraphs")
 pool_ids = frozenset().union(*(g.novel_ids for g in groups))
 split = compare.is_split()
@@ -49,6 +48,7 @@ y = alt.Y("name:N", sort=order, title=None, axis=alt.Axis(labelLimit=300))
 pick = alt.selection_point(name="theme", fields=["theme", "set", "group"], on="click")
 tooltip = [
     alt.Tooltip("name:N", title=t("themes.col.theme")),
+    alt.Tooltip("about:N", title=t("themes.col.about")),
     alt.Tooltip("words:N", title=t("themes.col.words")),
     alt.Tooltip("group:N", title=t("field.group")),
 ]
@@ -91,7 +91,11 @@ else:
         legend=alt.Legend(title=None),
     )
     read_key = "themes.read"
-df = df.assign(name=df["theme"].map(names), words=df["theme"].map(all_words))
+df = df.assign(
+    name=df["theme"].map(names),
+    about=df["theme"].map(about),
+    words=df["theme"].map(all_words),
+)
 field = "ratio" if split else "share"
 spread = (
     alt.Chart(df)
@@ -274,8 +278,12 @@ notes.methodology(
 )
 with st.expander(t("themes.words")):
     st.dataframe(
-        all_words.reindex(ratio.sort_values(ascending=False).index)
-        .rename(t("themes.col.words"))
-        .reset_index(drop=True),
+        pd.DataFrame(
+            {
+                t("themes.col.theme"): names,
+                t("themes.col.about"): about,
+                t("themes.col.words"): all_words,
+            }
+        ).reindex(by_ratio),
         hide_index=True,
     )

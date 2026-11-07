@@ -500,22 +500,23 @@ strings:
   themes.intro: 'This page sorts the passages into themes. A theme is a set of words
     that often appear together in the same paragraphs, found by the computer without
     knowing what the words mean: *oče, sin, hči, brat*, for instance, form a family
-    theme. Each theme is named by its four most characteristic words, and themes can
-    share words: a theme around the father and one around the mother both have *sin*
-    and *hči*. Every paragraph gets the theme it fits best. What a theme stands for
-    is for a literary scholar to interpret. The chart shows which themes are more
+    theme. Themes can share words: a theme around the father and one around the mother
+    both have *sin* and *hči*. The names and short descriptions were suggested by
+    an AI model after reading each theme''s words and passages; they are a first reading,
+    not a result. Every paragraph gets the theme it fits best. What a theme stands
+    for is for a literary scholar to interpret. The chart shows which themes are more
     common in passages about shame than in passages from the same novels without it;
     a passage without detected shame may still hold shame the model missed.'
   themes.x: Share of paragraphs
   themes.col.theme: Theme
   themes.col.ratio: Times as common with shame
   themes.col.words: Top words
-  themes.words: The ten top words of each theme
-  themes.read: 'How to read: each row is a theme, named by its four most characteristic
-    words (hover a dot for ten). The dots give the share of paragraphs whose main
-    theme it is, in passages with shame and in passages without shame from the same
-    novels. The themes most typical of shame are at the top. Click a dot to read its
-    passages, those most about the theme first.'
+  themes.words: Every theme, its description and its ten top words
+  themes.read: 'How to read: each row is a theme (hover a dot for its description
+    and ten top words). The dots give the share of paragraphs whose main theme it
+    is, in passages with shame and in passages without shame from the same novels.
+    The themes most typical of shame are at the top. Click a dot to read its passages,
+    those most about the theme first.'
   themes.find.with: 'The themes most typical of passages with shame, with how many
     times as common they are there as in passages without shame: {themes}.'
   themes.find.without: 'The themes most typical of passages without shame, with how
@@ -524,7 +525,8 @@ strings:
   themes.methodology: |-
     - **Paragraphs:** the detected paragraphs and their comparison paragraphs (as on the Words page), pooled, so that both share one set of themes.
     - **Words:** noun and adjective lemmas, without names and without the emotion's own words (those containing its stem); a lemma must occur in at least {min_paragraphs} paragraphs and in at most {max_share} % of them.
-    - **Themes:** non-negative matrix factorization (NMF) of the paragraphs' TF-IDF weights into {n} themes, not the LDA of the earlier study. A paragraph's main theme is the one with the largest weight; its share of the paragraph's weights ranks the passages. A theme is named by the words with the highest weight times the share of the word's weight that falls on this theme, so that words common to many themes come later.
+    - **Themes:** non-negative matrix factorization (NMF) of the paragraphs' TF-IDF weights into {n} themes, not the LDA of the earlier study. A paragraph's main theme is the one with the largest weight; its share of the paragraph's weights ranks the passages. A theme's top words are those with the highest weight times the share of the word's weight that falls on this theme, so that words common to many themes come later.
+    - **Names:** suggested by an AI model (Claude, Anthropic) after reading each theme's top words and its four strongest passages with shame, and written once, not at run time. They are an interpretation for literary scholars to check, not part of the computation; a test fails when a refit changes the themes, so that stale names cannot stay.
     - **Shares:** the share of each set's paragraphs whose main theme it is; *times as common* divides the share with shame by the share without; with groups, each group against its own passages without shame. Descriptive, not tested.
     - **Two themes:** the noun and adjective lemmas of the passages with shame whose main theme is one or the other, compared as on the Words page (weighted log-odds, ranked by z; a word must recur in several novels and authors); {n_pair} words per side. Bar length is the plain ratio of the two frequencies, on a log scale.
   method.title: Method and caveats
@@ -603,3 +605,65 @@ strings:
   position.arc.dip: Dip in the middle
   position.arc.two_peaks: Two peaks
   position.arc.none: No clear shape
+  themes.name.0: Love and the heart
+  themes.name.1: The father's authority
+  themes.name.2: Body and face
+  themes.name.3: Masters and titles
+  themes.name.4: Roads, doors and outdoors
+  themes.name.5: Mother and children
+  themes.name.6: Honest and wicked people
+  themes.name.7: Others and order
+  themes.name.8: Guilt and conscience
+  themes.name.9: Marriage
+  themes.name.10: Sin and faith
+  themes.name.11: Days and nights
+  themes.name.12: House and farm
+  themes.name.13: Children and school
+  themes.name.14: Beauty and young women
+  themes.name.15: Friendship and good cheer
+  themes.name.16: Old and young
+  themes.name.17: Time and waiting
+  themes.name.18: Money
+  themes.name.19: Words and speech
+  themes.about.0: Romantic love, longing and the suffering of the soul, often in confessions
+    and refusals.
+  themes.about.1: Fathers who judge, forbid and punish, with wrath, weapons and talk
+    of injustice, often among landowners; unlike the mother theme, about authority
+    and punishment rather than care.
+  themes.about.2: 'Hands, eyes, faces, lips and tears: shame, tenderness and violence
+    shown on the body.'
+  themes.about.3: 'Forms of address and rank: gentlemen, priests, doctors, counts,
+    barons and their servants.'
+  themes.about.4: 'Movement through places: roads, doors, windows, carts and the sky;
+    more common without shame.'
+  themes.about.5: 'Mothers, often widowed, with their sons and daughters at home:
+    the kitchen, milk, the bed and tears; unlike the father theme, about care and
+    grief rather than punishment.'
+  themes.about.6: 'Moral judgements on people: honest or wicked, clever or foolish,
+    and what the villagers say.'
+  themes.about.7: 'Ordinal words and “the other”: first, second, third, another one;
+    a theme of structure more than of content.'
+  themes.about.8: 'Being alone with oneself: guilt, conscience, thoughts and being
+    satisfied or not.'
+  themes.about.9: Husbands and wives, weddings and married life, and how spouses treat
+    each other.
+  themes.about.10: 'Sin, God, the church, grace and penance: religious judgement and
+    teaching.'
+  themes.about.11: 'The calendar of the story: days, nights, evenings, weeks and Sundays.'
+  themes.about.12: 'The house and the farm: masters, stables, roofs, thresholds and
+    the village.'
+  themes.about.13: Children, innocence, parents and school, often poor and in need
+    of protection.
+  themes.about.14: Beautiful girls and young women, beauty and songs, as seen and
+    courted by men.
+  themes.about.15: 'Friends, work, wine and health: good and bad will in everyday
+    company.'
+  themes.about.16: 'Age and generations: the old and the young, sons, counts, castles
+    and lawsuits.'
+  themes.about.17: 'How long something lasted or took: waiting, delays and the last
+    time.'
+  themes.about.18: 'Money, coins, pockets, interest and savings banks: debts, theft
+    and payment.'
+  themes.about.19: 'Words, mouths, voices and tongues: what was said, a given word
+    and its honour.'
+  themes.col.about: What it is about

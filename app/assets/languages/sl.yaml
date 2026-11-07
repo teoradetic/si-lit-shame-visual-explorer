@@ -491,9 +491,10 @@ strings:
   themes.title: Teme s sramom in brez njega
   themes.intro: 'Ta stran razvrsti odlomke v teme. Tema je skupina besed, ki se pogosto
     pojavljajo skupaj v istih odstavkih; računalnik jih najde, ne da bi vedel, kaj
-    besede pomenijo: *oče, sin, hči, brat* na primer tvorijo družinsko temo. Vsaka
-    tema je poimenovana po štirih najbolj značilnih besedah, teme pa si lahko besede
-    delijo: tema okoli očeta in tema okoli matere imata obe *sin* in *hči*. Vsak odstavek
+    besede pomenijo: *oče, sin, hči, brat* na primer tvorijo družinsko temo. Teme
+    si lahko besede delijo: tema okoli očeta in tema okoli matere imata obe *sin*
+    in *hči*. Imena in kratke opise je predlagal model umetne inteligence, potem ko
+    je prebral besede in odlomke vsake teme; so prvo branje, ne rezultat. Vsak odstavek
     dobi temo, ki mu najbolj ustreza. Kaj tema pomeni, mora razložiti literarni zgodovinar.
     Graf kaže, katere teme so pogostejše v odlomkih o sramu kot v odlomkih iz istih
     romanov brez njega; odlomek brez zaznanega sramu lahko še vedno vsebuje sram,
@@ -502,12 +503,12 @@ strings:
   themes.col.theme: Tema
   themes.col.ratio: Kolikokrat pogostejša ob sramu
   themes.col.words: Glavne besede
-  themes.words: Deset glavnih besed vsake teme
-  themes.read: 'Kako brati: vsaka vrstica je tema, poimenovana po štirih najbolj značilnih
-    besedah (za deset besed se postavite na točko). Točki kažeta delež odstavkov,
-    katerih glavna tema je, v odlomkih s sramom in v odlomkih brez sramu iz istih
-    romanov. Na vrhu so teme, najbolj značilne za sram. Kliknite točko za njene odlomke,
-    najprej tiste, ki so temi najbolj posvečeni.'
+  themes.words: Vse teme, njihovi opisi in deset glavnih besed
+  themes.read: 'Kako brati: vsaka vrstica je tema (za opis in deset glavnih besed
+    se postavite na točko). Točki kažeta delež odstavkov, katerih glavna tema je,
+    v odlomkih s sramom in v odlomkih brez sramu iz istih romanov. Na vrhu so teme,
+    najbolj značilne za sram. Kliknite točko za njene odlomke, najprej tiste, ki so
+    temi najbolj posvečeni.'
   themes.find.with: 'Teme, najbolj značilne za odlomke s sramom, in kolikokrat pogostejše
     so tam kot v odlomkih brez sramu: {themes}.'
   themes.find.without: 'Teme, najbolj značilne za odlomke brez sramu, in kolikokrat
@@ -516,7 +517,8 @@ strings:
   themes.methodology: |-
     - **Odstavki:** zaznani odstavki in njihovi primerjalni odstavki (kot na strani Besede), združeni, da si delijo iste teme.
     - **Besede:** leme samostalnikov in pridevnikov, brez imen in brez besed samega čustva (tistih, ki vsebujejo njegov koren); lema se mora pojaviti v vsaj {min_paragraphs} odstavkih in v največ {max_share} % odstavkov.
-    - **Teme:** nenegativna matrična faktorizacija (NMF) uteži TF-IDF odstavkov v {n} tem, ne LDA prejšnje študije. Glavna tema odstavka je tista z največjo utežjo; njen delež med utežmi odstavka razvršča odlomke. Temo poimenujejo besede z največjo utežjo, pomnoženo z deležem uteži besede, ki pade na to temo, tako da so besede, skupne mnogim temam, nižje.
+    - **Teme:** nenegativna matrična faktorizacija (NMF) uteži TF-IDF odstavkov v {n} tem, ne LDA prejšnje študije. Glavna tema odstavka je tista z največjo utežjo; njen delež med utežmi odstavka razvršča odlomke. Glavne besede teme so tiste z največjo utežjo, pomnoženo z deležem uteži besede, ki pade na to temo, tako da so besede, skupne mnogim temam, nižje.
+    - **Imena:** predlagal jih je model umetne inteligence (Claude, Anthropic), potem ko je prebral glavne besede vsake teme in njene štiri najmočnejše odlomke s sramom; zapisana so enkrat, ne med delovanjem aplikacije. So razlaga, ki jo morajo preveriti literarni zgodovinarji, ne del izračuna; test odpove, ko novo prileganje spremeni teme, da zastarela imena ne morejo ostati.
     - **Deleži:** delež odstavkov vsakega nabora, katerih glavna tema je; *kolikokrat pogostejša* deli delež s sramom z deležem brez njega; pri skupinah vsako skupino z njenimi lastnimi odlomki brez sramu. Opisno, brez testa.
     - **Dve temi:** leme samostalnikov in pridevnikov v odlomkih s sramom, katerih glavna tema je ena ali druga, primerjane kot na strani Besede (uteženo razmerje logaritemskih obetov, razvrščeno po z; beseda se mora ponoviti v več romanih in pri več avtorjih); na vsaki strani besed: {n_pair}. Dolžina stolpca je navadno razmerje obeh pogostnosti na logaritemski lestvici.
   method.title: Metodologija in omejitve
@@ -592,3 +594,59 @@ strings:
   position.arc.dip: Dolina na sredini
   position.arc.two_peaks: Dva vrhova
   position.arc.none: Brez jasne oblike
+  themes.name.0: Ljubezen in srce
+  themes.name.1: Očetova oblast
+  themes.name.2: Telo in obraz
+  themes.name.3: Gospoda in nazivi
+  themes.name.4: Ceste, vrata in zunanji svet
+  themes.name.5: Mati in otroci
+  themes.name.6: Pošteni in hudobni ljudje
+  themes.name.7: Drugi in vrstni red
+  themes.name.8: Krivda in vest
+  themes.name.9: Zakon
+  themes.name.10: Greh in vera
+  themes.name.11: Dnevi in noči
+  themes.name.12: Hiša in kmetija
+  themes.name.13: Otroci in šola
+  themes.name.14: Lepota in dekleta
+  themes.name.15: Prijateljstvo in dobra volja
+  themes.name.16: Staro in mlado
+  themes.name.17: Čas in čakanje
+  themes.name.18: Denar
+  themes.name.19: Besede in govor
+  themes.about.0: Romantična ljubezen, hrepenenje in trpljenje duše, pogosto v izpovedih
+    in zavrnitvah.
+  themes.about.1: Očetje, ki sodijo, prepovedujejo in kaznujejo, z jezo, orožjem in
+    govorjenjem o krivici, pogosto med posestniki; za razliko od teme o materi gre
+    za oblast in kazen, ne za skrb.
+  themes.about.2: 'Roke, oči, obrazi, ustnice in solze: sram, nežnost in nasilje,
+    vidni na telesu.'
+  themes.about.3: 'Ogovori in stanovi: gospodje, župniki, doktorji, grofje, baroni
+    in njihovi služabniki.'
+  themes.about.4: 'Gibanje po prostoru: ceste, vrata, okna, vozovi in nebo; pogostejše
+    brez sramu.'
+  themes.about.5: 'Matere, pogosto vdove, s sinovi in hčerami doma: kuhinja, mleko,
+    postelja in solze; za razliko od teme o očetu gre za skrb in žalost, ne za kazen.'
+  themes.about.6: 'Moralne sodbe o ljudeh: pošten ali hudoben, pameten ali neumen,
+    in kaj govorijo vaščani.'
+  themes.about.7: 'Vrstilne besede in »drugi«: prvi, drugi, tretji, nekdo drug; tema
+    zgradbe bolj kot vsebine.'
+  themes.about.8: 'Biti sam s seboj: krivda, vest, misli ter zadovoljstvo ali nezadovoljstvo.'
+  themes.about.9: Možje in žene, poroke in zakonsko življenje ter to, kako zakonca
+    ravnata drug z drugim.
+  themes.about.10: 'Greh, Bog, cerkev, milost in pokora: verska sodba in nauk.'
+  themes.about.11: 'Koledar zgodbe: dnevi, noči, večeri, tedni in nedelje.'
+  themes.about.12: 'Hiša in kmetija: gospodarji, hlevi, strehe, pragovi in vas.'
+  themes.about.13: Otroci, nedolžnost, starši in šola, pogosto revni in potrebni zaščite.
+  themes.about.14: Lepa dekleta in mlade ženske, lepota in pesmi, kot jih vidijo in
+    snubijo moški.
+  themes.about.15: 'Prijatelji, delo, vino in zdravje: dobra in slaba volja v vsakdanji
+    družbi.'
+  themes.about.16: 'Starost in rodovi: stari in mladi, sinovi, grofje, gradovi in
+    pravde.'
+  themes.about.17: 'Kako dolgo je kaj trajalo: čakanje, zamude in zadnjič.'
+  themes.about.18: 'Denar, kovanci, žepi, obresti in hranilnice: dolgovi, kraje in
+    plačila.'
+  themes.about.19: 'Besede, usta, glas in jezik: kaj je bilo rečeno, dana beseda in
+    njena čast.'
+  themes.col.about: O čem govori
