@@ -139,17 +139,19 @@ strings:
   position.type.heatmap: 'Heatmap: decades side by side'
   position.type.heatmap_novels: 'Heatmap: novels side by side'
   position.type.novels: Novel by novel
-  position.type.arcs: Typical arcs
-  position.arc: Arc {arc} · {n} novels
+  position.type.arcs: Narrative arc shape
+  position.arc: '{arc} · {n} novels'
   position.arc_y: Share of the novel's shame
   position.arc_share: Share of novels
-  position.find.arc: '**{group}:** {share} of the novels follow arc {arc}, more than
-    any other arc.'
+  position.find.arc: '**{group}:** {share} of the novels have the shape “{arc}”, more
+    than any other shape.'
   position.read.arcs: 'How to read: every novel with at least {arc_min} passages about
-    shame is drawn as a thin line: how its shame spreads over the ten tenths of the
-    novel. Novels with a similar course are grouped into four arcs; the thick line
-    is the arc''s average. The arcs are found automatically, numbered from the earliest
-    shame to the latest. Click a line to read that novel''s passages.'
+    shame is a thin line: how its shame spreads over the ten tenths of the novel.
+    Each novel sits in the panel of the shape it resembles most: rising (shame builds
+    towards the end), falling (it is strongest at the start), a peak or a dip in the
+    middle, or two peaks. Novels that resemble none of them closely have no clear
+    shape. The thick line is the average of the panel. Click a line to read that novel''s
+    passages.'
   position.share_x: About shame (%)
   position.part_from: Part starting at (%)
   position.density: Density (1 = even spread)
@@ -341,8 +343,8 @@ strings:
     - **Smoothing:** a centred moving average over three parts.
     - **Violins:** Gaussian kernel density of the positions (bandwidth {bw} percentage points), reflected at 0 and 100 % against edge bias, scaled so that an even spread is 1.
     - **Without shame:** paragraphs with a low rating on all three scales; in *Novel by novel* the length-matched comparison set of the Words and Style pages.
-    - **Arcs:** per novel, the share of detected paragraphs in each tenth, scaled to sum to 1 (the shape, not the amount); novels need at least {arc_min} detected paragraphs. k-means with four clusters, fitted once on all novels; the filters only choose which are shown.
-    - **Findings:** the part with the highest concentration, and the mean concentration of the first and last fifth; with *Typical arcs*, each group's commonest arc. Descriptive only.
+    - **Shapes:** per novel, the share of detected paragraphs in each tenth, scaled to sum to 1 (the shape, not the amount); novels need at least {arc_min} detected paragraphs. The curve, averaged over three neighbouring tenths, is correlated (Pearson) with five fixed shapes: a rising and a falling line, half a sine wave up (peak) and down (dip), and a squared sine wave (two peaks). The best match names the novel's shape if the correlation is at least {arc_fit}; otherwise the novel has no clear shape. The shapes loosely follow the story arcs of Reagan et al. (2016), applied to shame instead of sentiment.
+    - **Findings:** the part with the highest concentration, and the mean concentration of the first and last fifth; with *Narrative arc shape*, each group's commonest shape. Descriptive only.
   words.intro: Which words are used more often in passages about shame than in passages
     from the same novels that are not about shame? The lists are computed for the
     novels and the comparison chosen in the sidebar.
@@ -595,3 +597,9 @@ strings:
     theme''s passages about shame as in the other theme''s. Click a word to read its
     passages.'
   themes.pair.selected: Passages on “{theme}” with the word “{word}”
+  position.arc.rising: Rising
+  position.arc.falling: Falling
+  position.arc.peak: Peak in the middle
+  position.arc.dip: Dip in the middle
+  position.arc.two_peaks: Two peaks
+  position.arc.none: No clear shape

@@ -1,14 +1,24 @@
-"""Typical shapes of the emotion's course through a novel."""
+"""Shapes of the emotion's course through a novel: each novel's curve is
+matched to a few named shapes."""
 
 import numpy as np
 import pandas as pd
-from sklearn.cluster import KMeans
 
-N_ARCS = 4
 # The position bins are pooled into tenths: fewer, steadier points.
 N_PARTS = 10
 # A novel needs this many detected paragraphs for a usable curve.
 MIN_TAGGED = 20
+# The best shape must correlate at least this well, or the novel has none.
+MIN_FIT = 0.5
+_X = (np.arange(N_PARTS) + 0.5) / N_PARTS
+SHAPES = {
+    "rising": _X,
+    "falling": 1 - _X,
+    "peak": np.sin(np.pi * _X),
+    "dip": -np.sin(np.pi * _X),
+    "two_peaks": np.sin(2 * np.pi * _X) ** 2,
+}
+NO_SHAPE = "none"
 
 
 def curves(bins: pd.DataFrame) -> pd.DataFrame:
@@ -27,10 +37,19 @@ def curves(bins: pd.DataFrame) -> pd.DataFrame:
     return rate.div(rate.sum(axis=1), axis=0)
 
 
-def cluster(shapes: pd.DataFrame) -> pd.Series:
-    """Arc of each novel (k-means), numbered 1.. from the earliest centre of
-    mass of the arc's mean curve to the latest."""
-    model = KMeans(N_ARCS, n_init=20, random_state=0).fit(shapes.to_numpy())
-    centre = model.cluster_centers_ @ np.arange(N_PARTS)
-    number = np.argsort(np.argsort(centre)) + 1
-    return pd.Series(number[model.labels_], index=shapes.index, name="arc")
+def _centred(rows: np.ndarray) -> np.ndarray:
+    rows = rows - rows.mean(axis=1, keepdims=True)
+    norm = np.linalg.norm(rows, axis=1, keepdims=True)
+    return np.divide(rows, norm, out=np.zeros_like(rows), where=norm > 0)
+
+
+def classify(shapes: pd.DataFrame) -> pd.DataFrame:
+    """Each novel's shape (`arc`) and its correlation with it (`fit`), on the
+    curve averaged over three neighbouring tenths, which damps the noise."""
+    padded = np.pad(shapes.to_numpy(), ((0, 0), (1, 1)), mode="edge")
+    smooth = (padded[:, :-2] + padded[:, 1:-1] + padded[:, 2:]) / 3
+    fits = _centred(smooth) @ _centred(np.array(list(SHAPES.values()))).T
+    best = fits.argmax(axis=1)
+    fit = fits.max(axis=1)
+    arc = np.where(fit >= MIN_FIT, np.array(list(SHAPES))[best], NO_SHAPE)
+    return pd.DataFrame({"arc": arc, "fit": fit.round(3)}, index=shapes.index)

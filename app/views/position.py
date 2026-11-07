@@ -421,9 +421,12 @@ elif chart_type == "arcs":
     arcs = arcs[arcs["novel_id"].isin(novels["novel_id"])]
     shown = groups if split else groups[:1]
     arcs = compare.with_group(arcs) if split else arcs.assign(group=shown[0].label)
+    arcs = arcs.astype({"arc": str})
     sizes = arcs.drop_duplicates("novel_id")["arc"].value_counts()
     arc_names = {
-        a: t("position.arc", arc=a, n=n) for a, n in sizes.sort_index().items()
+        a: t("position.arc", arc=t(f"position.arc.{a}"), n=sizes[a])
+        for a in [*tables.meta()["overview"]["arc_shapes"], "none"]
+        if a in sizes
     }
     parts = tables.meta()["overview"]["arc_parts"]
     arcs = arcs.assign(
@@ -458,31 +461,34 @@ elif chart_type == "arcs":
         alt.layer(lines, means)
         .properties(width=210, height=220)
         .facet(
-            column=alt.Column(
+            facet=alt.Facet(
                 "arc_name:N",
                 sort=list(arc_names.values()),
                 title=None,
                 header=alt.Header(labelFontSize=13),
-            )
+            ),
+            columns=3,
         )
     )
     event = charts.show_chart(chart, key="pos_arcs")
     if split:
-        counts = arcs.drop_duplicates("novel_id").groupby("group")["arc_name"]
+        counts = arcs.drop_duplicates("novel_id").groupby("group")["arc"]
         share = counts.value_counts(normalize=True).rename("share").reset_index()
+        share = share.assign(shape=share["arc"].map(lambda a: t(f"position.arc.{a}")))
         bars = (
             alt.Chart(share)
             .mark_bar()
             .encode(
-                x=alt.X(
-                    "arc_name:N",
-                    sort=list(arc_names.values()),
-                    title=None,
-                    axis=alt.Axis(labelAngle=0),
-                ),
-                xOffset=alt.XOffset("group:N", sort=[g.label for g in shown]),
                 y=alt.Y(
-                    "share:Q", title=t("position.arc_share"), axis=alt.Axis(format="%")
+                    "shape:N",
+                    sort=[t(f"position.arc.{a}") for a in arc_names],
+                    title=None,
+                ),
+                yOffset=alt.YOffset("group:N", sort=[g.label for g in shown]),
+                x=alt.X(
+                    "share:Q",
+                    title=t("position.arc_share"),
+                    axis=alt.Axis(format="%", tickCount=5),
                 ),
                 color=arc_color,
                 tooltip=[
@@ -490,7 +496,7 @@ elif chart_type == "arcs":
                     alt.Tooltip("share:Q", title=t("position.arc_share"), format=".0%"),
                 ],
             )
-            .properties(height=200)
+            .properties(height=20 * len(share) + 80)
         )
         charts.show_chart(bars, key="pos_arc_shares", select=False)
     per_group = arcs.drop_duplicates("novel_id").groupby("group")["arc"]
@@ -501,7 +507,7 @@ elif chart_type == "arcs":
                 t(
                     "position.find.arc",
                     group=g.label,
-                    arc=share.idxmax(),
+                    arc=t(f"position.arc.{share.idxmax()}"),
                     share=f"{share.max():.0%}",
                 )
             )
@@ -760,6 +766,7 @@ notes.methodology(
     min_tagged=MIN_TAGGED,
     bw=num(BANDWIDTH),
     arc_min=tables.meta()["overview"]["arc_min_tagged"],
+    arc_fit=num(tables.meta()["overview"]["arc_min_fit"]),
 )
 
 

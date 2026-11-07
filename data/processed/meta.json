@@ -26,9 +26,16 @@
     "n_text_paragraphs": 130177
   },
   "overview": {
+    "arc_min_fit": 0.5,
     "arc_min_tagged": 20,
     "arc_parts": 10,
-    "n_arcs": 4,
+    "arc_shapes": [
+      "rising",
+      "falling",
+      "peak",
+      "dip",
+      "two_peaks"
+    ],
     "n_position_bins": 20
   },
   "paragraphs": {

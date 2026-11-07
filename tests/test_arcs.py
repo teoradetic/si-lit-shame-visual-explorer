@@ -18,8 +18,9 @@ def test_curves_keep_the_shape_of_novels_with_enough_passages():
     assert shapes.loc["N1"].tolist() == [0.0] * 9 + [1.0]
 
 
-def test_cluster_numbers_arcs_from_early_to_late(monkeypatch):
-    monkeypatch.setattr(arcs, "N_ARCS", 2)
-    late, early = [0.0] * 9 + [1.0], [1.0] + [0.0] * 9
-    shapes = pd.DataFrame([late, early, late], index=["A", "B", "C"])
-    assert arcs.cluster(shapes).to_dict() == {"A": 2, "B": 1, "C": 2}
+def test_classify_matches_named_shapes():
+    rising = list(arcs._X)
+    shapes = pd.DataFrame([rising, rising[::-1], [0.1] * 10], index=["A", "B", "C"])
+    result = arcs.classify(shapes)
+    assert result["arc"].to_dict() == {"A": "rising", "B": "falling", "C": "none"}
+    assert result.loc["A", "fit"] > 0.95

@@ -17,7 +17,7 @@ Everything in `data/processed/` and `data/tokens/` is committed, so the app runs
 | Group | Installed by | Needed for |
 |---|---|---|
 | runtime | `uv sync`, and the deployed app | the app: Streamlit, Altair, pandas, pyarrow, PyYAML |
-| `prep` | `uv sync` (default group) | steps 1 and 2: zstandard reads the raw corpus, scikit-learn fits the themes and arcs |
+| `prep` | `uv sync` (default group) | steps 1 and 2: zstandard reads the raw corpus, scikit-learn fits the themes |
 | `corpus` | `uv sync --group corpus` | the `tokens` step only: CLASSLA, with torch |
 | `dev` | `uv sync` (default group) | tests, ruff, pre-commit |
 
@@ -51,7 +51,7 @@ uv run --group corpus emotion-explorer tokens   # writes missing data/tokens fil
 
 | Step | Writes |
 |---|---|
-| `overview` | per-novel counts, counts by position in the novel, typical arcs |
+| `overview` | per-novel counts, counts by position in the novel, the shape of each novel's course |
 | `words` | lemma counts per novel, set, case and narration or speech; pairs in a sentence; names and the gender of past-tense subjects; corpus counts, word forms |
 | `themes` | NMF themes, the main theme of each paragraph, and word counts per theme |
 | `style` | style features per paragraph (whole, narration, speech), pooled per novel and set |

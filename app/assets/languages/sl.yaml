@@ -138,17 +138,18 @@ strings:
   position.type.heatmap: 'Toplotni zemljevid: desetletja drugo ob drugem'
   position.type.heatmap_novels: 'Toplotni zemljevid: romani drug ob drugem'
   position.type.novels: Roman za romanom
-  position.type.arcs: Tipični loki
-  position.arc: 'Lok {arc} · romanov: {n}'
+  position.type.arcs: Oblika pripovednega loka
+  position.arc: '{arc} · romanov: {n}'
   position.arc_y: Delež sramu v romanu
   position.arc_share: Delež romanov
-  position.find.arc: '**{group}:** loku {arc} sledi {share} romanov, več kot kateremu
-    koli drugemu loku.'
+  position.find.arc: '**{group}:** obliko »{arc}« ima {share} romanov, več kot katero
+    koli drugo obliko.'
   position.read.arcs: 'Kako brati: vsak roman z vsaj {arc_min} odlomki o sramu je
-    tanka črta: kako se njegov sram razporedi po desetinah romana. Romani s podobnim
-    potekom so združeni v štiri loke; debela črta je povprečje loka. Loki so najdeni
-    samodejno in oštevilčeni od najzgodnejšega sramu do najpoznejšega. Kliknite črto
-    za odlomke tega romana.'
+    tanka črta: kako se njegov sram razporedi po desetinah romana. Vsak roman je v
+    okvirju oblike, ki ji je najbolj podoben: naraščajoča (sram se stopnjuje proti
+    koncu), padajoča (najmočnejši je na začetku), vrh ali dolina na sredini ali dva
+    vrhova. Romani, ki nobeni niso dovolj podobni, so brez jasne oblike. Debela črta
+    je povprečje okvirja. Kliknite črto za odlomke tega romana.'
   position.share_x: O sramu (%)
   position.part_from: Del od (%)
   position.density: Gostota (1 = enakomerno)
@@ -338,8 +339,8 @@ strings:
     - **Glajenje:** centrirano drseče povprečje treh delov.
     - **Violine:** Gaussova jedrna gostota mest (pasovna širina {bw} odstotnih točk), zrcaljena pri 0 in 100 % proti pristranskosti na robovih, umerjena tako, da je enakomerna porazdelitev 1.
     - **Brez sramu:** odstavki z nizko oceno na vseh treh lestvicah; v pogledu *Roman za romanom* po dolžini usklajeni primerjalni nabor strani Besede in Slog.
-    - **Loki:** za vsak roman delež zaznanih odstavkov v vsaki desetini, umerjen na vsoto 1 (oblika, ne količina); roman potrebuje vsaj {arc_min} zaznanih odstavkov. Metoda k-voditeljev s štirimi skupinami, izračunana enkrat na vseh romanih; filtri izberejo le, kateri so prikazani.
-    - **Ugotovitve:** del z največjo zgostitvijo ter povprečna zgostitev prve in zadnje petine; pri *Tipičnih lokih* najpogostejši lok vsake skupine. Le opisno.
+    - **Oblike:** za vsak roman delež zaznanih odstavkov v vsaki desetini, umerjen na vsoto 1 (oblika, ne količina); roman potrebuje vsaj {arc_min} zaznanih odstavkov. Krivulja, povprečena čez tri sosednje desetine, je korelirana (Pearson) s petimi stalnimi oblikami: naraščajočo in padajočo premico, polovico sinusnega vala navzgor (vrh) in navzdol (dolina) ter kvadriranim sinusnim valom (dva vrhova). Najboljše ujemanje poimenuje obliko romana, če je korelacija vsaj {arc_fit}; sicer je roman brez jasne oblike. Oblike ohlapno sledijo zgodbenim lokom Reagana in sodelavcev (2016), le da namesto razpoloženja sledijo sramu.
+    - **Ugotovitve:** del z največjo zgostitvijo ter povprečna zgostitev prve in zadnje petine; pri *Obliki pripovednega loka* najpogostejša oblika vsake skupine. Le opisno.
   words.intro: Katere besede so v odlomkih o sramu pogostejše kot v odlomkih iz istih
     romanov, ki ne govorijo o sramu? Seznami so izračunani za romane in primerjavo,
     izbrane v stranski vrstici.
@@ -585,3 +586,9 @@ strings:
     Dolžina pove, kolikokrat pogosteje se beseda pojavi v odlomkih o sramu te teme
     kot v odlomkih druge teme. Kliknite besedo za njene odlomke.'
   themes.pair.selected: Odlomki na temo »{theme}« z besedo »{word}«
+  position.arc.rising: Naraščajoča
+  position.arc.falling: Padajoča
+  position.arc.peak: Vrh na sredini
+  position.arc.dip: Dolina na sredini
+  position.arc.two_peaks: Dva vrhova
+  position.arc.none: Brez jasne oblike

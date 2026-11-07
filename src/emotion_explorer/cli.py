@@ -11,10 +11,11 @@ from collections.abc import Callable
 import pandas as pd
 
 from emotion_explorer.analysis.arcs import (
+    MIN_FIT,
     MIN_TAGGED,
-    N_ARCS,
     N_PARTS,
-    cluster,
+    SHAPES,
+    classify,
     curves,
 )
 from emotion_explorer.analysis.overview import (
@@ -170,15 +171,16 @@ def step_overview() -> None:
         shapes.stack()
         .rename("share")
         .reset_index()
-        .merge(cluster(shapes).reset_index(), on="novel_id")
+        .merge(classify(shapes).reset_index(), on="novel_id")
         .round({"share": 5})
     )
-    write_parquet(arcs.astype({"part": "int8", "arc": "int8"}), ARCS)
+    write_parquet(arcs.astype({"part": "int8", "arc": "category"}), ARCS)
     write_meta_section(
         "overview",
         {
             "n_position_bins": N_POSITION_BINS,
-            "n_arcs": N_ARCS,
+            "arc_shapes": list(SHAPES),
+            "arc_min_fit": MIN_FIT,
             "arc_parts": N_PARTS,
             "arc_min_tagged": MIN_TAGGED,
         },
