@@ -20,8 +20,9 @@ pages = [
     st.Page("views/stylistics.py", title=t("nav.style"), url_path="style"),
     st.Page("views/method.py", title=t("nav.method"), url_path="method"),
 ]
-# The language menu comes first in the top menu, named after the current
-# language; its entries are the other languages. Flag emoji show as letters
+# The language menu is a dropdown at the end of the top menu (Streamlit puts
+# named sections after the pages), named after the current language; its
+# entries are the other languages. Flag emoji show as letters
 # (GB, SI) on Windows; the names stay readable.
 languages = {
     st.Page(
@@ -33,7 +34,7 @@ languages = {
     if code != lang()
 }
 page = st.navigation(
-    {f"{setting('flag')} {setting('name')}": list(languages), "": pages},
+    {"": pages, f"{setting('flag')} {setting('name')}": list(languages)},
     position="top",
 )
 if page in languages:
