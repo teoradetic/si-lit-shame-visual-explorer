@@ -1,4 +1,4 @@
-"""AN-11: who appears in the passages with shame: who acts, and which names."""
+"""Who appears in the passages with shame: who acts, and which names."""
 
 import altair as alt
 import pandas as pd
@@ -60,10 +60,19 @@ else:
     # One bar per set, split into women and men; two shades of the accent,
     # since grey and the group colours already mean something else.
     subjects_order = [t("people.subject.Fem"), t("people.subject.Masc")]
-    base = (
+    women = acts[acts["subject"] == subjects_order[0]].set_index("row")["share"]
+    acts = acts.assign(edge=acts["row"].map(women))
+    y = alt.Y(
+        "row:N",
+        sort=list(dict.fromkeys(acts["row"])),
+        title=None,
+        axis=alt.Axis(labelLimit=300),
+    )
+    bars = (
         alt.Chart(acts)
+        .mark_bar(height=26)
         .encode(
-            y=alt.Y("row:N", sort=list(dict.fromkeys(acts["row"])), title=None),
+            y=y,
             x=alt.X(
                 "share:Q",
                 stack="normalize",
@@ -71,26 +80,32 @@ else:
                 axis=alt.Axis(format="%"),
             ),
             order=alt.Order("subject_rank:Q"),
+            color=alt.Color(
+                "subject:N",
+                scale=alt.Scale(domain=subjects_order, range=charts.two_shades()),
+                legend=alt.Legend(title=None),
+            ),
+            tooltip=[
+                alt.Tooltip("row:N", title=t("people.col.set")),
+                alt.Tooltip("subject:N", title=t("people.col.subject")),
+                alt.Tooltip("share:Q", title=t("people.acts_x"), format=".0%"),
+                alt.Tooltip("n:Q", title=t("people.col.n")),
+            ],
         )
         .transform_calculate(subject_rank=f"indexof({subjects_order!r}, datum.subject)")
     )
-    bars = base.mark_bar(height=26).encode(
-        color=alt.Color(
-            "subject:N",
-            scale=alt.Scale(domain=subjects_order, range=charts.two_shades()),
-            legend=alt.Legend(title=None),
-        ),
-        tooltip=[
-            alt.Tooltip("row:N", title=t("people.col.set")),
-            alt.Tooltip("subject:N", title=t("people.col.subject")),
-            alt.Tooltip("share:Q", title=t("people.acts_x"), format=".0%"),
-            alt.Tooltip("n:Q", title=t("people.col.n")),
-        ],
-    )
-    text = base.mark_text(dx=-6, align="right", color="white", fontWeight=600).encode(
-        text=alt.Text("share:Q", format=".0%")
-    )
-    chart = alt.layer(bars, text).properties(height=40 * acts["row"].nunique() + 50)
+    # Both shares sit at the border between the two parts, one on each side.
+    labels = [
+        alt.Chart(acts)
+        .transform_filter(alt.datum.subject == subject)
+        .mark_text(align=align, dx=dx, color="white", fontWeight=600)
+        .encode(y=y, x="edge:Q", text=alt.Text("share:Q", format=".0%"))
+        for subject, align, dx in zip(
+            subjects_order, ("right", "left"), (-6, 6), strict=True
+        )
+    ]
+    # Room for the legend and the axis, which the height includes.
+    chart = alt.layer(bars, *labels).properties(height=44 * acts["row"].nunique() + 100)
     charts.show_chart(chart, key="people_acts", select=False)
     st.caption(t("people.acts.read"))
 
