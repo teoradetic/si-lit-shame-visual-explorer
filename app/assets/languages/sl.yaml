@@ -306,13 +306,14 @@ strings:
   time.trend_too_few: 'Premalo romanov za drseče povprečje: potrebuje {n} romane v
     {window} letih.'
   time.top_shame_only: Ta graf razvrsti romane le po odlomkih s sramom.
-  time.find.group: '**{group}** (romanov: {n}): mediana {median}; skozi čas {trend}
-    (ρ = {rho}).'
+  time.find.group: '**{group}** (romanov: {n}) – tipični roman (mediana): {value}.
+    Skozi leta {trend}.'
   time.find.rise: se navadno zvišuje
   time.find.fall: se navadno znižuje
   time.find.flat: ni jasnega trenda
-  time.find.ratio: Mediana skupine **{a}** je {x}-kratnik mediane skupine **{b}**.
-  time.find.top: 'Največ sramu: *{novel}*, {value}.'
+  time.find.ratio: Po tej meri ima tipični roman skupine **{a}** {x}-krat toliko sramu
+    kot tipični roman skupine **{b}**.
+  time.find.top: 'Roman z največ sramu po tej meri: *{novel}* ({value}).'
   time.methodology: |-
     - **Enota:** roman. *Delež* = zaznani odstavki ÷ vsi odstavki romana; *na 10.000 besed* = zaznani odstavki ÷ število besed iz metapodatkov korpusa × 10.000; *povprečna ocena sramu* = povprečje vseh odstavkov romana, pri čemer je ocena odstavka povprečje treh ocen, preračunanih na 0–1, × 100.
     - **Brez sramu:** odstavki z nizko oceno na vseh treh lestvicah (0–1 ≤ 0,30, 0–10 ≤ 3, 0–100 ≤ 30).
@@ -521,3 +522,8 @@ strings:
     vrstici).
   paragraphs.note.dialogue: Šteje se le govor v vsakem odlomku (*Besedilo* v stranski
     vrstici).
+  time.find.value.share: delež odstavkov {kind} je {x} %
+  time.find.value.per_10k_words: 'odstavkov {kind} na 10.000 besed: {x}'
+  time.find.value.mean_score: povprečna ocena sramu je {x} od 100
+  time.find.kind.emotion: o sramu
+  time.find.kind.comparison: zagotovo brez sramu

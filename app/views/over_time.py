@@ -343,8 +343,14 @@ notes.methodology(
 )
 
 
+def amount(value: float, set_name: str = "emotion") -> str:
+    """The measure in words: "5.5 % of its paragraphs about shame"."""
+    return t(
+        f"time.find.value.{measure}", x=num(value), kind=t(f"time.find.kind.{set_name}")
+    )
+
+
 def finding_lines() -> list[str]:
-    unit = " %" if measure == "share" else ""
     lines = []
     medians = {}
     for g in groups:
@@ -361,10 +367,9 @@ def finding_lines() -> list[str]:
             t(
                 "time.find.group",
                 group=g.label,
-                median=num(medians[g.label]) + unit,
+                value=amount(medians[g.label], g.set_name),
                 n=len(members),
                 trend=trend,
-                rho=num(rho, 2) if not np.isnan(rho) else "–",
             )
         )
     if compare.is_split() and len(medians) >= 2:
@@ -375,7 +380,7 @@ def finding_lines() -> list[str]:
     if not top.empty and not shame_mode:
         row = top.iloc[0]
         lines.append(
-            t("time.find.top", novel=row["novel_label"], value=num(row["value"]) + unit)
+            t("time.find.top", novel=row["novel_label"], value=amount(row["value"]))
         )
     return lines
 

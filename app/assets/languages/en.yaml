@@ -308,13 +308,14 @@ strings:
   time.trend_too_few: 'Too few novels for a moving average: it needs {n} novels within
     {window} years.'
   time.top_shame_only: This chart ranks the novels by their passages with shame only.
-  time.find.group: '**{group}** ({n} novels): median {median}; over time {trend} (ρ
-    = {rho}).'
+  time.find.group: '**{group}** ({n} novels): the typical novel (the median) has {value}.
+    Over the years, {trend}.'
   time.find.rise: it tends to rise
   time.find.fall: it tends to fall
   time.find.flat: there is no clear trend
-  time.find.ratio: The median of **{a}** is {x}× that of **{b}**.
-  time.find.top: 'Most shame: *{novel}*, {value}.'
+  time.find.ratio: By this measure, the typical novel of **{a}** has {x}× as much
+    shame as that of **{b}**.
+  time.find.top: 'The novel with the most shame by this measure: *{novel}*, with {value}.'
   time.methodology: |-
     - **Unit:** the novel. *Share* = detected paragraphs ÷ all its paragraphs; *per 10,000 words* = detected paragraphs ÷ the word count in the corpus metadata × 10,000; *average shame score* = mean over all its paragraphs of the three ratings rescaled to 0–1 and averaged, × 100.
     - **Without shame:** paragraphs with a low rating on all three scales (0–1 ≤ 0.30, 0–10 ≤ 3, 0–100 ≤ 30).
@@ -526,3 +527,8 @@ strings:
     the sidebar).
   paragraphs.note.dialogue: Counting only the speech in each passage (*Text* in the
     sidebar).
+  time.find.value.share: '{x} % of its paragraphs {kind}'
+  time.find.value.per_10k_words: '{x} paragraphs {kind} per 10,000 words'
+  time.find.value.mean_score: an average shame score of {x} out of 100
+  time.find.kind.emotion: about shame
+  time.find.kind.comparison: clearly without shame
