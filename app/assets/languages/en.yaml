@@ -19,9 +19,6 @@ strings:
   filters.text_help: Count all of each passage, only its narration, or only the speech
     in it (between quotation marks, or after a dash that opens a paragraph). The excerpts
     are always shown whole. This choice changes only the Words and Style pages.
-  filters.tier: Which passages
-  filters.tier_help: 'Broad: the passages the model is fairly sure are about shame.
-    Core: only those it is most sure about; fewer passages, but fewer mistakes.'
   filters.period: Literary period
   filters.authors: Authors
   filters.authors_placeholder: All authors
@@ -31,8 +28,6 @@ strings:
   filters.reset: Reset filters
   filters.summary: '{novels} novels · {paragraphs} shame-related paragraphs'
   filters.empty: No novels match these filters.
-  tier.core: Core (most certain)
-  tier.broad: Broad (fairly certain)
   period.Realism: Realism
   period.Modernism: Modernism
   period.unknown: Period unknown
@@ -346,7 +341,7 @@ strings:
     - **Smoothing:** a centred moving average over three parts.
     - **Violins:** Gaussian kernel density of the positions (bandwidth {bw} percentage points), reflected at 0 and 100 % against edge bias, scaled so that an even spread is 1.
     - **Without shame:** paragraphs with a low rating on all three scales; in *Novel by novel* the length-matched comparison set of the Words and Style pages.
-    - **Arcs:** per novel, the share of detected paragraphs in each tenth, scaled to sum to 1 (the shape, not the amount); novels need at least {arc_min} detected paragraphs. k-means with four clusters, fitted once on all novels of the tier; the filters only choose which are shown.
+    - **Arcs:** per novel, the share of detected paragraphs in each tenth, scaled to sum to 1 (the shape, not the amount); novels need at least {arc_min} detected paragraphs. k-means with four clusters, fitted once on all novels; the filters only choose which are shown.
     - **Findings:** the part with the highest concentration, and the mean concentration of the first and last fifth; with *Typical arcs*, each group's commonest arc. Descriptive only.
   words.intro: Which words are used more often in passages about shame than in passages
     from the same novels that are not about shame? The lists are computed for the
@@ -436,7 +431,7 @@ strings:
     - **Measure:** weighted log-odds ratio δ with an informative Dirichlet prior (Monroe, Colaresi and Quinn 2008); the prior is the corpus word frequency, scaled to the size of each set, so that a word as frequent on both sides scores 0 however unequal their sizes. Words are ranked by z = δ / SE(δ), which weighs a word's ratio by how much evidence there is for it; the plain ratio, δ alone and the mean shame score of the paragraphs with the word were tried and put rare one-off words first. *Times more frequent* is the plain ratio of the two frequencies, with half a count added to each side so that a word missing on one side stays finite; e^δ is not used for it, because the prior pulls it towards 1, the more so the rarer the word.
     - **Filters:** at least {min_count} occurrences in the two sets; a typical word must recur on its side in at least {novels} novels by {authors} authors (the rule is relaxed for small groups).
     - **Groups:** each group is computed on its own novels. A word belongs to a group when its ratio there is at least {factor}× that of every other group; z is not compared across groups, because it grows with the amount of text.
-    - **Pairs:** two words come together when they share a CLASSLA sentence of a passage with shame; only words that are not function words. Strength is PMI, shown as 2^PMI, how many times as often as chance. Kept are the pairs that share at least {pair_sentences} sentences in {pair_novels} novels of the broad tier and come together at least twice as often as chance there; in the selected novels, a pair needs {together} sentences. In the network each word keeps its {links} strongest links. The network is laid out by force (Fruchterman and Reingold), so only its links, not the distances, carry meaning.
+    - **Pairs:** two words come together when they share a CLASSLA sentence of a passage with shame; only words that are not function words. Strength is PMI, shown as 2^PMI, how many times as often as chance. Kept are the pairs that share at least {pair_sentences} sentences in {pair_novels} novels and come together at least twice as often as chance there; in the selected novels, a pair needs {together} sentences. In the network each word keeps its {links} strongest links. The network is laid out by force (Fruchterman and Reingold), so only its links, not the distances, carry meaning.
     - **Cases:** the CLASSLA case of each occurrence of a clicked word, counted in the same sets; words without case (verbs, adverbs) show no chart.
     - Thousands of words are compared, so the lists are descriptive: z > 3 is not a corrected significance level.
   style.intro: 'Are passages about shame written differently from other passages in
@@ -525,7 +520,7 @@ strings:
     many times as common they are there: {themes}.'
   themes.selected: Passages on the theme “{theme}”
   themes.methodology: |-
-    - **Paragraphs:** the broad tier's detected paragraphs and their comparison paragraphs (as on the Words page), pooled, so that both share one set of themes; the core tier uses its own part of them.
+    - **Paragraphs:** the detected paragraphs and their comparison paragraphs (as on the Words page), pooled, so that both share one set of themes.
     - **Words:** noun and adjective lemmas, without names and without the emotion's own words (those containing its stem); a lemma must occur in at least {min_paragraphs} paragraphs and in at most {max_share} % of them.
     - **Themes:** non-negative matrix factorization (NMF) of the paragraphs' TF-IDF weights into {n} themes, not the LDA of the earlier study. A paragraph's main theme is the one with the largest weight; its share of the paragraph's weights ranks the passages. A theme is named by the words with the highest weight times the share of the word's weight that falls on this theme, so that words common to many themes come later.
     - **Shares:** the share of each set's paragraphs whose main theme it is; *times as common* divides the share with shame by the share without; with groups, each group against its own passages without shame. Descriptive, not tested.

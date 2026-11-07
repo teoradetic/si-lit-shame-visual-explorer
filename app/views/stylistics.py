@@ -29,7 +29,6 @@ def paragraph_value(feature: str, d: pd.DataFrame) -> pd.Series:
     return count / d["n_chars"].clip(lower=1) * 1000
 
 
-f = filters.current()
 st.title(t("style.title"))
 st.write(t("style.intro"))
 filters.stop_if_empty()
@@ -72,7 +71,7 @@ analysed = groups if split else [everyone]
 tables_by_group = []
 too_few = []
 for g in analysed:
-    table = tables.group_style(f.tier, paragraph_split, g.novel_ids, tuple(features))
+    table = tables.group_style(paragraph_split, g.novel_ids, tuple(features))
     if table.empty:
         too_few.append(g.label)
     else:
@@ -188,9 +187,7 @@ if chart_type == "index":
     st.caption(t("style.read.index"))
 elif chart_type == "time":
     style_novels = tables.table("style_novels")
-    style_novels = style_novels[
-        (style_novels["tier"] == f.tier) & (style_novels["split"] == paragraph_split)
-    ]
+    style_novels = style_novels[style_novels["split"] == paragraph_split]
     years = tables.novels().set_index("novel_id")["year"]
     set_labels = {"emotion": t("set.emotion"), "comparison": t("set.comparison")}
     frames = []
@@ -447,7 +444,6 @@ if feature and feature != "mattr":
     paragraphs = paragraphs[
         (paragraphs["set"] == "emotion")
         & (paragraphs["split"] == paragraph_split)
-        & paragraphs[f.tier]
         & paragraphs["novel_id"].isin(ids)
     ]
     # Rank excerpts by their best focus paragraph; short ones have noisy rates.
@@ -455,7 +451,7 @@ if feature and feature != "mattr":
         paragraphs["n_words"] >= 20
     ]
     top = ranked.nlargest(200, "value")[["novel_id", "para_id", "value"]]
-    picked = tables.ranked_excerpts(f.tier, top)
+    picked = tables.ranked_excerpts("emotion", top)
     reader.show_excerpts(
         picked,
         key="style_reader",

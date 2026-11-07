@@ -6,7 +6,6 @@ from helpers import filters, reader, tables
 from helpers.language import num, t
 
 meta = tables.meta()["paragraphs"]
-f = filters.current()
 
 st.title(t("app.title"))
 st.write(
@@ -22,12 +21,12 @@ st.info(t("home.caveat"), icon=":material/info:")
 
 ids = filters.novel_ids()
 selected = filters.filtered_novels()
-excerpts = tables.excerpts(f.tier)
+excerpts = tables.excerpts("emotion")
 excerpts = excerpts[excerpts["novel_id"].isin(ids)]
 cols = st.columns(4)
 cols[0].metric(t("home.m_novels"), num(len(selected), 0))
 cols[1].metric(t("home.m_paragraphs"), num(int(selected["n_paragraphs"].sum()), 0))
-cols[2].metric(t("home.m_tagged"), num(int(selected[f"n_{f.tier}"].sum()), 0))
+cols[2].metric(t("home.m_tagged"), num(int(selected["n_emotion"].sum()), 0))
 cols[3].metric(t("home.m_excerpts"), num(len(excerpts), 0))
 
 st.subheader(t("home.views"))

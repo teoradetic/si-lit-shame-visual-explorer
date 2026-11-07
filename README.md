@@ -38,8 +38,8 @@ uv run pre-commit install
 |---|---|
 | `corpora` | downloads the annotated [KDSP](http://hdl.handle.net/11356/1823), [PriLit](http://hdl.handle.net/11356/1319) and [ELTeC-slv](https://github.com/COST-ELTeC/ELTeC-slv) editions (262 novels, 1.6 GB) |
 | `tokens` | `data/tokens/`: their annotation, and CLASSLA for the other 43 novels |
-| `paragraphs` | one row per paragraph: scores, tier flags, novel metadata |
-| `comparison` | low-score partners of the broad-tier paragraphs |
+| `paragraphs` | one row per paragraph: scores, whether it is detected, novel metadata |
+| `comparison` | low-score partners of the detected paragraphs |
 | `excerpts` | excerpts with ±2 paragraphs of context, and their texts |
 
 ```bash

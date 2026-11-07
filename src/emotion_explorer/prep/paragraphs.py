@@ -9,7 +9,7 @@ from emotion_explorer.emotion import SCALE_MAX, SCALES, Emotion
 OVER_CONTEXT_CHARS = 9_400
 
 
-def tier_mask(scores: pd.DataFrame, minimums: dict[str, float]) -> pd.Series:
+def high_mask(scores: pd.DataFrame, minimums: dict[str, float]) -> pd.Series:
     """True where every score range reaches its minimum."""
     mask = pd.Series(True, index=scores.index)
     for scale, minimum in minimums.items():
@@ -50,8 +50,7 @@ def build_paragraphs(
     df = pd.DataFrame.from_records(records)
     # Not intensity: the mean of the three ranges rescaled to 0-1.
     df["score"] = sum(df[f"score_{s}"] / SCALE_MAX[s] for s in SCALES) / len(SCALES)
-    for tier, minimums in emotion.tiers.items():
-        df[tier] = tier_mask(df, minimums)
+    df["emotion"] = high_mask(df, emotion.minimum)
     df["low"] = low_mask(df, emotion.low)
     df["over_context"] = df["n_chars"] > OVER_CONTEXT_CHARS
 

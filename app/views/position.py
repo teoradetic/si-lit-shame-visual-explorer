@@ -30,7 +30,6 @@ BANDWIDTH = 4.0
 # The parts of the novel the findings compare: the first and last fifth.
 FIFTH = 4
 
-f = filters.current()
 st.title(t("position.title"))
 st.write(t("position.intro"))
 st.info(t("position.explain"), icon=":material/menu_book:")
@@ -52,7 +51,6 @@ n_bins = tables.meta()["overview"]["n_position_bins"]
 part = 100 / n_bins
 novels = filters.filtered_novels()
 novels = novels.assign(novel_label=novels["novel_id"].map(filters.novel_titles()))
-tagged_col = f"n_{f.tier}"
 bins = tables.table("position_bins")
 bins = bins[bins["novel_id"].isin(set(novels["novel_id"]))].merge(
     novels[["novel_id", "novel_label", "year"]], on="novel_id"
@@ -71,14 +69,14 @@ if shame_mode:
         [
             bins.assign(
                 group=g.label,
-                hits=bins[tagged_col if g.set_name == "emotion" else "n_low"],
+                hits=bins["n_emotion" if g.set_name == "emotion" else "n_low"],
             )
             for g in groups
         ],
         ignore_index=True,
     )
 else:
-    bins = compare.with_group(bins).assign(hits=lambda d: d[tagged_col])
+    bins = compare.with_group(bins).assign(hits=lambda d: d["n_emotion"])
 x_position = alt.X(
     "mid:Q",
     title=t("position.x"),
@@ -212,7 +210,7 @@ if chart_type in ("concentration", "share"):
         p = points[0]
         low = p["position_bin"] * part
         picked = excerpts_in(
-            compare.set_of(p["group"], f.tier),
+            compare.set_of(p["group"]),
             group_novels(p["group"]),
             low,
             low + part,
@@ -226,13 +224,13 @@ elif chart_type == "violin":
         marks = pd.concat(
             [
                 paragraphs[
-                    paragraphs[f.tier if g.set_name == "emotion" else "low"]
+                    paragraphs["emotion" if g.set_name == "emotion" else "low"]
                 ].assign(group=g.label)
                 for g in groups
             ]
         )
     else:
-        marks = compare.with_group(paragraphs[paragraphs[f.tier]])
+        marks = compare.with_group(paragraphs[paragraphs["emotion"]])
     rows = []
     for group, members in marks.groupby("group"):
         density = stats.reflected_density(
@@ -413,14 +411,14 @@ elif chart_type in ("heatmap", "heatmap_novels"):
             if split:
                 members = members[members["group"] == group_label]
             group_ids = set(members["novel_id"])
-        picked = excerpts_in(f.tier, group_ids, low, low + part)
+        picked = excerpts_in("emotion", group_ids, low, low + part)
         picked_title = t("position.bin_selected", a=round(low), b=round(low + part))
 
 elif chart_type == "arcs":
     # The arcs come from the pipeline; with shame only, so the shame
     # mode shows one group.
     arcs = tables.table("arcs")
-    arcs = arcs[(arcs["tier"] == f.tier) & arcs["novel_id"].isin(novels["novel_id"])]
+    arcs = arcs[arcs["novel_id"].isin(novels["novel_id"])]
     shown = groups if split else groups[:1]
     arcs = compare.with_group(arcs) if split else arcs.assign(group=shown[0].label)
     sizes = arcs.drop_duplicates("novel_id")["arc"].value_counts()
@@ -509,7 +507,7 @@ elif chart_type == "arcs":
             )
     novel = (charts.selected(event, "novel", "novel_id") or [None])[0]
     if novel:
-        picked = excerpts_in(f.tier, [novel], 0, 100.1)
+        picked = excerpts_in("emotion", [novel], 0, 100.1)
         picked_title = filters.novel_titles().get(novel)
 else:  # novels
     c3, c4 = st.columns(2, vertical_alignment="bottom")
@@ -529,8 +527,8 @@ else:  # novels
     )
     sort_cols, ascending = {
         "year": (["year", "author"], True),
-        "count": ([tagged_col, "year"], False),
-        "share": ([f"share_{f.tier}", "year"], False),
+        "count": (["n_emotion", "year"], False),
+        "share": (["share_emotion", "year"], False),
         "author": (["author", "year"], True),
     }[order_by]
     in_groups = compare.with_group(novels)
@@ -556,7 +554,7 @@ else:  # novels
         title=None,
         axis=alt.Axis(labelOverlap=False, labelLimit=300, labelFontSize=12),
     )
-    marks = tables.tagged(f.tier)
+    marks = tables.tagged()
     marks = marks[marks["novel_id"].isin(shown["novel_id"])].merge(
         shown[["novel_id", "novel_label"]], on="novel_id"
     )
@@ -669,7 +667,7 @@ else:  # novels
             .properties(height=height, width=STRIP_WIDTH)
         )
     # Each novel's share beside the strip, as one line down the rows.
-    shares = shown.assign(share=shown[f"share_{f.tier}"] * 100, row=range(len(shown)))
+    shares = shown.assign(share=shown["share_emotion"] * 100, row=range(len(shown)))
     share_x = alt.X(
         "share:Q",
         title=t("position.share_x"),
@@ -727,7 +725,7 @@ else:  # novels
         points = (event.selection.get("mark") if event else None) or []
         if points:
             keys = {(p["novel_id"], p["para_id"]) for p in points}
-            excerpts = tables.excerpts(f.tier)
+            excerpts = tables.excerpts("emotion")
             candidates = excerpts[excerpts["novel_id"].isin({k[0] for k in keys})]
             picked = candidates[
                 candidates.apply(
@@ -740,7 +738,7 @@ else:  # novels
         if points:
             p = points[0]
             picked = excerpts_in(
-                f.tier, [p["novel_id"]], p["position"] - 5, p["position"] + 5
+                "emotion", [p["novel_id"]], p["position"] - 5, p["position"] + 5
             )
             picked_title = t(
                 "position.bin_selected",

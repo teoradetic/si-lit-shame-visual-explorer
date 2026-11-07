@@ -11,18 +11,18 @@ N_PARTS = 10
 MIN_TAGGED = 20
 
 
-def curves(bins: pd.DataFrame, tier: str) -> pd.DataFrame:
+def curves(bins: pd.DataFrame) -> pd.DataFrame:
     """Each novel's curve: the rate of detected paragraphs per tenth, scaled
     to sum to 1, so that only its shape counts; novels by tenth."""
     n_bins = bins["position_bin"].max() + 1
     part = bins["position_bin"].astype(int) * N_PARTS // n_bins
     sums = (
         bins.assign(part=part)
-        .groupby(["novel_id", "part"], observed=True)[[f"n_{tier}", "n_paragraphs"]]
+        .groupby(["novel_id", "part"], observed=True)[["n_emotion", "n_paragraphs"]]
         .sum()
     )
-    rate = (sums[f"n_{tier}"] / sums["n_paragraphs"]).unstack("part")
-    tagged = sums[f"n_{tier}"].groupby("novel_id", observed=True).sum()
+    rate = (sums["n_emotion"] / sums["n_paragraphs"]).unstack("part")
+    tagged = sums["n_emotion"].groupby("novel_id", observed=True).sum()
     rate = rate[tagged.reindex(rate.index) >= MIN_TAGGED]
     return rate.div(rate.sum(axis=1), axis=0)
 

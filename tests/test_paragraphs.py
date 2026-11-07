@@ -8,19 +8,14 @@ def test_one_row_per_paragraph_in_order(annotations, metadata):
     assert df.loc[df.novel_id == "N1", "para_id"].tolist() == list(range(10))
 
 
-def test_tiers_are_nested(annotations, metadata):
-    df = build_paragraphs(annotations, metadata, SHAME).set_index(
-        ["novel_id", "para_id"]
-    )
-    assert df.loc[("N1", 2), ["core", "broad"]].tolist() == [True, True]
-    assert df.loc[("N1", 5), ["core", "broad"]].tolist() == [False, True]
-    assert not (df["core"] & ~df["broad"]).any()
-    assert df["broad"].sum() == 2
+def test_detected_needs_every_range(annotations, metadata):
+    df = build_paragraphs(annotations, metadata, SHAME)
+    assert df.loc[df["emotion"], "para_id"].tolist() == [2, 5]
 
 
 def test_low_excludes_tagged(annotations, metadata):
     df = build_paragraphs(annotations, metadata, SHAME)
-    assert not (df["low"] & df["broad"]).any()
+    assert not (df["low"] & df["emotion"]).any()
     assert df["low"].sum() == 12
 
 

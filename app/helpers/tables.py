@@ -55,10 +55,10 @@ def excerpts(set_name: str) -> pd.DataFrame:
     return df.merge(novels()[novel_cols], on="novel_id", validate="m:1")
 
 
-def tagged(tier: str) -> pd.DataFrame:
-    """The paragraphs of one tier, as columns."""
+def tagged() -> pd.DataFrame:
+    """The detected paragraphs, as columns."""
     df = paragraphs()
-    return df[df[tier]].reset_index()
+    return df[df["emotion"]].reset_index()
 
 
 def ranked_excerpts(set_name: str, ranked: pd.DataFrame) -> pd.DataFrame:
@@ -102,21 +102,20 @@ def focus_texts(set_name: str) -> pd.Series:
 
 
 @st.cache_resource
-def word_cases(tier: str, split: str) -> pd.DataFrame:
-    """Word counts per novel, side and case (null for no case) of one tier, in
-    all text, narration or speech (`dialogue`)."""
+def word_cases(split: str) -> pd.DataFrame:
+    """Word counts per novel, side and case (null for no case), in all text,
+    narration or speech (`dialogue`)."""
     df = table("word_counts")
-    df = df[df["tier"] == tier]
     if split != "all":
         df = df[df["speech"] == (split == "dialogue")]
-    return df.drop(columns=["tier", "speech"])
+    return df.drop(columns="speech")
 
 
 @st.cache_resource
-def word_counts(tier: str, split: str) -> pd.DataFrame:
+def word_counts(split: str) -> pd.DataFrame:
     """Word counts per novel and side (emotion or comparison)."""
     keys = ["novel_id", "word", "side"]
-    cases = word_cases(tier, split)
+    cases = word_cases(split)
     return cases.groupby(keys, observed=True)["n"].sum().reset_index()
 
 
@@ -127,9 +126,9 @@ def word_prior() -> pd.DataFrame:
 
 
 @st.cache_data(max_entries=64)
-def group_words(tier: str, split: str, novel_ids: frozenset[str]) -> pd.DataFrame:
+def group_words(split: str, novel_ids: frozenset[str]) -> pd.DataFrame:
     """Typical words of the detected passages of these novels, with flags."""
-    counts = word_counts(tier, split)
+    counts = word_counts(split)
     counts = counts[counts["novel_id"].isin(novel_ids)]
     authors = novels().set_index("novel_id")["author"]
     prior = word_prior()
@@ -140,11 +139,11 @@ def group_words(tier: str, split: str, novel_ids: frozenset[str]) -> pd.DataFram
 
 
 @st.cache_data(max_entries=64)
-def group_pairs(tier: str, novel_ids: frozenset[str]) -> pd.DataFrame:
+def group_pairs(novel_ids: frozenset[str]) -> pd.DataFrame:
     """Words a, b in the same sentence of the detected passages of these novels:
     sentences together (n) and PMI. An empty `a` counts the sentences of `b`."""
     df = table("word_pairs")
-    df = df[(df["tier"] == tier) & df["novel_id"].isin(novel_ids)]
+    df = df[df["novel_id"].isin(novel_ids)]
     df = df.groupby(["a", "b"], observed=True)["n"].sum().reset_index()
     df = df.astype({"a": str, "b": str})
     sentences = df[df["a"] == ""].set_index("b")["n"]
@@ -167,10 +166,10 @@ def word_forms() -> pd.Series:
 
 @st.cache_data(max_entries=64)
 def group_style(
-    tier: str, split: str, novel_ids: frozenset[str], features: tuple[str, ...]
+    split: str, novel_ids: frozenset[str], features: tuple[str, ...]
 ) -> pd.DataFrame:
     """Style of the detected passages of these novels against the comparison set."""
     df = table("style_novels")
-    df = df[(df["tier"] == tier) & (df["split"] == split)]
+    df = df[df["split"] == split]
     df = df[df["novel_id"].isin(novel_ids)]
     return stats.compare_novels(df.astype({"set": str}), list(features))

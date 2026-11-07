@@ -3,11 +3,11 @@
 import pandas as pd
 
 
-def tier_sets(
-    paragraphs: pd.DataFrame, comparison: pd.DataFrame, tier: str
+def matched_sets(
+    paragraphs: pd.DataFrame, comparison: pd.DataFrame
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """The tier's paragraphs and the comparison paragraphs matched to them."""
-    emotion = paragraphs[paragraphs[tier]]
+    """The detected paragraphs and the comparison paragraphs matched to them."""
+    emotion = paragraphs[paragraphs["emotion"]]
     keys = emotion[["novel_id", "para_id"]].rename(
         columns={"para_id": "matched_para_id"}
     )

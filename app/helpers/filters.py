@@ -9,12 +9,9 @@ from helpers import tables
 from helpers.charts import GENDERS, PERIODS
 from helpers.language import label, num, t
 
-DEFAULT_TIER = "broad"
-
 
 @dataclass(frozen=True)
 class Filters:
-    tier: str
     periods: list[str]
     genders: list[str]
     authors: list[str]
@@ -30,7 +27,6 @@ def _year_bounds() -> tuple[int, int]:
 
 
 def _reset() -> None:
-    st.session_state["f_tier"] = DEFAULT_TIER
     st.session_state["f_periods"] = list(PERIODS)
     st.session_state["f_genders"] = list(GENDERS)
     st.session_state["f_authors"] = []
@@ -41,7 +37,7 @@ def _reset() -> None:
 
 def sidebar(text: bool) -> None:
     """The filters; `text` shows the narration/speech split."""
-    if "f_tier" not in st.session_state:
+    if "f_periods" not in st.session_state:
         _reset()
     # Kept while the control is hidden, which would otherwise drop it.
     st.session_state["f_text"] = st.session_state.get("f_text", "all")
@@ -49,14 +45,6 @@ def sidebar(text: bool) -> None:
     with st.sidebar, st.container(border=True):
         st.header(t("filters.header"), divider="gray")
         st.caption(t("filters.caption"))
-        tiers = list(tables.meta()["paragraphs"]["tiers"])
-        st.radio(
-            t("filters.tier"),
-            tiers,
-            format_func=lambda v: label("tier", v),
-            key="f_tier",
-            help=t("filters.tier_help"),
-        )
         if text:
             st.segmented_control(
                 t("paragraphs.split"),
@@ -99,7 +87,7 @@ def sidebar(text: bool) -> None:
         st.button(t("filters.reset"), on_click=_reset)
 
         selected = filtered_novels()
-        n_tagged = int(selected[f"n_{current().tier}"].sum())
+        n_tagged = int(selected["n_emotion"].sum())
         st.caption(
             t("filters.summary", novels=len(selected), paragraphs=num(n_tagged, 0))
         )
@@ -108,7 +96,6 @@ def sidebar(text: bool) -> None:
 def current() -> Filters:
     s = st.session_state
     return Filters(
-        tier=s.get("f_tier", DEFAULT_TIER),
         periods=list(s.get("f_periods", PERIODS)),
         genders=list(s.get("f_genders", GENDERS)),
         authors=list(s.get("f_authors", [])),

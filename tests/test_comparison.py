@@ -12,7 +12,7 @@ def test_near_tagged():
 
 def test_partners_are_low_far_and_similar_in_length(annotations, metadata):
     paragraphs = build_paragraphs(annotations, metadata, SHAME)
-    comparison = build_comparison(paragraphs, "broad")
+    comparison = build_comparison(paragraphs)
     by_key = paragraphs.set_index(["novel_id", "para_id"])
     assert set(comparison["matched_para_id"]) <= {2, 5}
     for row in comparison.itertuples():

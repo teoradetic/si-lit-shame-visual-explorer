@@ -10,7 +10,6 @@ from helpers.language import num, t
 N_LABEL_WORDS = 4
 N_FINDINGS = 3
 
-f = filters.current()
 st.title(t("themes.title"))
 st.write(t("themes.intro"))
 filters.stop_if_empty()
@@ -24,8 +23,6 @@ names = (
     .agg(" · ".join)
 )
 main = tables.table("theme_paragraphs")
-if f.tier == "core":
-    main = main[main["core"]]
 pool_ids = frozenset().union(*(g.novel_ids for g in groups))
 split = compare.is_split()
 
@@ -174,7 +171,7 @@ if points:
     ]
     reader.show_excerpts(
         tables.ranked_excerpts(
-            f.tier if set_name == "emotion" else "comparison",
+            set_name,
             rows[["novel_id", "para_id", "weight"]].rename(columns={"weight": "value"}),
         ),
         key="themes_reader",

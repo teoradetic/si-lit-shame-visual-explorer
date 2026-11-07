@@ -14,8 +14,8 @@ def test_merge_spans_clips_and_merges_overlaps():
 
 def test_excerpts_and_their_texts(annotations, metadata):
     paragraphs = build_paragraphs(annotations, metadata, SHAME)
-    focus = paragraphs.loc[paragraphs["broad"], ["novel_id", "para_id"]]
-    excerpts = build_excerpts(paragraphs, {"broad": focus})
+    focus = paragraphs.loc[paragraphs["emotion"], ["novel_id", "para_id"]]
+    excerpts = build_excerpts(paragraphs, {"emotion": focus})
     assert len(excerpts) == 1
     row = excerpts.iloc[0]
     assert (row.start, row.end, list(row.focus_ids)) == (0, 7, [2, 5])

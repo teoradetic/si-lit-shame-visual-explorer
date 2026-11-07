@@ -30,7 +30,7 @@ from emotion_explorer.analysis.pairs import (
     keep_strong,
     strong,
 )
-from emotion_explorer.analysis.slices import tier_sets
+from emotion_explorer.analysis.slices import matched_sets
 from emotion_explorer.analysis.style import (
     FEATURES,
     MATTR_WINDOW,
@@ -95,8 +95,6 @@ from emotion_explorer.prep.tokens import (
 )
 
 EMOTION = SHAME
-# The tier the comparison set is matched to, and the app's default tier.
-MATCHED_TIER = "broad"
 SIDES = ("emotion", "comparison")
 
 
@@ -115,7 +113,7 @@ def step_paragraphs() -> None:
         {
             "emotion": EMOTION.name,
             "stem": EMOTION.stem,
-            "tiers": EMOTION.tiers,
+            "minimum": EMOTION.minimum,
             "low": EMOTION.low,
             "over_context_chars": OVER_CONTEXT_CHARS,
             "n_paragraphs": len(paragraphs),
@@ -124,7 +122,7 @@ def step_paragraphs() -> None:
             "year_range": [int(novels["year"].min()), int(novels["year"].max())],
             "novels_by_period": novels["period"].value_counts().to_dict(),
             "novels_by_gender": novels["gender"].value_counts().to_dict(),
-            "tier_counts": {t: int(paragraphs[t].sum()) for t in EMOTION.tiers},
+            "n_emotion": int(paragraphs["emotion"].sum()),
             "low_count": int(paragraphs["low"].sum()),
             "over_context_count": int(paragraphs["over_context"].sum()),
         },
@@ -133,18 +131,18 @@ def step_paragraphs() -> None:
 
 def step_comparison() -> None:
     paragraphs = pd.read_parquet(PARAGRAPHS)
-    comparison = build_comparison(paragraphs, MATCHED_TIER)
+    comparison = build_comparison(paragraphs)
     write_parquet(comparison, COMPARISON)
-    write_meta_section(
-        "comparison", summarize_comparison(paragraphs, comparison, MATCHED_TIER)
-    )
+    write_meta_section("comparison", summarize_comparison(paragraphs, comparison))
 
 
 def step_excerpts() -> None:
     paragraphs = pd.read_parquet(PARAGRAPHS)
     cols = ["novel_id", "para_id"]
-    sets = {tier: paragraphs.loc[paragraphs[tier], cols] for tier in EMOTION.tiers}
-    sets["comparison"] = pd.read_parquet(COMPARISON)[cols]
+    sets = {
+        "emotion": paragraphs.loc[paragraphs["emotion"], cols],
+        "comparison": pd.read_parquet(COMPARISON)[cols],
+    }
     excerpts = build_excerpts(paragraphs, sets)
     write_parquet(excerpts, EXCERPTS)
     texts = excerpt_texts(load_annotations(), excerpts)
@@ -163,24 +161,18 @@ def step_excerpts() -> None:
 
 def step_overview() -> None:
     paragraphs = pd.read_parquet(PARAGRAPHS)
-    tiers = tuple(EMOTION.tiers)
-    write_parquet(build_novels(paragraphs, load_metadata(), tiers), NOVELS)
-    bins = build_position_bins(paragraphs, tiers)
+    write_parquet(build_novels(paragraphs, load_metadata()), NOVELS)
+    bins = build_position_bins(paragraphs)
     write_parquet(bins, POSITION_BINS)
-    arcs = []
-    for tier in tiers:
-        shapes = curves(bins, tier)
-        arcs.append(
-            shapes.stack()
-            .rename("share")
-            .reset_index()
-            .merge(cluster(shapes).reset_index(), on="novel_id")
-            .assign(tier=tier)
-        )
-    arcs = pd.concat(arcs, ignore_index=True).round({"share": 5})
-    write_parquet(
-        arcs.astype({"tier": "category", "part": "int8", "arc": "int8"}), ARCS
+    shapes = curves(bins)
+    arcs = (
+        shapes.stack()
+        .rename("share")
+        .reset_index()
+        .merge(cluster(shapes).reset_index(), on="novel_id")
+        .round({"share": 5})
     )
+    write_parquet(arcs.astype({"part": "int8", "arc": "int8"}), ARCS)
     write_meta_section(
         "overview",
         {
@@ -201,19 +193,16 @@ def add_text(paragraphs: pd.DataFrame, annotations: dict) -> pd.DataFrame:
     )
 
 
-def read_sets() -> tuple[dict[tuple[str, str], pd.DataFrame], pd.DataFrame]:
-    """The words of each (tier, side) set, and per-lemma stats of the corpus."""
+def read_sets() -> tuple[dict[str, pd.DataFrame], pd.DataFrame]:
+    """The words of each side, and per-lemma stats of the corpus."""
     paragraphs = pd.read_parquet(PARAGRAPHS)
     comparison = pd.read_parquet(COMPARISON)
     by_novel = {
-        (tier, side): frame.groupby("novel_id")["para_id"]
-        for tier in EMOTION.tiers
-        for side, frame in zip(
-            SIDES, tier_sets(paragraphs, comparison, tier), strict=True
-        )
+        side: frame.groupby("novel_id")["para_id"]
+        for side, frame in zip(SIDES, matched_sets(paragraphs, comparison), strict=True)
     }
     stats = []
-    in_sets: dict[tuple[str, str], list[pd.DataFrame]] = {k: [] for k in by_novel}
+    in_sets: dict[str, list[pd.DataFrame]] = {k: [] for k in by_novel}
     for novel_id in sorted(paragraphs["novel_id"].unique()):
         words = read_words(TOKENS_DIR / f"{novel_id}.parquet")
         stats.append(lemma_stats(words))
@@ -228,37 +217,32 @@ def read_sets() -> tuple[dict[tuple[str, str], pd.DataFrame], pd.DataFrame]:
 def step_words() -> None:
     sets, corpus = read_sets()
     names = set(corpus.index[corpus["name"]])
-    # The matched tier holds every other tier, so its two sides are the largest.
-    largest = pd.concat([sets[(MATCHED_TIER, s)] for s in SIDES], ignore_index=True)
-    frequency = largest["word"].value_counts()
+    both = pd.concat(sets.values(), ignore_index=True)
+    frequency = both["word"].value_counts()
     keep = vocabulary(frequency, names)
     # Names counted on their own, for the People page. A name none of
     # whose forms is mostly its own is a tagging slip (*bola*).
     people = {w for w in names if frequency.get(w, 0) >= MIN_COUNT}
-    forms = word_forms(largest, keep | people)
+    forms = word_forms(both, keep | people)
     people &= set(forms["word"])
     counts = pd.concat(
-        [
-            count_words(frame, keep).assign(tier=tier, side=side)
-            for (tier, side), frame in sets.items()
-        ],
+        [count_words(frame, keep).assign(side=side) for side, frame in sets.items()],
         ignore_index=True,
     )
-    categories = {c: "category" for c in ("novel_id", "word", "case", "tier", "side")}
+    categories = {c: "category" for c in ("novel_id", "word", "case", "side")}
     write_parquet(counts.astype({**categories, "n": "int32"}), WORD_COUNTS)
-    by_set = [((tier, side), frame) for (tier, side), frame in sets.items()]
     name_counts = pd.concat(
         [
             count_words(frame, people)
             .groupby(["novel_id", "word"], observed=True)["n"]
             .sum()
             .reset_index()
-            .assign(tier=tier, side=side)
-            for (tier, side), frame in by_set
+            .assign(side=side)
+            for side, frame in sets.items()
         ],
         ignore_index=True,
     )
-    categories = {c: "category" for c in ("novel_id", "word", "tier", "side")}
+    categories = {c: "category" for c in ("novel_id", "word", "side")}
     write_parquet(name_counts.astype({**categories, "n": "int32"}), NAME_COUNTS)
     subjects = pd.concat(
         [
@@ -266,12 +250,12 @@ def step_words() -> None:
             .size()
             .rename("n")
             .reset_index()
-            .assign(tier=tier, side=side)
-            for (tier, side), frame in by_set
+            .assign(side=side)
+            for side, frame in sets.items()
         ],
         ignore_index=True,
     )
-    categories = {c: "category" for c in ("novel_id", "subject", "tier", "side")}
+    categories = {c: "category" for c in ("novel_id", "subject", "side")}
     write_parquet(subjects.astype({**categories, "n": "int32"}), SUBJECTS)
     vocab = corpus.loc[sorted(keep | people)]
     write_parquet(
@@ -291,13 +275,9 @@ def step_words() -> None:
     # Pairs in the passages with the emotion only: that is what the network
     # shows, and the comparison set would double the table.
     content = {w for w in keep if corpus.loc[w, "pos"] not in FUNCTION_POS}
-    pairs = {t: count_pairs(sets[(t, "emotion")], content) for t in EMOTION.tiers}
-    kept = strong(pairs[MATCHED_TIER])
-    pairs = pd.concat(
-        [keep_strong(frame, kept).assign(tier=t) for t, frame in pairs.items()],
-        ignore_index=True,
-    )
-    categories = {c: "category" for c in ("novel_id", "a", "b", "tier")}
+    pairs = count_pairs(sets["emotion"], content)
+    pairs = keep_strong(pairs, strong(pairs))
+    categories = {c: "category" for c in ("novel_id", "a", "b")}
     write_parquet(pairs.astype({**categories, "n": "int32"}), WORD_PAIRS)
     write_meta_section(
         "words",
@@ -321,16 +301,14 @@ def step_themes() -> None:
     # Without the emotion's own words, which would make a theme of themselves.
     usable = prior["pos"].isin(THEME_POS) & ~prior["contains_stem"] & ~prior["name"]
     vocabulary = set(prior.loc[usable, "word"])
-    words = pd.concat([sets[(MATCHED_TIER, side)] for side in SIDES])
+    words = pd.concat(sets.values())
     themes, main = fit_themes(words[words["word"].isin(vocabulary)])
     write_parquet(themes.astype({"theme": "int8", "rank": "int8"}), THEMES)
     keys = ["novel_id", "para_id"]
     sides = pd.concat(
-        [sets[(MATCHED_TIER, s)][keys].drop_duplicates().assign(set=s) for s in SIDES]
+        [frame[keys].drop_duplicates().assign(set=s) for s, frame in sets.items()]
     )
-    core = pd.concat([sets[("core", s)][keys] for s in SIDES]).drop_duplicates()
-    main = main.merge(sides, on=keys).merge(core.assign(core=True), on=keys, how="left")
-    main = main.assign(core=main["core"].fillna(False).astype(bool))
+    main = main.merge(sides, on=keys)
     write_parquet(
         main.astype({"novel_id": "category", "set": "category", "theme": "int8"}),
         THEME_PARAGRAPHS,
@@ -350,7 +328,7 @@ def step_style() -> None:
     annotations = load_annotations()
     paragraphs = pd.read_parquet(PARAGRAPHS)
     comparison = pd.read_parquet(COMPARISON)
-    emotion, comp = tier_sets(paragraphs, comparison, MATCHED_TIER)
+    emotion, comp = matched_sets(paragraphs, comparison)
     sets = add_text(
         pd.concat(
             [emotion.assign(set="emotion"), comp.assign(set="comparison")],
@@ -358,7 +336,7 @@ def step_style() -> None:
         ),
         annotations,
     )
-    keep = ["novel_id", "para_id", "set", "author", "period", "gender", *EMOTION.tiers]
+    keep = ["novel_id", "para_id", "set", "author", "period", "gender"]
     # One row per paragraph and split: all of it, its narration, its speech.
     parts = split_speech(sets["text"])
     frames = []
@@ -376,25 +354,12 @@ def step_style() -> None:
     categories = {"set": "category", "split": "category"}
     write_parquet(style.drop(columns="words").astype(categories), STYLE_PARAGRAPHS)
 
-    tables = []
-    for tier in EMOTION.tiers:
-        # Comparison paragraphs belong to a tier through their partner.
-        in_tier = pd.concat(
-            [
-                k[["novel_id", "para_id"]].assign(set=s)
-                for k, s in zip(
-                    tier_sets(paragraphs, comparison, tier), SIDES, strict=True
-                )
-            ]
-        )
-        for split, frame in style.groupby("split", observed=True):
-            frame = frame.merge(in_tier, on=["novel_id", "para_id", "set"])
-            per_novel = frame.groupby(["novel_id", "set"], observed=True).apply(
-                pool, include_groups=False
-            )
-            tables.append(per_novel.reset_index().assign(tier=tier, split=split))
-    per_novel = pd.concat(tables, ignore_index=True)
-    categories = {c: "category" for c in ("novel_id", "set", "tier", "split")}
+    per_novel = (
+        style.groupby(["novel_id", "set", "split"], observed=True)
+        .apply(pool, include_groups=False)
+        .reset_index()
+    )
+    categories = {c: "category" for c in ("novel_id", "set", "split")}
     write_parquet(
         per_novel.astype({**categories, "n_paragraphs": "int32"}), STYLE_NOVELS
     )

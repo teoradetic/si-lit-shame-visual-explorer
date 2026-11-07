@@ -1,13 +1,6 @@
 ## How the passages were found
 
-The corpus has **{n_novels} Slovene novels** by {n_authors} authors, published {first}–{last}, split into **{n_paragraphs} paragraphs**. A language model (Mistral 7B Instruct, run locally at temperature 0) scored every paragraph three times for how strongly it relates to shame: on a 0–1, a 0–10 and a 0–100 scale. A paragraph is *detected* when all three scores are high:
-
-| Tier | Rule | Paragraphs | Precision | Recall | F1 |
-|---|---|---|---|---|---|
-| **Core** | top 1%: 0–1 ≥ {core_0_1}, 0–10 ≥ {core_0_10}, 0–100 ≥ {core_0_100} | {n_core} | 77.4 % | 78.6 % | 78.0 % |
-| **Broad** (default) | top 5%: 0–1 ≥ {broad_0_1}, 0–10 ≥ {broad_0_10}, 0–100 ≥ {broad_0_100} | {n_broad} | 69.5 % | 81.3 % | 74.9 % |
-
-Precision, recall and F1 come from the expert-annotated gold set, weighted by stratum as in the paper. Core is the paper's rule.
+The corpus has **{n_novels} Slovene novels** by {n_authors} authors, published {first}–{last}, split into **{n_paragraphs} paragraphs**. A language model (Mistral 7B Instruct, run locally at temperature 0) scored every paragraph three times for how strongly it relates to shame: on a 0–1, a 0–10 and a 0–100 scale. A paragraph is *detected* when all three scores are in the top 5 % (0–1 ≥ {min_0_1}, 0–10 ≥ {min_0_10}, 0–100 ≥ {min_0_100}): **{n_emotion} paragraphs**. On the expert-annotated gold set, weighted by stratum as in the paper, this rule has a precision of 69.5 %, a recall of 81.3 % and an F1 of 74.9 %. The paper's stricter rule, the top 1 % (0–1 ≥ 0.95), has a precision of 77.4 %, a recall of 78.6 % and an F1 of 78.0 %; the app uses the broader rule, which finds more passages for a little less precision.
 
 The app shows one **shame score** per paragraph instead of the three ratings: each rating rescaled to 0–100, then averaged. It says how sure the model is that a paragraph is about shame, not how intense the shame is.
 
@@ -19,7 +12,7 @@ Each detected paragraph is shown with {context} paragraphs before and after it, 
 
 ## The comparison set
 
-The *Words* and *Style* views compare the detected passages with paragraphs that have **low scores on all three ranges** (0–1 ≤ {low_0_1}, 0–10 ≤ {low_0_10}, 0–100 ≤ {low_0_100}; {n_low} paragraphs). Each broad-tier paragraph is paired with one such paragraph **from the same novel and of similar length** (within a factor of {max_length_ratio:g}), at least three paragraphs away from any detected one. {n_matched} of the {n_broad} broad-tier paragraphs found a partner, in {n_novels_with_pairs} novels; long low-score paragraphs are scarce, so the longest detected paragraphs often have none.
+The *Words* and *Style* views compare the detected passages with paragraphs that have **low scores on all three ranges** (0–1 ≤ {low_0_1}, 0–10 ≤ {low_0_10}, 0–100 ≤ {low_0_100}; {n_low} paragraphs). Each detected paragraph is paired with one such paragraph **from the same novel and of similar length** (within a factor of {max_length_ratio:g}), at least three paragraphs away from any detected one. {n_matched} of the {n_emotion} detected paragraphs found a partner, in {n_novels_with_pairs} novels; long low-score paragraphs are scarce, so the longest detected paragraphs often have none.
 
 The comparison set is not "all other paragraphs": those still contain most of the corpus's shame.
 

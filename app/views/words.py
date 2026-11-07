@@ -81,12 +81,9 @@ def prepare(table: pd.DataFrame) -> pd.DataFrame:
 
 
 pool_ids = frozenset().union(*(g.novel_ids for g in groups))
-pool = prepare(tables.group_words(f.tier, text_split, pool_ids))
+pool = prepare(tables.group_words(text_split, pool_ids))
 by_group = (
-    {
-        g.label: prepare(tables.group_words(f.tier, text_split, g.novel_ids))
-        for g in groups
-    }
+    {g.label: prepare(tables.group_words(text_split, g.novel_ids)) for g in groups}
     if split
     else {}
 )
@@ -218,7 +215,7 @@ def network_words() -> pd.DataFrame:
 def network_edges() -> pd.DataFrame:
     """Links among the network's words; each keeps its strongest."""
     shown = network_words()["word"]
-    pairs = tables.group_pairs(f.tier, pool_ids)
+    pairs = tables.group_pairs(pool_ids)
     edges = pairs[
         pairs["a"].isin(shown)
         & pairs["b"].isin(shown)
@@ -603,7 +600,7 @@ def neighbour_chart(word: str) -> None:
     """The words that come with this one in a sentence, per group."""
     parts = []
     for g in groups if split else groups[:1]:
-        pairs = tables.group_pairs(f.tier, g.novel_ids)
+        pairs = tables.group_pairs(g.novel_ids)
         mine = pairs[
             ((pairs["a"] == word) | (pairs["b"] == word))
             & (pairs["n"] >= MIN_TOGETHER)
@@ -657,7 +654,7 @@ def case_chart(word: str) -> None:
             compare.Group(s, t(f"set.{s}"), charts.set_color(s), pool_ids, s)
             for s in stats.SIDES
         ]
-    cases = tables.word_cases(f.tier, text_split)
+    cases = tables.word_cases(text_split)
     cases = cases[(cases["word"] == word) & cases["case"].notna()]
     df = pd.concat(
         cases[cases["novel_id"].isin(g.novel_ids) & (cases["side"] == g.set_name)]
@@ -715,8 +712,7 @@ if chosen:
     side = "emotion"
     if shame_mode and chosen in set(words.loc[words["side"] == "comparison", "word"]):
         side = "comparison"
-    set_name = f.tier if side == "emotion" else "comparison"
-    picked, forms = tables.excerpts_with(chosen, set_name, pool_ids)
+    picked, forms = tables.excerpts_with(chosen, side, pool_ids)
     reader.show_excerpts(
         picked,
         key="words_reader",

@@ -21,7 +21,6 @@ ROW = 22
 MIN_AUTHOR_NOVELS = 5
 N_TOP = 15
 
-f = filters.current()
 st.title(t("time.title"))
 st.write(t("time.intro"))
 filters.stop_if_empty()
@@ -52,7 +51,7 @@ with st.expander(t("time.measures_help_title")):
 
 def value_column(set_name: str) -> tuple[str, float]:
     """The novels column of the measure for one set, and its display factor."""
-    counted = f.tier if set_name == "emotion" else "low"
+    counted = "emotion" if set_name == "emotion" else "low"
     return {
         "share": (f"share_{counted}", 100),
         "per_10k_words": (f"per_10k_words_{counted}", 1),
@@ -68,7 +67,7 @@ if shame_mode:
     frames = []
     for g in groups:
         column, factor = value_column(g.set_name)
-        counted = f.tier if g.set_name == "emotion" else "low"
+        counted = "emotion" if g.set_name == "emotion" else "low"
         frames.append(
             selected.assign(
                 group=g.label,
@@ -80,7 +79,7 @@ if shame_mode:
 else:
     column, factor = value_column("emotion")
     novels = compare.with_group(selected).assign(
-        value=lambda d: d[column] * factor, tagged=lambda d: d[f"n_{f.tier}"]
+        value=lambda d: d[column] * factor, tagged=lambda d: d["n_emotion"]
     )
 novels = novels.assign(group_size=novels.groupby("group")["novel_id"].transform("size"))
 first, last = int(novels["year"].min()), int(novels["year"].max())
@@ -393,7 +392,7 @@ if chosen:
     for group_label, pairs in pd.DataFrame(chosen, columns=["novel", "group"]).groupby(
         "group"
     ):
-        excerpts = tables.excerpts(compare.set_of(group_label, f.tier))
+        excerpts = tables.excerpts(compare.set_of(group_label))
         frames.append(excerpts[excerpts["novel_id"].isin(pairs["novel"])])
     reader.show_excerpts(
         pd.concat(frames),

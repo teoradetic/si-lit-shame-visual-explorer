@@ -4,7 +4,7 @@ import pytest
 from emotion_explorer.emotion import SHAME
 
 HIGH = {"0_1": 0.95, "0_10": 8, "0_100": 85}
-BROAD_ONLY = {"0_1": 0.85, "0_10": 8, "0_100": 85}
+JUST_HIGH = {"0_1": 0.85, "0_10": 8, "0_100": 85}
 LOW = {"0_1": 0.0, "0_10": 0, "0_100": 0}
 
 
@@ -23,10 +23,10 @@ def keyed(paragraphs: list[dict]) -> dict[str, dict]:
 
 @pytest.fixture
 def annotations() -> dict:
-    """Two small novels; A has a core paragraph at 2 and a broad one at 5."""
+    """Two small novels; A has detected paragraphs at 2 and 5."""
     novel_a = [paragraph(f"A{i} " * (i + 1), LOW) for i in range(10)]
     novel_a[2] = paragraph("Sram ga je bilo.", HIGH, stem=True)
-    novel_a[5] = paragraph("Zardel je.", BROAD_ONLY)
+    novel_a[5] = paragraph("Zardel je.", JUST_HIGH)
     novel_b = [paragraph(f"B{i} " * 3, LOW) for i in range(4)]
     return {
         "N1": {"author": "X", "title": "A", "paragraphs": keyed(novel_a)},

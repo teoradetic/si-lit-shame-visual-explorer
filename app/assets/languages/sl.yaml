@@ -19,10 +19,6 @@ strings:
   filters.text_help: Štejejo se celi odlomki, le njihova pripoved ali le govor v njih
     (med narekovaji ali za pomišljajem, ki odpre odstavek). Odlomki so vedno prikazani
     celi. Ta izbira spremeni le strani Besede in Slog.
-  filters.tier: Kateri odlomki
-  filters.tier_help: 'Širši nabor: odlomki, za katere je model precej prepričan, da
-    govorijo o sramu. Jedro: le tisti, za katere je najbolj prepričan; manj odlomkov,
-    a tudi manj napak.'
   filters.period: Literarno obdobje
   filters.authors: Avtorji
   filters.authors_placeholder: Vsi avtorji
@@ -32,8 +28,6 @@ strings:
   filters.reset: Ponastavi filtre
   filters.summary: 'Romanov: {novels} · odstavkov o sramu: {paragraphs}'
   filters.empty: Filtrom ne ustreza noben roman.
-  tier.core: Jedro (najbolj gotovi)
-  tier.broad: Širši nabor (precej gotovi)
   period.Realism: realizem
   period.Modernism: modernizem
   period.unknown: obdobje neznano
@@ -344,7 +338,7 @@ strings:
     - **Glajenje:** centrirano drseče povprečje treh delov.
     - **Violine:** Gaussova jedrna gostota mest (pasovna širina {bw} odstotnih točk), zrcaljena pri 0 in 100 % proti pristranskosti na robovih, umerjena tako, da je enakomerna porazdelitev 1.
     - **Brez sramu:** odstavki z nizko oceno na vseh treh lestvicah; v pogledu *Roman za romanom* po dolžini usklajeni primerjalni nabor strani Besede in Slog.
-    - **Loki:** za vsak roman delež zaznanih odstavkov v vsaki desetini, umerjen na vsoto 1 (oblika, ne količina); roman potrebuje vsaj {arc_min} zaznanih odstavkov. Metoda k-voditeljev s štirimi skupinami, izračunana enkrat na vseh romanih nabora; filtri izberejo le, kateri so prikazani.
+    - **Loki:** za vsak roman delež zaznanih odstavkov v vsaki desetini, umerjen na vsoto 1 (oblika, ne količina); roman potrebuje vsaj {arc_min} zaznanih odstavkov. Metoda k-voditeljev s štirimi skupinami, izračunana enkrat na vseh romanih; filtri izberejo le, kateri so prikazani.
     - **Ugotovitve:** del z največjo zgostitvijo ter povprečna zgostitev prve in zadnje petine; pri *Tipičnih lokih* najpogostejši lok vsake skupine. Le opisno.
   words.intro: Katere besede so v odlomkih o sramu pogostejše kot v odlomkih iz istih
     romanov, ki ne govorijo o sramu? Seznami so izračunani za romane in primerjavo,
@@ -432,7 +426,7 @@ strings:
     - **Mera:** uteženo razmerje logaritemskih obetov δ z informativno Dirichletovo apriorno porazdelitvijo (Monroe, Colaresi in Quinn 2008); apriorna je pogostnost besede v korpusu, umerjena na velikost vsakega nabora, tako da ima beseda, enako pogosta na obeh straneh, vrednost 0 ne glede na to, kako različno velika sta. Besede so razvrščene po z = δ / SE(δ), ki razmerje besede utehta s tem, koliko dokazov je zanj; navadno razmerje, sam δ in povprečna ocena sramu odstavkov z besedo so bili preizkušeni in na vrh postavijo redke enkratne besede. *Kolikokrat pogostejša* je navadno razmerje obeh pogostnosti, pri čemer je vsaki strani dodana polovica pojavitve, da beseda, ki na eni strani manjka, ostane končna; e^δ za to ni uporabljen, ker ga apriorna porazdelitev vleče proti 1, tem bolj, čim redkejša je beseda.
     - **Filtri:** vsaj {min_count} pojavitev v obeh naborih; značilna beseda se mora na svoji strani ponoviti v vsaj {novels} romanih {authors} avtorjev (za majhne skupine je pravilo blažje).
     - **Skupine:** vsaka skupina je izračunana na svojih romanih. Beseda pripada skupini, če je njeno razmerje tam vsaj {factor}-krat večje kot v vsaki drugi skupini; z med skupinami ni primerjan, ker raste s količino besedila.
-    - **Pari:** besedi se pojavljata skupaj, če si delita poved (po CLASSLA) v odlomku s sramom; le besede, ki niso funkcijske. Moč para je PMI, prikazan kot 2^PMI, kolikokrat pogosteje kot po naključju. Ohranjeni so pari, ki si delijo vsaj {pair_sentences} povedi v {pair_novels} romanih širšega nabora in se tam pojavljajo vsaj dvakrat pogosteje kot po naključju; v izbranih romanih par potrebuje {together} povedi. V mreži vsaka beseda obdrži {links} najmočnejše povezave. Mreža je razporejena s simulacijo sil (Fruchterman in Reingold), zato pomen nosijo le povezave, ne razdalje.
+    - **Pari:** besedi se pojavljata skupaj, če si delita poved (po CLASSLA) v odlomku s sramom; le besede, ki niso funkcijske. Moč para je PMI, prikazan kot 2^PMI, kolikokrat pogosteje kot po naključju. Ohranjeni so pari, ki si delijo vsaj {pair_sentences} povedi v {pair_novels} romanih in se tam pojavljajo vsaj dvakrat pogosteje kot po naključju; v izbranih romanih par potrebuje {together} povedi. V mreži vsaka beseda obdrži {links} najmočnejše povezave. Mreža je razporejena s simulacijo sil (Fruchterman in Reingold), zato pomen nosijo le povezave, ne razdalje.
     - **Skloni:** sklon vsake pojavitve izbrane besede po CLASSLA, štet v istih naborih; besede brez sklona (glagoli, prislovi) grafa nimajo.
     - Primerjamo na tisoče besed, zato so seznami opisni: z > 3 ni popravljena raven statistične značilnosti.
   style.intro: 'Ali so odlomki o sramu napisani drugače kot drugi odlomki v istih
@@ -519,7 +513,7 @@ strings:
     pogostejše so tam: {themes}.'
   themes.selected: Odlomki na temo »{theme}«
   themes.methodology: |-
-    - **Odstavki:** zaznani odstavki širšega nabora in njihovi primerjalni odstavki (kot na strani Besede), združeni, da si delijo iste teme; jedro uporablja svoj del.
+    - **Odstavki:** zaznani odstavki in njihovi primerjalni odstavki (kot na strani Besede), združeni, da si delijo iste teme.
     - **Besede:** leme samostalnikov in pridevnikov, brez imen in brez besed samega čustva (tistih, ki vsebujejo njegov koren); lema se mora pojaviti v vsaj {min_paragraphs} odstavkih in v največ {max_share} % odstavkov.
     - **Teme:** nenegativna matrična faktorizacija (NMF) uteži TF-IDF odstavkov v {n} tem, ne LDA prejšnje študije. Glavna tema odstavka je tista z največjo utežjo; njen delež med utežmi odstavka razvršča odlomke. Temo poimenujejo besede z največjo utežjo, pomnoženo z deležem uteži besede, ki pade na to temo, tako da so besede, skupne mnogim temam, nižje.
     - **Deleži:** delež odstavkov vsakega nabora, katerih glavna tema je; *kolikokrat pogostejša* deli delež s sramom z deležem brez njega; pri skupinah vsako skupino z njenimi lastnimi odlomki brez sramu. Opisno, brez testa.

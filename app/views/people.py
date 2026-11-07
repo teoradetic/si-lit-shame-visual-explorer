@@ -9,7 +9,6 @@ from helpers.language import num, t
 
 N_NAMES = 15
 
-f = filters.current()
 st.title(t("people.title"))
 st.write(t("people.intro"))
 filters.stop_if_empty()
@@ -29,7 +28,6 @@ shown = (
 
 # Who acts: the gender of the subject of singular past-tense verbs.
 subjects = tables.table("subjects")
-subjects = subjects[subjects["tier"] == f.tier]
 rows = []
 for g in shown:
     for side in stats.SIDES:
@@ -111,7 +109,6 @@ else:
 
 # Names: those most typical of the passages with shame, per group.
 counts = tables.table("name_counts")
-counts = counts[counts["tier"] == f.tier].drop(columns="tier")
 prior = tables.word_prior()["n_corpus"]
 authors = tables.novels().set_index("novel_id")["author"]
 tops = []
@@ -191,7 +188,7 @@ with findings_box:
     notes.findings(finding_lines())
 
 if chosen:
-    picked, forms = tables.excerpts_with(chosen, f.tier, pool_ids)
+    picked, forms = tables.excerpts_with(chosen, "emotion", pool_ids)
     reader.show_excerpts(
         picked,
         key="people_reader",

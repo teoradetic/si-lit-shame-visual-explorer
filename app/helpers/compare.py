@@ -74,8 +74,7 @@ def sidebar() -> None:
             ids = own.sort_values("year")["novel_id"].tolist()
             chosen = [i for i in st.session_state.get("cmp_novels", []) if i in ids]
             if not chosen:
-                tier = filters.current().tier
-                top = own.nlargest(MAX_NOVELS, f"n_{tier}")["novel_id"]
+                top = own.nlargest(MAX_NOVELS, "n_emotion")["novel_id"]
                 chosen = [i for i in ids if i in set(top)]
             st.session_state["cmp_novels"] = chosen
             titles = filters.novel_titles()
@@ -244,9 +243,6 @@ def panels(chart, axis: str = "y", width: int = 360):
     )
 
 
-def set_of(group_label: str, tier: str) -> str:
-    """The excerpt set behind a group: the tier, or the comparison set."""
-    for g in groups():
-        if g.label == group_label and g.set_name == "comparison":
-            return "comparison"
-    return tier
+def set_of(group_label: str) -> str:
+    """The excerpt set behind a group."""
+    return next((g.set_name for g in groups() if g.label == group_label), "emotion")

@@ -33,10 +33,9 @@ values = {
     "n_modernism": par["novels_by_period"].get("Modernism", 0),
     "n_period_unknown": par["novels_by_period"].get("unknown", 0),
 }
-for tier, minimums in par["tiers"].items():
-    values[f"n_{tier}"] = number(par["tier_counts"][tier])
-    for scale, minimum in minimums.items():
-        values[f"{tier}_{scale}"] = decimal(minimum)
+values["n_emotion"] = number(par["n_emotion"])
+for scale, minimum in par["minimum"].items():
+    values[f"min_{scale}"] = decimal(minimum)
 for scale, maximum in par["low"].items():
     values[f"low_{scale}"] = decimal(maximum)
 
