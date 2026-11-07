@@ -49,9 +49,8 @@ with st.expander(t("time.measures_help_title")):
     st.markdown(t("time.measures_help"))
 
 
-def value_column(set_name: str) -> tuple[str, float]:
+def value_column(counted: str) -> tuple[str, float]:
     """The novels column of the measure for one set, and its display factor."""
-    counted = "emotion" if set_name == "emotion" else "low"
     return {
         "share": (f"share_{counted}", 100),
         "per_10k_words": (f"per_10k_words_{counted}", 1),
@@ -66,13 +65,12 @@ if shame_mode:
     # The same novels twice: counting passages with shame, and clearly without.
     frames = []
     for g in groups:
-        column, factor = value_column(g.set_name)
-        counted = "emotion" if g.set_name == "emotion" else "low"
+        column, factor = value_column(g.counted)
         frames.append(
             selected.assign(
                 group=g.label,
                 value=selected[column] * factor,
-                tagged=selected[f"n_{counted}"],
+                tagged=selected[f"n_{g.counted}"],
             )
         )
     novels = pd.concat(frames, ignore_index=True)

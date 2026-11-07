@@ -22,6 +22,12 @@ class Group:
     # "comparison": the passages without shame (only in the "shame" mode).
     set_name: str = "emotion"
 
+    @property
+    def counted(self) -> str:
+        """Its paragraphs in the novels and paragraph tables: those without
+        shame count the low-score paragraphs."""
+        return "low" if self.set_name == "comparison" else "emotion"
+
 
 def mode() -> str:
     return st.session_state.get("cmp_mode", "none")

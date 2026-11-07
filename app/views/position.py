@@ -69,7 +69,7 @@ if shame_mode:
         [
             bins.assign(
                 group=g.label,
-                hits=bins["n_emotion" if g.set_name == "emotion" else "n_low"],
+                hits=bins[f"n_{g.counted}"],
             )
             for g in groups
         ],
@@ -222,12 +222,7 @@ elif chart_type == "violin":
     paragraphs = paragraphs[paragraphs["novel_id"].isin(set(novels["novel_id"]))]
     if shame_mode:
         marks = pd.concat(
-            [
-                paragraphs[
-                    paragraphs["emotion" if g.set_name == "emotion" else "low"]
-                ].assign(group=g.label)
-                for g in groups
-            ]
+            [paragraphs[paragraphs[g.counted]].assign(group=g.label) for g in groups]
         )
     else:
         marks = compare.with_group(paragraphs[paragraphs["emotion"]])
@@ -423,11 +418,12 @@ elif chart_type == "arcs":
     arcs = compare.with_group(arcs) if split else arcs.assign(group=shown[0].label)
     arcs = arcs.astype({"arc": str})
     sizes = arcs.drop_duplicates("novel_id")["arc"].value_counts()
-    arc_names = {
-        a: t("position.arc", arc=t(f"position.arc.{a}"), n=sizes[a])
+    shape = {
+        a: t(f"position.arc.{a}")
         for a in [*tables.meta()["overview"]["arc_shapes"], "none"]
         if a in sizes
     }
+    arc_names = {a: t("position.arc", arc=s, n=sizes[a]) for a, s in shape.items()}
     parts = tables.meta()["overview"]["arc_parts"]
     arcs = arcs.assign(
         position=(arcs["part"].astype(int) + 0.5) * 100 / parts,
@@ -474,16 +470,12 @@ elif chart_type == "arcs":
     if split:
         counts = arcs.drop_duplicates("novel_id").groupby("group")["arc"]
         share = counts.value_counts(normalize=True).rename("share").reset_index()
-        share = share.assign(shape=share["arc"].map(lambda a: t(f"position.arc.{a}")))
+        share = share.assign(shape=share["arc"].map(shape))
         bars = (
             alt.Chart(share)
             .mark_bar()
             .encode(
-                y=alt.Y(
-                    "shape:N",
-                    sort=[t(f"position.arc.{a}") for a in arc_names],
-                    title=None,
-                ),
+                y=alt.Y("shape:N", sort=list(shape.values()), title=None),
                 yOffset=alt.YOffset("group:N", sort=[g.label for g in shown]),
                 x=alt.X(
                     "share:Q",
@@ -507,7 +499,7 @@ elif chart_type == "arcs":
                 t(
                     "position.find.arc",
                     group=g.label,
-                    arc=t(f"position.arc.{share.idxmax()}"),
+                    arc=shape[share.idxmax()],
                     share=f"{share.max():.0%}",
                 )
             )

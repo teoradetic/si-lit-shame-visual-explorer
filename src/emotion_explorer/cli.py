@@ -106,6 +106,20 @@ def write_parquet(df: pd.DataFrame, path) -> None:
     print(f"wrote {path.name}: {len(df):,} rows, {path.stat().st_size / 1e6:.1f} MB")
 
 
+def write_counts(df: pd.DataFrame, path) -> None:
+    """A count table: `n` as int32, every text column as a category."""
+    text = [c for c in df.columns if not pd.api.types.is_numeric_dtype(df[c])]
+    write_parquet(df.astype({**dict.fromkeys(text, "category"), "n": "int32"}), path)
+
+
+def per_side(sets: dict[str, pd.DataFrame], count) -> pd.DataFrame:
+    """`count` of each side's words, with the side as a column."""
+    return pd.concat(
+        [count(frame).assign(side=side) for side, frame in sets.items()],
+        ignore_index=True,
+    )
+
+
 def step_paragraphs() -> None:
     paragraphs = build_paragraphs(load_annotations(), load_metadata(), EMOTION)
     write_parquet(paragraphs, PARAGRAPHS)
@@ -228,38 +242,31 @@ def step_words() -> None:
     people = {w for w in names if frequency.get(w, 0) >= MIN_COUNT}
     forms = word_forms(both, keep | people)
     people &= set(forms["word"])
-    counts = pd.concat(
-        [count_words(frame, keep).assign(side=side) for side, frame in sets.items()],
-        ignore_index=True,
+    write_counts(per_side(sets, lambda w: count_words(w, keep)), WORD_COUNTS)
+    write_counts(
+        per_side(
+            sets,
+            lambda w: (
+                count_words(w, people)
+                .groupby(["novel_id", "word"], observed=True)["n"]
+                .sum()
+                .reset_index()
+            ),
+        ),
+        NAME_COUNTS,
     )
-    categories = {c: "category" for c in ("novel_id", "word", "case", "side")}
-    write_parquet(counts.astype({**categories, "n": "int32"}), WORD_COUNTS)
-    name_counts = pd.concat(
-        [
-            count_words(frame, people)
-            .groupby(["novel_id", "word"], observed=True)["n"]
-            .sum()
-            .reset_index()
-            .assign(side=side)
-            for side, frame in sets.items()
-        ],
-        ignore_index=True,
+    write_counts(
+        per_side(
+            sets,
+            lambda w: (
+                w.groupby(["novel_id", "subject"], observed=True)
+                .size()
+                .rename("n")
+                .reset_index()
+            ),
+        ),
+        SUBJECTS,
     )
-    categories = {c: "category" for c in ("novel_id", "word", "side")}
-    write_parquet(name_counts.astype({**categories, "n": "int32"}), NAME_COUNTS)
-    subjects = pd.concat(
-        [
-            frame.groupby(["novel_id", "subject"], observed=True)
-            .size()
-            .rename("n")
-            .reset_index()
-            .assign(side=side)
-            for side, frame in sets.items()
-        ],
-        ignore_index=True,
-    )
-    categories = {c: "category" for c in ("novel_id", "subject", "side")}
-    write_parquet(subjects.astype({**categories, "n": "int32"}), SUBJECTS)
     vocab = corpus.loc[sorted(keep | people)]
     write_parquet(
         pd.DataFrame(
@@ -279,9 +286,7 @@ def step_words() -> None:
     # shows, and the comparison set would double the table.
     content = {w for w in keep if corpus.loc[w, "pos"] not in FUNCTION_POS}
     pairs = count_pairs(sets["emotion"], content)
-    pairs = keep_strong(pairs, strong(pairs))
-    categories = {c: "category" for c in ("novel_id", "a", "b")}
-    write_parquet(pairs.astype({**categories, "n": "int32"}), WORD_PAIRS)
+    write_counts(keep_strong(pairs, strong(pairs)), WORD_PAIRS)
     write_meta_section(
         "words",
         {
@@ -327,12 +332,7 @@ def step_themes() -> None:
         .rename("n")
         .reset_index()
     )
-    write_parquet(
-        theme_words.astype(
-            {"novel_id": "category", "theme": "int8", "word": "category", "n": "int32"}
-        ),
-        THEME_WORDS,
-    )
+    write_counts(theme_words.astype({"theme": "int8"}), THEME_WORDS)
     write_meta_section(
         "themes",
         {
