@@ -113,6 +113,15 @@ def test_clicked_theme_shows_its_passages(mode):
     assert at.subheader[0].value.startswith("Passages on the theme")
 
 
+def test_clicked_word_of_two_themes_shows_its_passages():
+    click = SimpleNamespace(selection={"pair_word": [{"word": "mati"}]})
+    at = run("views/themes.py", "en", {})
+    at.session_state["themes_pair"] = click
+    at.run()
+    assert not at.exception, [e.value for e in at.exception]
+    assert "with the word “mati”" in at.subheader[-1].value
+
+
 @pytest.mark.parametrize("mode", MODES)
 def test_clicked_name_shows_its_passages(mode):
     click = SimpleNamespace(selection={"name": [{"word": "bog"}]})

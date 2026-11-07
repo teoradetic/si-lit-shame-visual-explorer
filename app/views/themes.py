@@ -1,14 +1,17 @@
 """The themes of the passages with and without shame."""
 
 import altair as alt
+import numpy as np
 import pandas as pd
 import streamlit as st
 
-from helpers import charts, compare, filters, notes, reader, tables
+from helpers import charts, compare, filters, notes, reader, stats, tables
 from helpers.language import num, t
 
 N_LABEL_WORDS = 4
 N_FINDINGS = 3
+# Words on each side of the two-theme chart.
+N_PAIR_WORDS = 15
 
 st.title(t("themes.title"))
 st.write(t("themes.intro"))
@@ -110,20 +113,6 @@ dots = (
 chart = alt.layer(*marks, spread, dots).properties(height=24 * len(order) + 60)
 event = charts.show_chart(chart, key="themes_chart")
 st.caption(t(read_key))
-meta = tables.meta()["themes"]
-notes.methodology(
-    "themes",
-    n=meta["n_themes"],
-    min_paragraphs=meta["min_paragraphs"],
-    max_share=round(meta["max_share"] * 100),
-)
-with st.expander(t("themes.words")):
-    st.dataframe(
-        all_words.reindex(ratio.sort_values(ascending=False).index)
-        .rename(t("themes.col.words"))
-        .reset_index(drop=True),
-        hide_index=True,
-    )
 
 
 def listing(ratios: pd.Series, themes) -> str:
@@ -179,3 +168,114 @@ if points:
     )
 else:
     st.info(t("reader.empty"))
+
+
+def pair_words(a: int, b: int) -> pd.DataFrame:
+    """The words that set theme a apart from theme b in the passages with
+    shame, and the reverse; `x` is log2 of how many times as often."""
+    counts = tables.table("theme_words")
+    counts = counts[counts["novel_id"].isin(pool_ids) & counts["theme"].isin([a, b])]
+    counts = counts.assign(side=np.where(counts["theme"] == a, "emotion", "comparison"))
+    authors = tables.novels().set_index("novel_id")["author"]
+    table = stats.word_table(counts, tables.word_prior()["n_corpus"], authors)
+    if table.empty:
+        return table
+    return pd.concat(
+        [
+            table[table["z"] > 0].nlargest(N_PAIR_WORDS, "z").assign(theme=names[a]),
+            table[table["z"] < 0].nsmallest(N_PAIR_WORDS, "z").assign(theme=names[b]),
+        ]
+    ).assign(x=lambda d: np.log2(d["ratio"]), times=lambda d: 2 ** d["x"].abs())
+
+
+st.subheader(t("themes.pair"))
+st.write(t("themes.pair.lead"))
+by_ratio = ratio.sort_values(ascending=False).index.tolist()
+c1, c2 = st.columns(2)
+theme_a = c1.selectbox(
+    t("themes.pair.a"), by_ratio, format_func=names.get, key="themes_a"
+)
+theme_b = c2.selectbox(
+    t("themes.pair.b"),
+    [i for i in by_ratio if i != theme_a],
+    format_func=names.get,
+    key="themes_b",
+)
+pair = pair_words(theme_a, theme_b)
+if pair.empty:
+    st.info(t("reader.none"))
+else:
+    pick_word = alt.selection_point(name="pair_word", fields=["word"], on="click")
+    chart = (
+        alt.Chart(pair)
+        .mark_bar(height=14, cornerRadiusEnd=3)
+        .encode(
+            y=alt.Y("word:N", sort="-x", title=None),
+            x=alt.X(
+                "x:Q",
+                title=t("themes.pair.x"),
+                axis=alt.Axis(
+                    tickMinStep=1,
+                    labelExpr="format(pow(2, abs(datum.value)), '.0f') + '×'",
+                ),
+            ),
+            color=alt.Color(
+                "theme:N",
+                scale=alt.Scale(
+                    domain=[names[theme_a], names[theme_b]],
+                    range=[charts.group_color(0), charts.group_color(1)],
+                ),
+                legend=alt.Legend(title=None),
+            ),
+            opacity=alt.condition(pick_word, alt.value(1), alt.value(0.5)),
+            tooltip=[
+                alt.Tooltip("word:N", title=t("words.col.word")),
+                alt.Tooltip("theme:N", title=t("themes.col.theme")),
+                alt.Tooltip("times:Q", title=t("themes.pair.times"), format=".1f"),
+                alt.Tooltip("n_novels:Q", title=t("words.col.n_novels")),
+            ],
+        )
+        .add_params(pick_word)
+        .properties(height=18 * len(pair) + 80)
+    )
+    word = (
+        charts.selected(
+            charts.show_chart(chart, key="themes_pair"), "pair_word", "word"
+        )
+        or [None]
+    )[0]
+    st.caption(t("themes.pair.read"))
+    if word:
+        theme = theme_a if word in set(pair.loc[pair["x"] > 0, "word"]) else theme_b
+        rows = main[
+            (main["theme"] == theme)
+            & (main["set"] == "emotion")
+            & main["novel_id"].isin(pool_ids)
+        ]
+        in_theme = tables.ranked_excerpts(
+            "emotion",
+            rows[["novel_id", "para_id", "weight"]].rename(columns={"weight": "value"}),
+        )
+        with_word, forms = tables.excerpts_with(word, "emotion", pool_ids)
+        reader.show_excerpts(
+            in_theme[in_theme["excerpt_id"].isin(with_word["excerpt_id"])],
+            key="themes_pair_reader",
+            title=t("themes.pair.selected", word=word, theme=names[theme]),
+            highlight_words=forms,
+        )
+
+meta = tables.meta()["themes"]
+notes.methodology(
+    "themes",
+    n=meta["n_themes"],
+    min_paragraphs=meta["min_paragraphs"],
+    max_share=round(meta["max_share"] * 100),
+    n_pair=N_PAIR_WORDS,
+)
+with st.expander(t("themes.words")):
+    st.dataframe(
+        all_words.reindex(ratio.sort_values(ascending=False).index)
+        .rename(t("themes.col.words"))
+        .reset_index(drop=True),
+        hide_index=True,
+    )

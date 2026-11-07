@@ -73,6 +73,7 @@ from emotion_explorer.paths import (
     SUBJECTS,
     TEXTS,
     THEME_PARAGRAPHS,
+    THEME_WORDS,
     THEMES,
     TOKENS_DIR,
     WORD_COUNTS,
@@ -312,6 +313,23 @@ def step_themes() -> None:
     write_parquet(
         main.astype({"novel_id": "category", "set": "category", "theme": "int8"}),
         THEME_PARAGRAPHS,
+    )
+    # The words of the passages with the emotion, per novel and main theme,
+    # to set two themes side by side.
+    emotion = sets["emotion"][[*keys, "word"]]
+    theme_words = (
+        emotion[emotion["word"].isin(vocabulary)]
+        .merge(main.loc[main["set"] == "emotion", [*keys, "theme"]], on=keys)
+        .groupby(["novel_id", "theme", "word"], observed=True)
+        .size()
+        .rename("n")
+        .reset_index()
+    )
+    write_parquet(
+        theme_words.astype(
+            {"novel_id": "category", "theme": "int8", "word": "category", "n": "int32"}
+        ),
+        THEME_WORDS,
     )
     write_meta_section(
         "themes",

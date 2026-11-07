@@ -517,6 +517,7 @@ strings:
     - **Besede:** leme samostalnikov in pridevnikov, brez imen in brez besed samega čustva (tistih, ki vsebujejo njegov koren); lema se mora pojaviti v vsaj {min_paragraphs} odstavkih in v največ {max_share} % odstavkov.
     - **Teme:** nenegativna matrična faktorizacija (NMF) uteži TF-IDF odstavkov v {n} tem, ne LDA prejšnje študije. Glavna tema odstavka je tista z največjo utežjo; njen delež med utežmi odstavka razvršča odlomke. Temo poimenujejo besede z največjo utežjo, pomnoženo z deležem uteži besede, ki pade na to temo, tako da so besede, skupne mnogim temam, nižje.
     - **Deleži:** delež odstavkov vsakega nabora, katerih glavna tema je; *kolikokrat pogostejša* deli delež s sramom z deležem brez njega; pri skupinah vsako skupino z njenimi lastnimi odlomki brez sramu. Opisno, brez testa.
+    - **Dve temi:** leme samostalnikov in pridevnikov v odlomkih s sramom, katerih glavna tema je ena ali druga, primerjane kot na strani Besede (uteženo razmerje logaritemskih obetov, razvrščeno po z; beseda se mora ponoviti v več romanih in pri več avtorjih); na vsaki strani besed: {n_pair}. Dolžina stolpca je navadno razmerje obeh pogostnosti na logaritemski lestvici.
   method.title: Metodologija in omejitve
   paragraphs.note.narration: Šteje se le pripoved vsakega odlomka (*Besedilo* v stranski
     vrstici).
@@ -573,3 +574,14 @@ strings:
   style.unit.ellipsis_per_1k: na 1.000 znakov
   style.unit.dash_per_1k: na 1.000 znakov
   style.raw_y: Povprečje na roman
+  themes.pair: Dve temi drugo ob drugi
+  themes.pair.lead: 'Izberite dve temi in poglejte, katere besede ju ločijo v odlomkih
+    o sramu: desno besede, bolj značilne za prvo temo, levo tiste za drugo.'
+  themes.pair.a: Prva tema
+  themes.pair.b: Druga tema
+  themes.pair.x: Kolikokrat pogosteje v svoji temi kot v drugi
+  themes.pair.times: Kolikokrat pogosteje
+  themes.pair.read: 'Kako brati: vsak stolpec je beseda, v barvi teme, h kateri sodi.
+    Dolžina pove, kolikokrat pogosteje se beseda pojavi v odlomkih o sramu te teme
+    kot v odlomkih druge teme. Kliknite besedo za njene odlomke.'
+  themes.pair.selected: Odlomki na temo »{theme}« z besedo »{word}«

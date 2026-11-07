@@ -524,6 +524,7 @@ strings:
     - **Words:** noun and adjective lemmas, without names and without the emotion's own words (those containing its stem); a lemma must occur in at least {min_paragraphs} paragraphs and in at most {max_share} % of them.
     - **Themes:** non-negative matrix factorization (NMF) of the paragraphs' TF-IDF weights into {n} themes, not the LDA of the earlier study. A paragraph's main theme is the one with the largest weight; its share of the paragraph's weights ranks the passages. A theme is named by the words with the highest weight times the share of the word's weight that falls on this theme, so that words common to many themes come later.
     - **Shares:** the share of each set's paragraphs whose main theme it is; *times as common* divides the share with shame by the share without; with groups, each group against its own passages without shame. Descriptive, not tested.
+    - **Two themes:** the noun and adjective lemmas of the passages with shame whose main theme is one or the other, compared as on the Words page (weighted log-odds, ranked by z; a word must recur in several novels and authors); {n_pair} words per side. Bar length is the plain ratio of the two frequencies, on a log scale.
   method.title: Method and caveats
   paragraphs.note.narration: Counting only the narration of each passage (*Text* in
     the sidebar).
@@ -581,3 +582,16 @@ strings:
   style.unit.ellipsis_per_1k: per 1,000 characters
   style.unit.dash_per_1k: per 1,000 characters
   style.raw_y: Average per novel
+  themes.pair: Two themes side by side
+  themes.pair.lead: 'Pick two themes to see which words set them apart in the passages
+    about shame: on the right, the words more typical of the first theme; on the left,
+    those of the second.'
+  themes.pair.a: First theme
+  themes.pair.b: Second theme
+  themes.pair.x: Times as often in its own theme as in the other
+  themes.pair.times: Times as often
+  themes.pair.read: 'How to read: each bar is a word, in the colour of the theme it
+    belongs to. Its length shows how many times as often the word appears in that
+    theme''s passages about shame as in the other theme''s. Click a word to read its
+    passages.'
+  themes.pair.selected: Passages on “{theme}” with the word “{word}”

@@ -53,7 +53,7 @@ uv run --group corpus emotion-explorer tokens   # writes missing data/tokens fil
 |---|---|
 | `overview` | per-novel counts, counts by position in the novel, typical arcs |
 | `words` | lemma counts per novel, set, case and narration or speech; pairs in a sentence; names and the gender of past-tense subjects; corpus counts, word forms |
-| `themes` | NMF themes and the main theme of each paragraph |
+| `themes` | NMF themes, the main theme of each paragraph, and word counts per theme |
 | `style` | style features per paragraph (whole, narration, speech), pooled per novel and set |
 
 ```bash
