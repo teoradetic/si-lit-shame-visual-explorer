@@ -190,13 +190,6 @@ strings:
   words.class.nouns: Nouns and adjectives
   words.class.verbs: Verbs (actions)
   words.class.all: All words
-  words.function_title: What are function words?
-  words.function_help: 'Function words are short grammatical words that carry little
-    meaning on their own: pronouns (*jaz, ti, on*), auxiliary verbs (*biti* in *je
-    bil*), prepositions (*v, na, z*), conjunctions (*in, da, ker*), particles (*ne,
-    še, že*), determiners (*ta, vsak*) and numerals. They dominate any word list,
-    so only *All words* shows them. They are recognised by their part of speech, as
-    the grammatical analysis assigned it to most occurrences of the word. The commonest:'
   words.counts: Numbers behind the chart
   words.col.word: Word
   words.col.ratio: Times more frequent
@@ -376,7 +369,7 @@ strings:
   words.pairs.read: 'How to read: the words that share a sentence with this one in
     the passages with shame (at least {n} sentences), by how many times as often as
     chance.'
-  words.shared: Shared by the groups
+  words.shared: Similar in all groups
   words.map_needs_two: 'The map compares two groups: under Compare in the sidebar,
     choose with and without shame, periods, author gender, two authors, or two novels.'
   words.map.with: Per 10,000 words, with shame
@@ -403,19 +396,24 @@ strings:
   words.read.map_shame: 'How to read: each word is placed by how often it appears
     in passages with shame (across) and without (up). Words below the diagonal are
     more frequent with shame, words above it without. Click a word to read passages.'
-  words.read.dots: 'How to read: words are listed from most to least typical; the
-    dot shows how many times more frequent a word is in passages with shame than without.
-    Click a word to read passages.'
-  words.read.dots_shame: 'How to read: right of the line at 1, words more frequent
-    in passages with shame; left of it, words more frequent without (0.5 = half as
-    frequent with shame). Click a word to read passages.'
-  words.read.dots_split: 'How to read: the dark dot shows how many times more frequent
-    a word is with shame in all compared novels together, the coloured dots the same
-    within each group. Click a word to read passages.'
-  words.find.shame: 'Most typical of passages with shame: {words}.'
-  words.find.without: 'Most typical of passages without shame: {words}.'
-  words.find.group: 'Tied to shame mainly in **{group}**: {words}.'
-  words.find.common: 'Tied to shame in every group: {words}.'
+  words.read.dots: 'How to read: the words most typical of passages with shame (frequent
+    enough to be sure of), ordered by how many times more often they occur there than
+    in passages without shame. The dashed line at 1 means equally often. Click a word
+    to read passages.'
+  words.read.dots_shame: 'How to read: right of the dashed line at 1, words that occur
+    more often in passages with shame; left of it, words that occur more often without
+    (0.5 = half as often with shame). Click a word to read passages.'
+  words.read.dots_split: 'How to read: the dark dot shows how many times more often
+    a word occurs with shame than without in all compared novels together; the coloured
+    dots show the same within each group, and the grey line spans them. Click a word
+    to read passages.'
+  words.find.shame: 'The words most typical of passages with shame, with how many
+    times more often they occur there than in passages without shame: {words}.'
+  words.find.without: 'The words most typical of passages without shame, with how
+    many times more often they occur there: {words}.'
+  words.find.group: 'Words tied to shame mainly in **{group}**, with how many times
+    more often they occur in its passages with shame than without: {words}.'
+  words.find.common: 'Words tied to shame about equally in every group: {words}.'
   words.cases.title: Cases of *{word}*
   words.cases.case: Case
   words.cases.share: Share of uses
@@ -432,6 +430,7 @@ strings:
   case.Ins: Instrumental
   words.methodology: |-
     - **Words:** lemmas, lower-cased, from CLASSLA tagging (the source corpora's annotation for 262 novels, CLASSLA run here for the other 43). A lemma's part of speech is the one most of its tokens have. Names are removed: lemmas whose tokens are mostly proper nouns or inside a named entity. A passage contains a word if it has one of its forms; each form belongs to the lemma most of its occurrences have. *Verbs* keeps lemmas tagged VERB, *Nouns and adjectives* NOUN and ADJ, *Meaningful words* all but the function words. *Speech* and *Narration* split each paragraph as on the Style page: words between quotation marks, or in a paragraph that opens with a dash, are speech.
+    - **Function words:** pronouns (*jaz, ti, on*), auxiliary verbs (*biti* in *je bil*), prepositions (*v, na, z*), conjunctions (*in, da, ker*), particles (*ne, še, že*), determiners (*ta, vsak*) and numerals: short grammatical words that carry little meaning on their own and dominate any word list, so only *All words* shows them. A word counts as one by the part of speech most of its occurrences have. The commonest: {function_words}.
     - **Sets:** the detected paragraphs of the compared novels against their comparison paragraphs (one low-score partner per detected paragraph, from the same novel, within a factor of 2 in length).
     - **Measure:** weighted log-odds ratio δ with an informative Dirichlet prior (Monroe, Colaresi and Quinn 2008); the prior is the corpus word frequency, scaled to the size of each set, so that a word as frequent on both sides scores 0 however unequal their sizes. Words are ranked by z = δ / SE(δ), which weighs a word's ratio by how much evidence there is for it; the plain ratio, δ alone and the mean shame score of the paragraphs with the word were tried and put rare one-off words first. *Times more frequent* is the plain ratio of the two frequencies, with half a count added to each side so that a word missing on one side stays finite; e^δ is not used for it, because the prior pulls it towards 1, the more so the rarer the word.
     - **Filters:** at least {min_count} occurrences in the two sets; a typical word must recur on its side in at least {novels} novels by {authors} authors (the rule is relaxed for small groups).
@@ -532,3 +531,9 @@ strings:
   time.find.value.mean_score: an average shame score of {x} out of 100
   time.find.kind.emotion: about shame
   time.find.kind.comparison: clearly without shame
+  words.class_help: '*Meaningful words*: nouns, adjectives, verbs, adverbs and interjections,
+    that is every word except the function words (short grammatical words such as
+    *in, da, je, ta*; listed under *Methodology (technical)*). *Nouns and adjectives*:
+    people, things and their qualities. *Verbs*: actions. *All words*: the function
+    words too.'
+  words.all_novels: All compared novels

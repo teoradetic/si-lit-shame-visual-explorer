@@ -189,13 +189,6 @@ strings:
   words.class.nouns: Samostalniki in pridevniki
   words.class.verbs: Glagoli (dejanja)
   words.class.all: Vse besede
-  words.function_title: Kaj so funkcijske besede?
-  words.function_help: 'Funkcijske besede so kratke slovnične besede, ki same po sebi
-    nimajo veliko pomena: zaimki (*jaz, ti, on*), pomožni glagoli (*biti* v *je bil*),
-    predlogi (*v, na, z*), vezniki (*in, da, ker*), členki (*ne, še, že*), določilniki
-    (*ta, vsak*) in števniki. Prevladale bi v vsakem seznamu, zato jih kaže le izbira
-    *Vse besede*. Prepoznane so po besedni vrsti, ki jo je slovnična analiza pripisala
-    večini pojavitev besede. Najpogostejše:'
   words.counts: Številke za grafom
   words.col.word: Beseda
   words.col.ratio: Kolikokrat pogostejša
@@ -374,7 +367,7 @@ strings:
   words.pairs.n: Skupne povedi
   words.pairs.read: 'Kako brati: besede, ki si s to delijo poved v odlomkih s sramom
     (vsaj v {n} povedih), po tem, kolikokrat pogosteje kot po naključju.'
-  words.shared: Skupne skupinam
+  words.shared: Podobne v vseh skupinah
   words.map_needs_two: 'Zemljevid primerja dve skupini: v stranski vrstici pod Primerjaj
     izberite s sramom in brez njega, obdobji, spol avtorja, dva avtorja ali dva romana.'
   words.map.with: Na 10.000 besed, s sramom
@@ -400,19 +393,24 @@ strings:
   words.read.map_shame: 'Kako brati: vsaka beseda je postavljena glede na to, kako
     pogosto se pojavi v odlomkih s sramom (vodoravno) in brez njega (navpično). Besede
     pod diagonalo so pogostejše ob sramu, nad njo brez njega. Kliknite besedo za odlomke.'
-  words.read.dots: 'Kako brati: besede so razvrščene od najbolj do najmanj značilne;
-    točka kaže, kolikokrat pogostejša je beseda v odlomkih s sramom kot brez njega.
-    Kliknite besedo za odlomke.'
-  words.read.dots_shame: 'Kako brati: desno od črte pri 1 so besede, pogostejše v
-    odlomkih s sramom, levo besede, pogostejše brez njega (0,5 = ob sramu pol manj
-    pogosta). Kliknite besedo za odlomke.'
-  words.read.dots_split: 'Kako brati: temna točka kaže, kolikokrat pogostejša je beseda
-    ob sramu v vseh primerjanih romanih skupaj, barvne točke isto znotraj posamezne
-    skupine. Kliknite besedo za odlomke.'
-  words.find.shame: 'Najbolj značilne za odlomke s sramom: {words}.'
-  words.find.without: 'Najbolj značilne za odlomke brez sramu: {words}.'
-  words.find.group: 'S sramom povezane predvsem v skupini **{group}**: {words}.'
-  words.find.common: 'S sramom povezane v vseh skupinah: {words}.'
+  words.read.dots: 'Kako brati: besede, najbolj značilne za odlomke s sramom (dovolj
+    pogoste, da smo lahko prepričani), urejene po tem, kolikokrat pogosteje se pojavijo
+    tam kot v odlomkih brez sramu. Črtkana črta pri 1 pomeni enako pogosto. Kliknite
+    besedo za odlomke.'
+  words.read.dots_shame: 'Kako brati: desno od črtkane črte pri 1 so besede, ki se
+    pogosteje pojavijo v odlomkih s sramom, levo besede, ki se pogosteje pojavijo
+    brez njega (0,5 = ob sramu pol manj pogosto). Kliknite besedo za odlomke.'
+  words.read.dots_split: 'Kako brati: temna točka kaže, kolikokrat pogosteje se beseda
+    pojavi s sramom kot brez njega v vseh primerjanih romanih skupaj; barvne točke
+    kažejo isto znotraj posamezne skupine, siva črta jih povezuje. Kliknite besedo
+    za odlomke.'
+  words.find.shame: 'Besede, najbolj značilne za odlomke s sramom, in kolikokrat pogosteje
+    se pojavijo tam kot v odlomkih brez sramu: {words}.'
+  words.find.without: 'Besede, najbolj značilne za odlomke brez sramu, in kolikokrat
+    pogosteje se pojavijo tam: {words}.'
+  words.find.group: 'Besede, povezane s sramom predvsem v skupini **{group}**, in
+    kolikokrat pogosteje se pojavijo v njenih odlomkih s sramom kot brez njega: {words}.'
+  words.find.common: 'Besede, približno enako povezane s sramom v vseh skupinah: {words}.'
   words.cases.title: Skloni besede *{word}*
   words.cases.case: Sklon
   words.cases.share: Delež rab
@@ -428,6 +426,7 @@ strings:
   case.Ins: Orodnik
   words.methodology: |-
     - **Besede:** leme z malimi črkami, iz označevanja s CLASSLA (označbe izvornih korpusov za 262 romanov, CLASSLA, zagnan tukaj, za preostalih 43). Besedna vrsta leme je tista, ki jo ima večina njenih pojavitev. Imena so odstranjena: leme, katerih pojavitve so večinoma lastna imena ali del imenske entitete. Odlomek vsebuje besedo, če vsebuje katero od njenih oblik; vsaka oblika pripada lemi, ki jo ima večina njenih pojavitev. *Glagoli* obdržijo leme z oznako VERB, *Samostalniki in pridevniki* NOUN in ADJ, *Pomenske besede* vse razen funkcijskih. *Govor* in *Pripoved* razdelita odstavek kot na strani Slog: besede med narekovaji ali v odstavku, ki se začne s pomišljajem, so govor.
+    - **Funkcijske besede:** zaimki (*jaz, ti, on*), pomožni glagoli (*biti* v *je bil*), predlogi (*v, na, z*), vezniki (*in, da, ker*), členki (*ne, še, že*), določilniki (*ta, vsak*) in števniki: kratke slovnične besede, ki same po sebi nimajo veliko pomena in bi prevladale v vsakem seznamu, zato jih kaže le izbira *Vse besede*. Beseda šteje mednje po besedni vrsti, ki jo ima večina njenih pojavitev. Najpogostejše: {function_words}.
     - **Nabora:** zaznani odstavki primerjanih romanov proti njihovim primerjalnim odstavkom (en par z nizko oceno na zaznani odstavek, iz istega romana, do 2-krat daljši ali krajši).
     - **Mera:** uteženo razmerje logaritemskih obetov δ z informativno Dirichletovo apriorno porazdelitvijo (Monroe, Colaresi in Quinn 2008); apriorna je pogostnost besede v korpusu, umerjena na velikost vsakega nabora, tako da ima beseda, enako pogosta na obeh straneh, vrednost 0 ne glede na to, kako različno velika sta. Besede so razvrščene po z = δ / SE(δ), ki razmerje besede utehta s tem, koliko dokazov je zanj; navadno razmerje, sam δ in povprečna ocena sramu odstavkov z besedo so bili preizkušeni in na vrh postavijo redke enkratne besede. *Kolikokrat pogostejša* je navadno razmerje obeh pogostnosti, pri čemer je vsaki strani dodana polovica pojavitve, da beseda, ki na eni strani manjka, ostane končna; e^δ za to ni uporabljen, ker ga apriorna porazdelitev vleče proti 1, tem bolj, čim redkejša je beseda.
     - **Filtri:** vsaj {min_count} pojavitev v obeh naborih; značilna beseda se mora na svoji strani ponoviti v vsaj {novels} romanih {authors} avtorjev (za majhne skupine je pravilo blažje).
@@ -527,3 +526,9 @@ strings:
   time.find.value.mean_score: povprečna ocena sramu je {x} od 100
   time.find.kind.emotion: o sramu
   time.find.kind.comparison: zagotovo brez sramu
+  words.class_help: '*Pomenske besede*: samostalniki, pridevniki, glagoli, prislovi
+    in medmeti, torej vse besede razen funkcijskih (kratkih slovničnih besed, kot
+    so *in, da, je, ta*; naštete so pod *Metodologija (tehnično)*). *Samostalniki
+    in pridevniki*: osebe, stvari in njihove lastnosti. *Glagoli*: dejanja. *Vse besede*:
+    tudi funkcijske.'
+  words.all_novels: Vsi primerjani romani

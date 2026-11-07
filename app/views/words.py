@@ -56,6 +56,7 @@ word_class = c2.selectbox(
     [*WORD_CLASSES, "all"],
     format_func=lambda v: t(f"words.class.{v}"),
     key="words_class",
+    help=t("words.class_help"),
 )
 n_words = c3.slider(
     t("words.n"),
@@ -66,11 +67,6 @@ n_words = c3.slider(
     key=f"words_n_{chart_type}",
 )
 text_split = f.text
-with st.expander(t("words.function_title")):
-    st.markdown(t("words.function_help"))
-    prior = tables.word_prior()
-    commonest = prior[prior["function_word"]]["n_corpus"].nlargest(N_FUNCTION_LISTED)
-    st.write(", ".join(commonest.index))
 
 
 def prepare(table: pd.DataFrame) -> pd.DataFrame:
@@ -211,9 +207,17 @@ def diagonal(scale: alt.Scale, low: float, high: float) -> alt.Chart:
     )
 
 
+def network_words() -> pd.DataFrame:
+    """The words of the network: those typical of the passages with shame,
+    whose sentences the pairs count."""
+    if shame_mode:
+        return typical(pool, n_words).assign(belongs=groups[0].label, side="emotion")
+    return words
+
+
 def network_edges() -> pd.DataFrame:
-    """Links among the shown words with shame; each keeps its strongest."""
-    shown = words.loc[words["side"] == "emotion", "word"]
+    """Links among the network's words; each keeps its strongest."""
+    shown = network_words()["word"]
     pairs = tables.group_pairs(f.tier, pool_ids)
     edges = pairs[
         pairs["a"].isin(shown)
@@ -360,7 +364,7 @@ elif chart_type == "network" and network_edges().empty:
     st.info(t("words.network.none", n=MIN_TOGETHER))
     read_key = None
 elif chart_type == "network":
-    nodes, edges = words[words["side"] == "emotion"], network_edges()
+    nodes, edges = network_words(), network_edges()
     # Words without a link are listed, not drawn: they would push the rest
     # into the middle.
     linked = nodes["word"].isin(edges["a"]) | nodes["word"].isin(edges["b"])
@@ -377,12 +381,16 @@ elif chart_type == "network":
         pair=edges["a"] + " – " + edges["b"],
         times=2 ** edges["pmi"],
     )
+    # One colour without groups: every word comes from passages with shame.
+    node_color = belong_color if split else alt.value(charts.set_color("emotion"))
     # Room on the right for the labels.
     x = alt.X("x:Q", scale=alt.Scale(domain=[-1.1, 1.4]), axis=None)
     y = alt.Y("y:Q", scale=alt.Scale(domain=[-1.1, 1.1]), axis=None)
     lines = (
+        # In the shame colour, not grey: the links come from passages with
+        # shame, and grey stands for those without.
         alt.Chart(edges)
-        .mark_rule(color=charts.ink(), opacity=0.35)
+        .mark_rule(color=charts.set_color("emotion"), opacity=0.35)
         .encode(
             x=x,
             y=y,
@@ -404,7 +412,7 @@ elif chart_type == "network":
         .encode(
             x=x,
             y=y,
-            color=belong_color,
+            color=node_color,
             tooltip=tooltip,
             opacity=alt.condition(pick, alt.value(1), alt.value(0.4)),
         )
@@ -413,7 +421,7 @@ elif chart_type == "network":
     labels = (
         alt.Chart(nodes)
         .mark_text(align="left", dx=7, fontSize=12)
-        .encode(x=x, y=y, text="word:N", color=belong_color)
+        .encode(x=x, y=y, text="word:N", color=node_color)
     )
     chart = alt.layer(lines, dots, labels).properties(
         width=MAP_WIDTH, height=MAP_HEIGHT
@@ -431,12 +439,12 @@ else:  # dots
                 words["side"] == "comparison", 1 / words["ratio"], words["ratio"]
             )
         )
-        order = words.sort_values("log_odds", ascending=False)["word"].tolist()
         x_title = t("words.dots.both")
         read_key = "words.read.dots_shame"
     else:
-        order = words.sort_values("strength", ascending=False)["word"].tolist()
         x_title = t("words.col.ratio")
+    # Rows in the order of the axis: the largest ratio on top.
+    order = words.sort_values("ratio", ascending=False)["word"].tolist()
     y = alt.Y(
         "word:N",
         sort=order,
@@ -444,12 +452,19 @@ else:  # dots
         axis=alt.Axis(labelFontSize=13, labelOverlap=False, labelLimit=200),
     )
     x = alt.X("ratio:Q", title=x_title, scale=alt.Scale(type="log", nice=False))
+    # A dashed line at 1×, as often with shame as without, and a stem from
+    # it to each dot in the dot's colour (grey stands for "without shame").
+    one = (
+        alt.Chart(pd.DataFrame({"one": [1.0]}))
+        .mark_rule(strokeDash=[4, 3], color=charts.ink(), opacity=0.6)
+        .encode(x=alt.X("one:Q", scale=alt.Scale(type="log")))
+    )
     rule = (
         # A field, not a datum, for the baseline: Vega-Lite cannot layer a
         # typeless datum with the points' quantitative x.
         alt.Chart(words.assign(baseline=1.0))
-        .mark_rule(strokeWidth=1, opacity=0.4, color=charts.ink())
-        .encode(y=y, x="baseline:Q", x2="ratio:Q")
+        .mark_rule(strokeWidth=1.5, opacity=0.5)
+        .encode(y=y, x="baseline:Q", x2="ratio:Q", color=belong_color)
     )
     main = (
         alt.Chart(words)
@@ -463,7 +478,7 @@ else:  # dots
         )
         .add_params(pick)
     )
-    layers = [rule, main]
+    layers = [one, rule, main]
     if split:
         # Each group's own ratio, as smaller dots on the word's row.
         per_group = pd.concat(
@@ -472,15 +487,31 @@ else:  # dots
                 for label, table in by_group.items()
             ]
         )
-        main = main.encode(color=alt.value(charts.ink()))
+        # The dark dot: all compared novels together; a line spans the groups.
+        everyone = t("words.all_novels")
+        dot_color = alt.Color(
+            "belongs:N",
+            scale=alt.Scale(
+                domain=[g.label for g in groups] + [everyone],
+                range=[g.color for g in groups] + [charts.ink()],
+            ),
+            legend=alt.Legend(orient="top", title=None),
+        )
+        main = main.transform_calculate(belongs=f"{everyone!r}").encode(color=dot_color)
+        spread = (
+            alt.Chart(per_group)
+            .mark_rule(strokeWidth=1, opacity=0.5, color=charts.ink())
+            .encode(y=y, x="min(ratio):Q", x2="max(ratio):Q")
+        )
         layers = [
-            rule,
+            one,
+            spread,
             alt.Chart(per_group)
             .mark_point(filled=True, size=55, strokeWidth=0, opacity=0.9)
             .encode(
                 y=y,
                 x="ratio:Q",
-                color=belong_color,
+                color=dot_color,
                 tooltip=[
                     alt.Tooltip("word:N", title=t("words.col.word")),
                     alt.Tooltip("belongs:N", title=t("field.group")),
@@ -510,6 +541,12 @@ notes.methodology(
     pair_novels=tables.meta()["words"]["pair_min_novels"],
     together=MIN_TOGETHER,
     links=MAX_LINKS,
+    function_words=", ".join(
+        tables.word_prior()
+        .query("function_word")["n_corpus"]
+        .nlargest(N_FUNCTION_LISTED)
+        .index
+    ),
 )
 with st.expander(t("words.counts")):
     cols = [
