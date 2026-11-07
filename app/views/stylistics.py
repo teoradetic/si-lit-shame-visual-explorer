@@ -42,6 +42,10 @@ chart_type = st.columns([2, 3])[0].selectbox(
     key="style_type",
 )
 paragraph_split = filters.current().text
+if paragraph_split != "all":
+    st.info(
+        t(f"paragraphs.note.{paragraph_split}"), icon=":material/record_voice_over:"
+    )
 if compare.mode() == "shame":
     st.caption(t("style.shame_mode"))
 with st.expander(t("style.measures_title")):

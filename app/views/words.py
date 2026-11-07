@@ -41,6 +41,8 @@ shame_mode = compare.mode() == "shame"
 split = compare.is_split()
 findings_box = st.container()
 st.caption(t("words.lemmas"))
+if f.text != "all":
+    st.info(t(f"paragraphs.note.{f.text}"), icon=":material/record_voice_over:")
 
 c1, c2, c3 = st.columns([2, 2, 3], vertical_alignment="bottom")
 chart_type = c1.selectbox(

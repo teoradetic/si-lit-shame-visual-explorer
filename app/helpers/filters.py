@@ -39,9 +39,12 @@ def _reset() -> None:
     st.session_state["f_text"] = "all"
 
 
-def sidebar() -> None:
+def sidebar(text: bool) -> None:
+    """The filters; `text` shows the narration/speech split."""
     if "f_tier" not in st.session_state:
         _reset()
+    # Kept while the control is hidden, which would otherwise drop it.
+    st.session_state["f_text"] = st.session_state.get("f_text", "all")
     novels = tables.novels()
     with st.sidebar, st.container(border=True):
         st.header(t("filters.header"), divider="gray")
@@ -54,14 +57,15 @@ def sidebar() -> None:
             key="f_tier",
             help=t("filters.tier_help"),
         )
-        st.segmented_control(
-            t("paragraphs.split"),
-            ["all", "narration", "dialogue"],
-            required=True,
-            format_func=lambda v: t(f"paragraphs.{v}"),
-            key="f_text",
-            help=t("filters.text_help"),
-        )
+        if text:
+            st.segmented_control(
+                t("paragraphs.split"),
+                ["all", "narration", "dialogue"],
+                required=True,
+                format_func=lambda v: t(f"paragraphs.{v}"),
+                key="f_text",
+                help=t("filters.text_help"),
+            )
         st.pills(
             t("filters.period"),
             list(PERIODS),

@@ -20,7 +20,7 @@ pages = [
     st.Page("views/stylistics.py", title=t("nav.style"), url_path="style"),
     st.Page("views/method.py", title=t("nav.method"), url_path="method"),
 ]
-# The language menu is a section of the top menu, named after the current
+# The language menu comes first in the top menu, named after the current
 # language; its entries are the other languages. Flag emoji show as letters
 # (GB, SI) on Windows; the names stay readable.
 languages = {
@@ -33,7 +33,7 @@ languages = {
     if code != lang()
 }
 page = st.navigation(
-    {"": pages, f"{setting('flag')} {setting('name')}": list(languages)},
+    {f"{setting('flag')} {setting('name')}": list(languages), "": pages},
     position="top",
 )
 if page in languages:
@@ -46,5 +46,6 @@ st.session_state["last_page"] = page.url_path
 st.caption(t("app.title"))
 # The comparison comes first in the sidebar: it shapes every chart.
 compare.sidebar()
-filters.sidebar()
+# The text split only changes the Words and Style pages.
+filters.sidebar(text=page.url_path in ("words", "style"))
 page.run()

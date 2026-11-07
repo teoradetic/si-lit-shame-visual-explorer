@@ -16,8 +16,9 @@ strings:
   chart.type: Graf
   filters.header: Filtri
   filters.caption: Kateri romani in odlomki se štejejo.
-  filters.text_help: 'Le Besede in Slog: štejejo cele odlomke, njihovo pripoved ali
-    govor v njih (med narekovaji).'
+  filters.text_help: Štejejo se celi odlomki, le njihova pripoved ali le govor v njih
+    (med narekovaji ali za pomišljajem, ki odpre odstavek). Odlomki so vedno prikazani
+    celi. Ta izbira spremeni le strani Besede in Slog.
   filters.tier: Kateri odlomki
   filters.tier_help: 'Širši nabor: odlomki, za katere je model precej prepričan, da
     govorijo o sramu. Jedro: le tisti, za katere je najbolj prepričan; manj odlomkov,
@@ -259,13 +260,13 @@ strings:
   compare.mode: Kaj primerjati
   compare.help: Ta izbira razdeli vsak graf na vsaki strani. Filtri spodaj izberejo
     romane, primerjava pa jih razdeli v skupine.
-  compare.mode.none: 'Nič: vsi romani skupaj'
+  compare.mode.none: 'Brez primerjave: vsi izbrani romani'
   compare.mode.shame: S sramom in brez njega
   compare.mode.period: Realizem in modernizem
   compare.mode.gender: Avtorice in avtorje
   compare.mode.authors: Dva avtorja
   compare.mode.novels: Romane enega avtorja
-  compare.mode.rest: Enega avtorja in ostale
+  compare.mode.rest: Enega avtorja z ostalimi
   compare.rest: Drugi avtorji
   compare.author_a: Prvi avtor
   compare.author_b: Drugi avtor
@@ -516,3 +517,7 @@ strings:
     - **Teme:** nenegativna matrična faktorizacija (NMF) uteži TF-IDF odstavkov v {n} tem, ne LDA prejšnje študije. Glavna tema odstavka je tista z največjo utežjo; njen delež med utežmi odstavka razvršča odlomke.
     - **Deleži:** delež odstavkov vsakega nabora, katerih glavna tema je; *kolikokrat pogostejša* deli delež s sramom z deležem brez njega, oba čez vse primerjane romane. Opisno, brez testa.
   method.title: Metodologija in omejitve
+  paragraphs.note.narration: Šteje se le pripoved vsakega odlomka (*Besedilo* v stranski
+    vrstici).
+  paragraphs.note.dialogue: Šteje se le govor v vsakem odlomku (*Besedilo* v stranski
+    vrstici).

@@ -16,8 +16,9 @@ strings:
   chart.type: Chart
   filters.header: Filters
   filters.caption: Which novels and passages are counted.
-  filters.text_help: 'Words and Style only: count all of each passage, its narration,
-    or the speech in it (between quotation marks).'
+  filters.text_help: Count all of each passage, only its narration, or only the speech
+    in it (between quotation marks, or after a dash that opens a paragraph). The excerpts
+    are always shown whole. This choice changes only the Words and Style pages.
   filters.tier: Which passages
   filters.tier_help: 'Broad: the passages the model is fairly sure are about shame.
     Core: only those it is most sure about; fewer passages, but fewer mistakes.'
@@ -261,13 +262,13 @@ strings:
   compare.mode: What to compare
   compare.help: Every chart on every page is broken down by this choice. The filters
     below choose the novels; the comparison splits them into groups.
-  compare.mode.none: 'Nothing: all novels together'
+  compare.mode.none: 'No comparison: all selected novels'
   compare.mode.shame: With and without shame
   compare.mode.period: Realism and Modernism
   compare.mode.gender: Female and male authors
   compare.mode.authors: Two authors
   compare.mode.novels: Novels of one author
-  compare.mode.rest: One author and the rest
+  compare.mode.rest: One author vs the rest
   compare.rest: Other authors
   compare.author_a: First author
   compare.author_b: Second author
@@ -521,3 +522,7 @@ strings:
     - **Themes:** non-negative matrix factorization (NMF) of the paragraphs' TF-IDF weights into {n} themes, not the LDA of the earlier study. A paragraph's main theme is the one with the largest weight; its share of the paragraph's weights ranks the passages.
     - **Shares:** the share of each set's paragraphs whose main theme it is; *times more common* divides the share with shame by the share without, both over all compared novels. Descriptive, not tested.
   method.title: Method and caveats
+  paragraphs.note.narration: Counting only the narration of each passage (*Text* in
+    the sidebar).
+  paragraphs.note.dialogue: Counting only the speech in each passage (*Text* in the
+    sidebar).
