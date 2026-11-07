@@ -1,4 +1,4 @@
-"""DATA-03: the comparison set, low-score paragraphs matched by novel and length.
+"""The comparison set, low-score paragraphs matched by novel and length.
 
 Each broad-tier paragraph gets the low-score paragraph of the same novel with
 the closest length, within a factor of MAX_LENGTH_RATIO. Untagged paragraphs

@@ -232,7 +232,7 @@ def step_words() -> None:
     largest = pd.concat([sets[(MATCHED_TIER, s)] for s in SIDES], ignore_index=True)
     frequency = largest["word"].value_counts()
     keep = vocabulary(frequency, names)
-    # AN-11: names counted on their own, for the People page. A name none of
+    # Names counted on their own, for the People page. A name none of
     # whose forms is mostly its own is a tagging slip (*bola*).
     people = {w for w in names if frequency.get(w, 0) >= MIN_COUNT}
     forms = word_forms(largest, keep | people)

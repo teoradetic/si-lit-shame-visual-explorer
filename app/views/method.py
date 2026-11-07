@@ -1,4 +1,4 @@
-"""APP-04: how the passages were found, and what the app cannot show."""
+"""How the passages were found, and what the app cannot show."""
 
 import streamlit as st
 

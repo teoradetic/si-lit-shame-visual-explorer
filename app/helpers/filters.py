@@ -1,4 +1,4 @@
-"""APP-01: global filters, kept in session state and applied to every view."""
+"""Global filters, kept in session state and applied to every view."""
 
 from dataclasses import dataclass
 
@@ -20,7 +20,7 @@ class Filters:
     authors: list[str]
     novels: list[str]
     years: tuple[int, int]
-    # Which part of the passages Words and Style count (AN-09, AN-14).
+    # Which part of the passages Words and Style count.
     text: str
 
 

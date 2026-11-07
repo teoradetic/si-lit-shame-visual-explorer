@@ -34,13 +34,13 @@ uv run pre-commit install
 | `data/corpora/`, `data/models/` | Downloaded source corpora and CLASSLA models; not committed. |
 | `data/tokens/` | Every token with lemma, part of speech, morphology and named entity, one file per novel. |
 
-| Step | Writes | Ticket |
-|---|---|---|
-| `corpora` | downloads the annotated [KDSP](http://hdl.handle.net/11356/1823), [PriLit](http://hdl.handle.net/11356/1319) and [ELTeC-slv](https://github.com/COST-ELTeC/ELTeC-slv) editions (262 novels, 1.6 GB) | DATA-04 |
-| `tokens` | `data/tokens/`: their annotation, and CLASSLA for the other 43 novels | DATA-04 |
-| `paragraphs` | one row per paragraph: scores, tier flags, novel metadata | DATA-01 |
-| `comparison` | low-score partners of the broad-tier paragraphs | DATA-03 |
-| `excerpts` | excerpts with ±2 paragraphs of context, and their texts | DATA-02 |
+| Step | Writes |
+|---|---|
+| `corpora` | downloads the annotated [KDSP](http://hdl.handle.net/11356/1823), [PriLit](http://hdl.handle.net/11356/1319) and [ELTeC-slv](https://github.com/COST-ELTeC/ELTeC-slv) editions (262 novels, 1.6 GB) |
+| `tokens` | `data/tokens/`: their annotation, and CLASSLA for the other 43 novels |
+| `paragraphs` | one row per paragraph: scores, tier flags, novel metadata |
+| `comparison` | low-score partners of the broad-tier paragraphs |
+| `excerpts` | excerpts with ±2 paragraphs of context, and their texts |
 
 ```bash
 uv run emotion-explorer corpora                 # only to rebuild the tokens
@@ -49,12 +49,12 @@ uv run --group corpus emotion-explorer tokens   # writes missing data/tokens fil
 
 ## 2. Analyze data
 
-| Step | Writes | Ticket |
-|---|---|---|
-| `overview` | per-novel counts, counts by position in the novel, typical arcs | AN-01, AN-02, AN-15 |
-| `words` | lemma counts per novel, set, case and narration or speech; pairs in a sentence; names and the gender of past-tense subjects; corpus counts, word forms | AN-03, AN-06, AN-11, AN-14, DATA-06 |
-| `themes` | NMF themes and the main theme of each paragraph | AN-10 |
-| `style` | style features per paragraph (whole, narration, speech), pooled per novel and set | AN-08, AN-09 |
+| Step | Writes |
+|---|---|
+| `overview` | per-novel counts, counts by position in the novel, typical arcs |
+| `words` | lemma counts per novel, set, case and narration or speech; pairs in a sentence; names and the gender of past-tense subjects; corpus counts, word forms |
+| `themes` | NMF themes and the main theme of each paragraph |
+| `style` | style features per paragraph (whole, narration, speech), pooled per novel and set |
 
 ```bash
 uv run emotion-explorer all     # paragraphs to style: rebuilds data/processed

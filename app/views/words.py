@@ -1,4 +1,4 @@
-"""AN-03: words (lemmas) typical of the detected passages."""
+"""Words (lemmas) typical of the detected passages."""
 
 import math
 
@@ -11,7 +11,7 @@ from helpers import charts, compare, filters, notes, reader, stats, tables
 from helpers.language import labels, num, t
 
 CHART_TYPES = ("cloud", "map", "dots", "network")
-# AN-04: verbs, the actions; "content" leaves out the function words.
+# Verbs, the actions; "content" leaves out the function words.
 WORD_CLASSES = {"content": None, "nouns": ("NOUN", "ADJ"), "verbs": ("VERB",)}
 # A word belongs to a group when its frequency ratio there is at least this
 # many times its ratio in every other group. Ratios, not z-scores: z grows
@@ -24,7 +24,7 @@ N_FINDINGS = 5
 # Function words listed in their explanation, the commonest first.
 N_FUNCTION_LISTED = 40
 CASES = ("Nom", "Gen", "Dat", "Acc", "Loc", "Ins")
-# AN-06: two words are linked when they share at least this many sentences in
+# Two words are linked when they share at least this many sentences in
 # the selected novels, as often as the pipeline's floor asks (`pair_min_pmi`).
 MIN_TOGETHER = 3
 N_NEIGHBOURS = 12

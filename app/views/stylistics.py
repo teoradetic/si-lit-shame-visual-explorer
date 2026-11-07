@@ -1,4 +1,4 @@
-"""AN-08: style of the detected passages against the comparison set."""
+"""Style of the detected passages against the comparison set."""
 
 import html
 

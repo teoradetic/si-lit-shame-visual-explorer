@@ -1,4 +1,4 @@
-"""AN-08: style features per paragraph, pooled per novel and set."""
+"""Style features per paragraph, pooled per novel and set."""
 
 import re
 

@@ -1,4 +1,4 @@
-"""AN-15: typical shapes of the emotion's course through a novel."""
+"""Typical shapes of the emotion's course through a novel."""
 
 import numpy as np
 import pandas as pd

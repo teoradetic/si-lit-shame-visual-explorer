@@ -1,4 +1,4 @@
-"""SET-03: the shared chart colours and Altair config."""
+"""The shared chart colours and Altair config."""
 
 import html
 
@@ -52,8 +52,8 @@ _SEQUENTIAL = {
         "#e4bfda",
     ],
 }
-# Charts render tens of thousands of marks in AN-02; the default limit of
-# 5,000 rows only guards notebooks against huge specs.
+# The position page renders tens of thousands of marks; the default limit
+# of 5,000 rows only guards notebooks against huge specs.
 alt.data_transformers.disable_max_rows()
 
 

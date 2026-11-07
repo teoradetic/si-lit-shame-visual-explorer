@@ -1,4 +1,4 @@
-"""AN-01 and AN-02: how much detected emotion each novel has, and where.
+"""How much detected emotion each novel has, and where.
 
 Both tables also count the low-score paragraphs (`low`), for "without".
 """
@@ -12,7 +12,7 @@ N_POSITION_BINS = 20
 def build_novels(
     paragraphs: pd.DataFrame, metadata: pd.DataFrame, tiers: tuple[str, ...]
 ) -> pd.DataFrame:
-    """AN-01: one row per novel. Shares are normalized by novel length."""
+    """One row per novel. Shares are normalized by novel length."""
     sets = (*tiers, "low")
     by_novel = paragraphs.groupby("novel_id", observed=True)
     novels = by_novel.agg(
@@ -33,7 +33,7 @@ def build_novels(
 def build_position_bins(
     paragraphs: pd.DataFrame, tiers: tuple[str, ...]
 ) -> pd.DataFrame:
-    """AN-02: paragraph counts per novel and twentieth of the novel."""
+    """Paragraph counts per novel and twentieth of the novel."""
     sets = (*tiers, "low")
     bins = np.minimum(
         (paragraphs["rel_position"] * N_POSITION_BINS).astype(int),

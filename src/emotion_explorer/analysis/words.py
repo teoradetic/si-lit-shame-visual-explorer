@@ -1,4 +1,4 @@
-"""AN-03: lemma counts per novel and set; the app compares them (`stats.py`)."""
+"""Lemma counts per novel and set; the app compares them (`stats.py`)."""
 
 import unicodedata
 from pathlib import Path

@@ -1,4 +1,4 @@
-"""APP-02: the excerpt reader every view opens its passages in."""
+"""The excerpt reader every view opens its passages in."""
 
 import html
 import re

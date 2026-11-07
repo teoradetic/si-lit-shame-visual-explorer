@@ -1,4 +1,4 @@
-"""AN-06: lemmas that come together in a sentence, per novel and set."""
+"""Lemmas that come together in a sentence, per novel and set."""
 
 import numpy as np
 import pandas as pd

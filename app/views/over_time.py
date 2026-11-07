@@ -1,4 +1,4 @@
-"""AN-01: detected shame per novel against the year of publication."""
+"""Detected shame per novel against the year of publication."""
 
 import altair as alt
 import numpy as np

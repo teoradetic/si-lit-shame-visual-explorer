@@ -1,4 +1,4 @@
-"""AN-02: where in the novel the detected paragraphs fall (five chart types)."""
+"""Where in the novel the detected paragraphs fall (five chart types)."""
 
 import altair as alt
 import numpy as np
@@ -417,7 +417,7 @@ elif chart_type in ("heatmap", "heatmap_novels"):
         picked_title = t("position.bin_selected", a=round(low), b=round(low + part))
 
 elif chart_type == "arcs":
-    # AN-15: the arcs come from the pipeline; with shame only, so the shame
+    # The arcs come from the pipeline; with shame only, so the shame
     # mode shows one group.
     arcs = tables.table("arcs")
     arcs = arcs[(arcs["tier"] == f.tier) & arcs["novel_id"].isin(novels["novel_id"])]

@@ -1,4 +1,4 @@
-"""AN-10: themes (NMF topics) shared by the passages with and without the
+"""Themes (NMF topics) shared by the passages with and without the
 emotion, and the main theme of each paragraph."""
 
 import numpy as np

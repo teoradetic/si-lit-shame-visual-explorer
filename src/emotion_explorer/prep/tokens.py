@@ -1,4 +1,4 @@
-"""DATA-04: every token of a novel with its lemma and tags.
+"""Every token of a novel with its lemma and tags.
 
 Novels from the annotated corpora keep their (CLASSLA) annotation; the others
 are tagged here with CLASSLA. The TEI files split paragraphs differently, but

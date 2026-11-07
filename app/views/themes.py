@@ -1,4 +1,4 @@
-"""AN-10: the themes of the passages with and without shame."""
+"""The themes of the passages with and without shame."""
 
 import altair as alt
 import pandas as pd

@@ -1,4 +1,4 @@
-"""DATA-01: one row per paragraph, without its text."""
+"""One row per paragraph, without its text."""
 
 import pandas as pd
 

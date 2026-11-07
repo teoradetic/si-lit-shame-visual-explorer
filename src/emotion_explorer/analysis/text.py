@@ -1,8 +1,8 @@
 """Surface text processing without a tagger: words, sentences, speech.
 
 These rules are rough on historical spelling, and the views that use them
-say so. The word lists use the lemmas of DATA-04 instead; Style still uses
-these rules.
+say so. The word lists use the lemmas of the token tables instead; Style
+still uses these rules.
 """
 
 import re

@@ -34,7 +34,7 @@ def spread_rule(n_novels: int, n_authors: int) -> tuple[int, int]:
 def log_odds(ya: np.ndarray, yb: np.ndarray, prior: np.ndarray) -> pd.DataFrame:
     """Weighted log-odds, A against B, informative Dirichlet prior (Monroe 2008).
 
-    The prior is scaled to each side's size, not to both together (APP-12): a
+    The prior is scaled to each side's size, not to both together: a
     word as frequent on both sides then scores 0 however unequal the sides,
     instead of leaning towards the larger one.
     """

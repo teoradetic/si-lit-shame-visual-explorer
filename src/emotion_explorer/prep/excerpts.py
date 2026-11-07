@@ -1,4 +1,4 @@
-"""DATA-02: excerpts, the focus paragraphs with CONTEXT paragraphs on each side.
+"""Excerpts, the focus paragraphs with CONTEXT paragraphs on each side.
 
 Overlapping excerpts are merged. Texts are stored once per paragraph, since
 excerpts of different sets share context.
