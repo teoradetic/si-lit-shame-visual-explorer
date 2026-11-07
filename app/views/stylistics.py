@@ -11,6 +11,8 @@ from helpers import charts, compare, filters, notes, reader, stats, tables
 from helpers.language import num, t
 
 CHART_TYPES = ("index", "raw", "time")
+# Measures whose findings have a sentence of their own (not punctuation).
+OWN_SENTENCE = ("sentence_words", "mattr", "repetition")
 # Over time: the same sliding window and trend threshold as on Over time.
 WINDOW = 10
 MIN_IN_WINDOW = 3
@@ -90,9 +92,10 @@ if not tables_by_group:
 kept = [g for g in analysed if g.label not in too_few]
 rows = pd.concat(tables_by_group, ignore_index=True).assign(
     feature_label=lambda d: d["feature"].map(feature_labels),
-    index=lambda d: 100 * (1 + d["rel_diff"]),
-    lo=lambda d: 100 * (1 + d["rel_ci_low"]),
-    hi=lambda d: 100 * (1 + d["rel_ci_high"]),
+    # How many times as much with shame as without; the log axis needs > 0.
+    ratio=lambda d: 1 + d["rel_diff"],
+    lo=lambda d: (1 + d["rel_ci_low"]).clip(lower=0.05),
+    hi=lambda d: 1 + d["rel_ci_high"],
     tested=lambda d: d["p_holm"] < 0.05,
     verdict=lambda d: d["p_holm"].map(
         lambda p: t("style.verdict.clear") if p < 0.05 else t("style.verdict.chance")
@@ -113,7 +116,7 @@ tooltip = [
     alt.Tooltip(
         "mean_comparison:Q", title=t("style.col.mean_comparison"), format=".3f"
     ),
-    alt.Tooltip("index:Q", title=t("style.x"), format=".0f"),
+    alt.Tooltip("ratio:Q", title=t("style.x"), format=".2f"),
     alt.Tooltip("verdict:N", title=t("style.col.verdict")),
     alt.Tooltip("n_novels:Q", title=t("style.col.n_novels")),
 ]
@@ -131,8 +134,7 @@ if chart_type == "index":
             'vertical-align:-0.1rem;margin-right:0.35rem"></span>'
         )
 
-    without = charts.set_color("comparison")
-    items = [(dot(without, without), t("style.legend.without"))]
+    items = []
     if not split:
         shame = charts.set_color("emotion")
         items.append((dot(shame, shame), t("style.legend.with")))
@@ -152,46 +154,18 @@ if chart_type == "index":
         axis=alt.Axis(labelFontSize=13, labelLimit=260, labelOverlap=False),
     )
     offset = alt.YOffset("who:N", sort=who_order)
-    # A dumbbell per row: without shame at 100, a line to with shame, its CI.
-    # Helper lines in ink, so they don't read as passages without shame.
+    # Each measure as a ratio, with shame ÷ without, on a log axis; the
+    # dashed line at 1 is "the same"; the line through a dot is its 95 % CI.
+    x = alt.X("lo:Q", title=t("style.x"), scale=alt.Scale(type="log", nice=False))
     baseline = (
-        alt.Chart(pd.DataFrame({"x": [100]}))
+        alt.Chart(pd.DataFrame({"x": [1.0]}))
         .mark_rule(strokeWidth=1, strokeDash=[4, 3], color=ink, opacity=0.8)
-        .encode(x="x:Q")
-    )
-    reference = rows.assign(base=100.0)
-    connector = (
-        alt.Chart(reference)
-        .mark_rule(strokeWidth=1, color=ink, opacity=0.7)
-        .encode(y=y, yOffset=offset, x="base:Q", x2="index:Q")
-    )
-    without_dots = (
-        alt.Chart(reference)
-        .mark_point(size=80, filled=True, color=without, opacity=1)
-        .encode(
-            y=y,
-            yOffset=offset,
-            x="base:Q",
-            tooltip=[
-                alt.Tooltip("feature_label:N", title=t("style.col.feature")),
-                alt.Tooltip(
-                    "mean_comparison:Q",
-                    title=t("style.col.mean_comparison"),
-                    format=".3f",
-                ),
-            ],
-        )
+        .encode(x=alt.X("x:Q", scale=alt.Scale(type="log")))
     )
     ci = (
         alt.Chart(rows)
         .mark_rule(strokeWidth=2)
-        .encode(
-            y=y,
-            yOffset=offset,
-            x=alt.X("lo:Q", title=t("style.x")),
-            x2="hi:Q",
-            color=color,
-        )
+        .encode(y=y, yOffset=offset, x=x, x2="hi:Q", color=color)
     )
     dots = (
         alt.Chart(rows)
@@ -199,7 +173,7 @@ if chart_type == "index":
         .encode(
             y=y,
             yOffset=offset,
-            x="index:Q",
+            x="ratio:Q",
             color=color,
             fill=alt.condition("datum.tested", color, alt.value("transparent")),
             opacity=alt.condition(select, alt.value(1), alt.value(0.35)),
@@ -207,7 +181,7 @@ if chart_type == "index":
         )
         .add_params(select)
     )
-    chart = alt.layer(baseline, connector, without_dots, ci, dots).properties(
+    chart = alt.layer(baseline, ci, dots).properties(
         height=(26 + 18 * len(kept)) * len(order)
     )
     event = charts.show_chart(chart, key="style_index")
@@ -346,7 +320,7 @@ else:
                 axis=alt.Axis(labelAngle=0, labels=split, ticks=False),
             ),
             xOffset=alt.XOffset("set:N", sort=set_order),
-            y=alt.Y("value:Q", title=None),
+            y=alt.Y("value:Q", title=t("style.raw_y")),
             color=alt.Color(
                 "set:N",
                 scale=alt.Scale(
@@ -364,12 +338,14 @@ else:
         .add_params(select)
         .properties(width=60 + 70 * len(kept), height=150)
     )
+    titled = {f: f"{feature_labels[f]} ({t(f'style.unit.{f}')})" for f in features}
+    sets = sets.assign(panel=sets["feature"].map(titled))
     chart = (
         alt.layer(bars, data=sets)
         .facet(
             facet=alt.Facet(
-                "feature_label:N",
-                sort=order,
+                "panel:N",
+                sort=[titled[f] for f in features if feature_labels[f] in order],
                 title=None,
                 header=alt.Header(labelFontSize=13),
             ),
@@ -401,20 +377,22 @@ def finding_lines() -> list[str]:
         if clear.empty:
             lines.append(t("style.find.none", group=who))
             continue
-        clear["size"] = np.log(clear["index"] / 100).abs()
-        parts = []
+        clear["size"] = np.log(clear["ratio"]).abs()
+        prefix = f"**{who}:** " if split else ""
         for row in clear.nlargest(3, "size").itertuples():
-            ratio = row.index / 100
-            parts.append(
-                t("style.find.more", feature=row.feature_label, x=num(ratio))
-                if ratio >= 1
-                else t(
-                    "style.find.less",
-                    feature=row.feature_label,
-                    pct=round((1 - ratio) * 100),
+            # Punctuation marks share one sentence; the other measures have
+            # their own.
+            kind = row.feature if row.feature in OWN_SENTENCE else "mark"
+            more = row.ratio >= 1
+            lines.append(
+                prefix
+                + t(
+                    f"style.find.{'more' if more else 'less'}.{kind}",
+                    mark=row.feature_label,
+                    x=num(row.ratio),
+                    pct=round((1 - row.ratio) * 100),
                 )
             )
-        lines.append(t("style.find.group", group=who, items="; ".join(parts)))
     if chart_type == "time":
         lines += time_finding_lines()
     return lines

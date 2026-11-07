@@ -148,7 +148,8 @@ strings:
   position.arc: Arc {arc} · {n} novels
   position.arc_y: Share of the novel's shame
   position.arc_share: Share of novels
-  position.find.arc: '{group}: most often arc {arc} ({share} of the novels).'
+  position.find.arc: '**{group}:** {share} of the novels follow arc {arc}, more than
+    any other arc.'
   position.read.arcs: 'How to read: every novel with at least {arc_min} passages about
     shame is drawn as a thin line: how its shame spreads over the ten tenths of the
     novel. Novels with a similar course are grouped into four arcs; the thick line
@@ -208,17 +209,16 @@ strings:
     - **Vocabulary diversity (MATTR):** take any 100 words in a row and count how many of them are different; MATTR is the average share over the whole text. 0.78 means about 78 different words in every 100. Higher means a richer, less repetitive vocabulary. Unlike a simple count, it does not depend on the length of the text.
     - **Words repeated within 10 words:** the share of words that already appeared among the 10 words before them (short words are ignored).
     - **Exclamation marks, question marks, semicolons, commas, ellipses, dashes:** how many per 1,000 characters.
-  style.legend.without: Without shame (always 100)
   style.legend.with: With shame
   style.legend.filled: 'Clear difference: very unlikely to be chance'
   style.legend.hollow: Could be chance
   style.verdict.clear: Clear difference
   style.verdict.chance: Could be chance
-  style.read.index: 'How to read: each row compares the two kinds of passage on one
-    measure. The grey dot is the passages without shame, always set to 100; the coloured
-    dot is the passages with shame. A coloured dot at 200 means passages with shame
-    have twice as much of that measure; at 80, a fifth less. The coloured line shows
-    the uncertainty. Click a measure to read the passages highest on it.'
+  style.read.index: 'How to read: each row is one measure. The dot shows how many
+    times as much of it there is in passages with shame as in passages without shame
+    from the same novels: at 2, twice as much; at 0.5, half. The dashed line at 1
+    means the same. The line through a dot shows the uncertainty: the true value most
+    likely lies on it. Click a measure to read the passages highest on it.'
   style.caveat: Old spelling makes splitting sentences unreliable. Speech is recognized
     by quotation marks and speech dashes. Only novels with at least 5 paragraphs of
     each kind are compared. Whether a difference is clear was tested with a permutation
@@ -336,8 +336,9 @@ strings:
     read from top (beginning) to bottom (end), like pages laid side by side. Darker
     cells have more shame. When groups are compared, the coloured strip on top shows
     the group. Click a cell to read its passages.'
-  position.find.group: '**{group}:** most concentrated at {a}–{b} % of the novel ({peak}×
-    the novel''s average); the first fifth has {first}×, the last fifth {last}×.'
+  position.find.group: '**{group}:** shame is densest at {a}–{b} % of the way through
+    the novel, where there is {peak}× as much as the novel''s average. The first fifth
+    has {first}× the average, the last fifth {last}×.'
   position.methodology: |-
     - **Parts:** a paragraph's position is (i + 0.5) / N for paragraph i of N; positions are cut into {bins} equal parts of {part} %.
     - **Where shame concentrates:** per novel, the share of detected paragraphs in a part ÷ the novel's overall share, averaged over the novels with at least {min_tagged} counted paragraphs, so that every novel weighs the same; band = mean ± 1.96 · SE across novels.
@@ -442,10 +443,10 @@ strings:
     the same novels: shorter sentences, more questions, more exclamations, more repetition?
     Each measure is compared within each novel, then summed up over the novels of
     each group in the sidebar''s comparison.'
-  style.x: Index (without shame = 100)
-  style.read.raw: 'How to read: one small chart per measure, each with its own scale;
-    plum bars are passages with shame, grey bars passages without, in the average
-    novel of each group.'
+  style.x: Times as much with shame as without (1 = the same)
+  style.read.raw: 'How to read: one small chart per measure, each with its own scale
+    (its unit is in its title); plum bars are passages with shame, grey bars passages
+    without, in the average novel of each group.'
   style.read.time: 'How to read: the line is the average of the novels published within
     {window} years around each year (only where at least {n} novels are available);
     plum is the passages with shame, grey the matched passages without, from the same
@@ -461,18 +462,17 @@ strings:
     so this comparison shows all the selected novels together.
   style.too_few: 'Too few novels to compare: {groups}. A group needs at least {n}
     novels with {p} or more paragraphs with and without shame.'
-  style.find.group: '**{group}:** {items}.'
-  style.find.more: '{feature} {x}× as frequent with shame'
-  style.find.less: '{feature} {pct} % lower with shame'
-  style.find.time: '**{group}:** over time {trend} ({feature} with shame, ρ = {rho}).'
-  style.find.rise: the value tends to rise
-  style.find.fall: the value tends to fall
-  style.find.flat: there is no clear trend
-  style.find.none: '**{group}:** no clear difference.'
+  style.find.time: '**{group}:** in passages about shame, *{feature}* {trend} over
+    the years.'
+  style.find.rise: tends to rise
+  style.find.fall: tends to fall
+  style.find.flat: shows no clear trend
+  style.find.none: '**{group}:** no measure differs clearly between passages with
+    and without shame.'
   style.methodology: |-
     - **Measures** per paragraph: words per sentence (rule-based sentence split); words of three or more letters repeated within the previous 10 words; ! ? ; , … and dashes per 1,000 characters. MATTR (window of 100 words) is computed on all the words of a novel's set.
     - **Pooling:** counts are summed per novel and set before rates are formed, so each novel gives one pair, with against without shame. Novels need at least {min_p} paragraphs in each set; a group needs at least {min_n} such novels.
-    - **Index:** 100 × (1 + mean per-novel difference ÷ mean value without shame); the 95 % interval comes from {boot} bootstrap resamples of novels.
+    - **Ratio:** 1 + mean per-novel difference ÷ mean value without shame, shown on a log axis; the 95 % interval comes from {boot} bootstrap resamples of novels.
     - **Test:** a two-sided sign-flip permutation test of the mean per-novel difference ({perms} permutations), with Holm's correction across the {n_features} measures of each group. Filled dots: Holm-adjusted p < 0.05.
     - **Speech:** the text between quotation marks (» « „ “ ", each mark opening or closing); without quotes, a paragraph that starts with a dash is all speech. *Narration* is the rest of the paragraph.
     - **Ellipses:** any run of two or more dots, spaced or not (.. ... . . . …), counts once.
@@ -560,3 +560,29 @@ strings:
   people.names.lead: Names of characters, places and God, as the language analysis
     tagged them, that occur more often in passages with shame than in passages without
     it.
+  style.find.more.sentence_words: Sentences are {x}× as long in passages about shame
+    as in passages without shame.
+  style.find.less.sentence_words: Sentences are {pct} % shorter in passages about
+    shame than in passages without shame.
+  style.find.more.mattr: The vocabulary is {x}× as varied in passages about shame
+    as in passages without shame.
+  style.find.less.mattr: The vocabulary is {pct} % less varied in passages about shame
+    than in passages without shame.
+  style.find.more.repetition: Words are repeated {x}× as often in passages about shame
+    as in passages without shame.
+  style.find.less.repetition: Words are repeated {pct} % less often in passages about
+    shame than in passages without shame.
+  style.find.more.mark: '{mark} appear {x}× as often in passages about shame as in
+    passages without shame.'
+  style.find.less.mark: '{mark} appear {pct} % less often in passages about shame
+    than in passages without shame.'
+  style.unit.sentence_words: words
+  style.unit.mattr: 0 to 1
+  style.unit.repetition: share of words
+  style.unit.exclamation_per_1k: per 1,000 characters
+  style.unit.question_per_1k: per 1,000 characters
+  style.unit.semicolon_per_1k: per 1,000 characters
+  style.unit.comma_per_1k: per 1,000 characters
+  style.unit.ellipsis_per_1k: per 1,000 characters
+  style.unit.dash_per_1k: per 1,000 characters
+  style.raw_y: Average per novel

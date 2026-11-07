@@ -148,7 +148,8 @@ strings:
   position.arc: 'Lok {arc} · romanov: {n}'
   position.arc_y: Delež sramu v romanu
   position.arc_share: Delež romanov
-  position.find.arc: '{group}: najpogosteje lok {arc} (delež romanov: {share}).'
+  position.find.arc: '**{group}:** loku {arc} sledi {share} romanov, več kot kateremu
+    koli drugemu loku.'
   position.read.arcs: 'Kako brati: vsak roman z vsaj {arc_min} odlomki o sramu je
     tanka črta: kako se njegov sram razporedi po desetinah romana. Romani s podobnim
     potekom so združeni v štiri loke; debela črta je povprečje loka. Loki so najdeni
@@ -207,16 +208,15 @@ strings:
     - **Raznolikost besedišča (MATTR):** vzemite poljubnih 100 zaporednih besed in preštejte, koliko je različnih; MATTR je povprečni delež čez celotno besedilo. 0,78 pomeni približno 78 različnih besed na vsakih 100. Višje pomeni bogatejše, manj ponavljajoče se besedišče. Za razliko od preprostega štetja ni odvisna od dolžine besedila.
     - **Besede, ponovljene v razmiku 10 besed:** delež besed, ki so se že pojavile med 10 besedami pred njimi (kratke besede so izpuščene).
     - **Klicaji, vprašaji, podpičja, vejice, tropičja, pomišljaji:** koliko jih je na 1.000 znakov.
-  style.legend.without: Brez sramu (vedno 100)
   style.legend.with: S sramom
   style.legend.filled: 'Jasna razlika: zelo malo verjetno naključje'
   style.legend.hollow: Lahko je naključje
   style.verdict.clear: Jasna razlika
   style.verdict.chance: Lahko je naključje
-  style.read.index: 'Kako brati: vsaka vrstica primerja obe vrsti odlomkov pri eni
-    meri. Siva točka so odlomki brez sramu, vedno postavljeni na 100; barvna točka
-    so odlomki s sramom. Barvna točka pri 200 pomeni, da imajo odlomki s sramom te
-    mere dvakrat več; pri 80 petino manj. Barvna črta kaže negotovost. Kliknite mero
+  style.read.index: 'Kako brati: vsaka vrstica je ena mera. Točka kaže, kolikokrat
+    toliko je je v odlomkih s sramom kot v odlomkih brez sramu iz istih romanov: pri
+    2 dvakrat toliko, pri 0,5 pol manj. Črtkana črta pri 1 pomeni enako. Črta skozi
+    točko kaže negotovost: prava vrednost najverjetneje leži na njej. Kliknite mero
     za odlomke z najvišjo vrednostjo.'
   style.caveat: Zaradi starega črkopisa je delitev na povedi nezanesljiva. Govor je
     prepoznan po narekovajih in pomišljajih pred govorom. Primerjani so le romani
@@ -334,8 +334,9 @@ strings:
     ki se bere od zgoraj (začetek) navzdol (konec), kot strani, položene druga ob
     drugo. Temnejše celice imajo več sramu. Kadar primerjamo skupine, barvni trak
     na vrhu kaže skupino. Kliknite celico za odlomke.'
-  position.find.group: '**{group}:** najbolj zgoščeno pri {a}–{b} % romana ({peak}×
-    povprečje romana); prva petina ima {first}×, zadnja petina {last}×.'
+  position.find.group: '**{group}:** sram je najgostejši pri {a}–{b} % romana, kjer
+    ga je {peak}-krat toliko kot v povprečju romana. Prva petina ima {first}-kratnik
+    povprečja, zadnja petina {last}-kratnik.'
   position.methodology: |-
     - **Deli:** mesto odstavka i od N je (i + 0,5) / N; mesta so razdeljena na {bins} enakih delov po {part} %.
     - **Kje se sram zgosti:** za vsak roman delež zaznanih odstavkov v delu ÷ delež v celem romanu, povprečeno čez romane z vsaj {min_tagged} preštetimi odstavki, tako da vsak roman šteje enako; pas = povprečje ± 1,96 · SE čez romane.
@@ -438,10 +439,10 @@ strings:
     romanih: krajše povedi, več vprašanj, več vzklikov, več ponavljanja? Vsaka mera
     je primerjana znotraj vsakega romana in nato povzeta čez romane vsake skupine
     iz primerjave v stranski vrstici.'
-  style.x: Indeks (brez sramu = 100)
-  style.read.raw: 'Kako brati: za vsako mero majhen graf z lastno lestvico; vijoličasti
-    stolpci so odlomki s sramom, sivi odlomki brez njega, v povprečnem romanu vsake
-    skupine.'
+  style.x: Kolikokrat toliko ob sramu kot brez njega (1 = enako)
+  style.read.raw: 'Kako brati: za vsako mero majhen graf z lastno lestvico (enota
+    je v naslovu); vijoličasti stolpci so odlomki s sramom, sivi odlomki brez njega,
+    v povprečnem romanu vsake skupine.'
   style.read.time: 'Kako brati: črta je povprečje romanov, izdanih v {window} letih
     okoli vsakega leta (le kjer je na voljo vsaj {n} romanov); vijoličasta so odlomki
     s sramom, siva usklajeni odlomki brez sramu iz istih romanov. Senčeni pas kaže,
@@ -456,18 +457,16 @@ strings:
     zato ta primerjava prikaže vse izbrane romane skupaj.
   style.too_few: 'Premalo romanov za primerjavo: {groups}. Skupina potrebuje vsaj
     {n} romane z vsaj {p} odstavki s sramom in brez njega.'
-  style.find.group: '**{group}:** {items}.'
-  style.find.more: '{feature}: ob sramu {x}-krat pogostejši'
-  style.find.less: '{feature}: ob sramu {pct} % nižje'
-  style.find.time: '**{group}:** skozi čas {trend} ({feature} s sramom, ρ = {rho}).'
-  style.find.rise: vrednost navadno narašča
-  style.find.fall: vrednost navadno pada
-  style.find.flat: ni jasnega trenda
-  style.find.none: '**{group}:** ni jasne razlike.'
+  style.find.time: '**{group}:** v odlomkih s sramom se *{feature}* skozi leta {trend}.'
+  style.find.rise: navadno zvišuje
+  style.find.fall: navadno znižuje
+  style.find.flat: ne spreminja jasno
+  style.find.none: '**{group}:** nobena mera se med odlomki s sramom in brez njega
+    jasno ne razlikuje.'
   style.methodology: |-
     - **Mere** na odstavek: besede na poved (delitev na povedi s pravili); besede s tremi ali več črkami, ponovljene med 10 besedami pred njimi; ! ? ; , … in pomišljaji na 1.000 znakov. MATTR (okno 100 besed) je izračunan na vseh besedah nabora posameznega romana.
     - **Združevanje:** števila so seštevana po romanu in naboru, preden so izračunani deleži, zato vsak roman da en par, s sramom proti brez. Roman potrebuje vsaj {min_p} odstavkov v vsakem naboru, skupina vsaj {min_n} take romane.
-    - **Indeks:** 100 × (1 + povprečna razlika po romanih ÷ povprečna vrednost brez sramu); 95-odstotni interval izhaja iz {boot} ponovnih vzorčenj romanov (bootstrap).
+    - **Razmerje:** 1 + povprečna razlika po romanih ÷ povprečna vrednost brez sramu, prikazano na logaritemski osi; 95-odstotni interval izhaja iz {boot} ponovnih vzorčenj romanov (bootstrap).
     - **Test:** dvostranski permutacijski test z naključnim obračanjem predznakov povprečne razlike po romanih ({perms} permutacij), s Holmovim popravkom čez {n_features} mer vsake skupine. Polne točke: p po Holmu < 0,05.
     - **Govor:** besedilo med narekovaji (» « „ “ ", vsak narekovaj govor odpre ali zapre); brez narekovajev je govor ves odstavek, ki se začne s pomišljajem. *Pripoved* je preostanek odstavka.
     - **Tropičja:** vsak niz dveh ali več pik, s presledki ali brez (.. ... . . . …), šteje enkrat.
@@ -554,3 +553,29 @@ strings:
   people.col.subject: Kdo deluje
   people.names.lead: Imena oseb, krajev in Boga, kot jih je označila jezikovna analiza,
     ki se pojavljajo pogosteje v odlomkih s sramom kot v odlomkih brez njega.
+  style.find.more.sentence_words: Povedi so v odlomkih s sramom {x}-krat daljše kot
+    v odlomkih brez sramu.
+  style.find.less.sentence_words: Povedi so v odlomkih s sramom za {pct} % krajše
+    kot v odlomkih brez sramu.
+  style.find.more.mattr: Besedišče je v odlomkih s sramom {x}-krat bolj raznoliko
+    kot v odlomkih brez sramu.
+  style.find.less.mattr: Besedišče je v odlomkih s sramom za {pct} % manj raznoliko
+    kot v odlomkih brez sramu.
+  style.find.more.repetition: Besede se v odlomkih s sramom ponavljajo {x}-krat pogosteje
+    kot v odlomkih brez sramu.
+  style.find.less.repetition: Besede se v odlomkih s sramom ponavljajo za {pct} %
+    redkeje kot v odlomkih brez sramu.
+  style.find.more.mark: '{mark} se v odlomkih s sramom pojavljajo {x}-krat pogosteje
+    kot v odlomkih brez sramu.'
+  style.find.less.mark: '{mark} se v odlomkih s sramom pojavljajo za {pct} % redkeje
+    kot v odlomkih brez sramu.'
+  style.unit.sentence_words: besede
+  style.unit.mattr: od 0 do 1
+  style.unit.repetition: delež besed
+  style.unit.exclamation_per_1k: na 1.000 znakov
+  style.unit.question_per_1k: na 1.000 znakov
+  style.unit.semicolon_per_1k: na 1.000 znakov
+  style.unit.comma_per_1k: na 1.000 znakov
+  style.unit.ellipsis_per_1k: na 1.000 znakov
+  style.unit.dash_per_1k: na 1.000 znakov
+  style.raw_y: Povprečje na roman
