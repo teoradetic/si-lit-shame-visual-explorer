@@ -473,23 +473,23 @@ strings:
     - **Tropičja:** vsak niz dveh ali več pik, s presledki ali brez (.. ... . . . …), šteje enkrat.
     - **Skozi čas:** vrednosti posameznih romanov v vsakem naboru, povprečene čez romane, izdane v {window} letih okoli vsakega leta; leta z manj kot {min_window} romani so izpuščena. Pas je 95-odstotni normalni interval čez romane. Trend v ugotovitvah je Spearmanov ρ med letom in vrednostjo s sramom; |ρ| < {clear} šteje kot brez jasnega trenda.
   people.title: Kdo nastopa v odlomkih o sramu
-  people.intro: 'O kom govorijo odlomki: ali v njih delujejo ženske ali moški in katera
-    imena so pogostejša ob sramu kot brez njega.'
-  people.acts: Kdo deluje
-  people.acts_x: Ženski osebki (%)
+  people.intro: 'Dve vprašanji o osebah v odlomkih: ali v njih delujejo ženske ali
+    moški in katera imena se pojavljajo pogosteje ob sramu kot brez njega?'
+  people.acts: Ali v teh odlomkih delujejo ženske ali moški?
+  people.acts_x: Delež glagolov v pretekliku
   people.col.set: Odlomki
   people.col.n: Glagoli
   people.col.name: Ime
-  people.acts.read: 'Kako brati: v slovenščini preteklik pokaže spol tistega, ki deluje
-    (*je rekla*, *je rekel*). Točki kažeta delež takih glagolov z ženskim osebkom
-    v odlomkih s sramom in brez njega. Gre za slovnični spol: nekaj osebkov je stvari
-    ali živali.'
-  people.names: Imena, ki spremljajo sram
+  people.acts.read: 'Kako brati: vsak stolpec je ena vrsta odlomkov, razdeljena na
+    glagole, kjer deluje ženska, in tiste, kjer deluje moški. Daljši temni del pomeni,
+    da več dogajanja pripada ženskam. Gre za slovnični spol: nekaj osebkov je stvari
+    ali živali, glagoli z osebkom v množini ali srednjem spolu so izpuščeni.'
+  people.names: Katera imena spremljajo sram?
   people.names.read: 'Kako brati: kolikokrat pogosteje se ime pojavi v odlomkih s
     sramom kot brez njega; imena oseb, krajev in Boga, kot jih je označila jezikovna
     analiza. Kliknite ime za njegove odlomke.'
-  people.find.acts: '{group}: ženski osebek ima {with_} % glagolov v pretekliku ob
-    sramu in {without} % brez njega.'
+  people.find.acts: '**{group}**: ženskam pripada {with_} % dogajanja v odlomkih s
+    sramom in {without} % v odlomkih brez sramu (šteto po glagolih v pretekliku).'
   people.find.names: 'Imena, najbolj povezana s sramom: {names}.'
   people.methodology: |-
     - **Kdo deluje:** pojavnice, ki jih CLASSLA označi kot glagole v pretekliku ednine (deležniki na -l, VERB ali AUX) z ženskim ali moškim spolom, v zaznanih odstavkih in njihovem primerjalnem naboru (kot na strani Besede), seštete čez primerjane romane. Srednji spol in množina sta izpuščena. Opisno, brez testa.
@@ -546,3 +546,11 @@ strings:
     Kliknite točko za odlomke te skupine na to temo.'
   themes.find.group: '**{group}**: teme, najbolj povezane s sramom, in kolikokrat
     pogostejše so v njenih odlomkih s sramom kot v odlomkih brez njega: {themes}.'
+  people.acts.lead: 'Slovenščina v pretekliku pokaže, ali deluje ženska ali moški:
+    *je rekla*, *je rekel*. Štetje teh glagolov pokaže, koliko dogajanja v odlomkih
+    pripada ženskam in koliko moškim.'
+  people.subject.Fem: Deluje ženska
+  people.subject.Masc: Deluje moški
+  people.col.subject: Kdo deluje
+  people.names.lead: Imena oseb, krajev in Boga, kot jih je označila jezikovna analiza,
+    ki se pojavljajo pogosteje v odlomkih s sramom kot v odlomkih brez njega.

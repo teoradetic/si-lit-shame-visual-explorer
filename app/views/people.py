@@ -37,47 +37,60 @@ for g in shown:
             (subjects["side"] == side) & subjects["novel_id"].isin(g.novel_ids)
         ]
         n = mine.groupby("subject", observed=True)["n"].sum()
-        if n.sum():
+        if not n.sum():
+            continue
+        row = f"{g.label} · {t(f'set.{side}')}" if split else t(f"set.{side}")
+        for subject in ("Fem", "Masc"):
             rows.append(
                 {
                     "group": g.label,
-                    "set": t(f"set.{side}"),
-                    "share": n.get("Fem", 0) / n.sum(),
+                    "side": side,
+                    "row": row,
+                    "subject": t(f"people.subject.{subject}"),
+                    "share": n.get(subject, 0) / n.sum(),
                     "n": int(n.sum()),
                 }
             )
 acts = pd.DataFrame(rows)
 st.subheader(t("people.acts"))
+st.write(t("people.acts.lead"))
 if acts.empty:
     st.info(t("reader.none"))
 else:
-    y = alt.Y("group:N", sort=[g.label for g in shown], title=None)
-    sets = [t("set.emotion"), t("set.comparison")]
-    chart = alt.layer(
+    # One bar per set, split into women and men; two shades of the accent,
+    # since grey and the group colours already mean something else.
+    subjects_order = [t("people.subject.Fem"), t("people.subject.Masc")]
+    base = (
         alt.Chart(acts)
-        .mark_rule(color=charts.ink(), opacity=0.5)
-        .encode(y=y, x="min(share):Q", x2="max(share):Q"),
-        alt.Chart(acts)
-        .mark_point(filled=True, size=120, strokeWidth=0)
         .encode(
-            y=y,
-            x=alt.X("share:Q", title=t("people.acts_x"), axis=alt.Axis(format="%")),
-            color=alt.Color(
-                "set:N",
-                scale=alt.Scale(
-                    domain=sets,
-                    range=[charts.set_color("emotion"), charts.set_color("comparison")],
-                ),
-                legend=alt.Legend(title=None),
+            y=alt.Y("row:N", sort=list(dict.fromkeys(acts["row"])), title=None),
+            x=alt.X(
+                "share:Q",
+                stack="normalize",
+                title=t("people.acts_x"),
+                axis=alt.Axis(format="%"),
             ),
-            tooltip=[
-                alt.Tooltip("group:N", title=t("field.group")),
-                alt.Tooltip("set:N", title=t("people.col.set")),
-                alt.Tooltip("share:Q", title=t("people.acts_x"), format=".1%"),
-                alt.Tooltip("n:Q", title=t("people.col.n")),
-            ],
+            order=alt.Order("subject_rank:Q"),
+        )
+        .transform_calculate(subject_rank=f"indexof({subjects_order!r}, datum.subject)")
+    )
+    bars = base.mark_bar(height=26).encode(
+        color=alt.Color(
+            "subject:N",
+            scale=alt.Scale(domain=subjects_order, range=charts.two_shades()),
+            legend=alt.Legend(title=None),
         ),
-    ).properties(height=40 * len(shown) + 60)
+        tooltip=[
+            alt.Tooltip("row:N", title=t("people.col.set")),
+            alt.Tooltip("subject:N", title=t("people.col.subject")),
+            alt.Tooltip("share:Q", title=t("people.acts_x"), format=".0%"),
+            alt.Tooltip("n:Q", title=t("people.col.n")),
+        ],
+    )
+    text = base.mark_text(dx=-6, align="right", color="white", fontWeight=600).encode(
+        text=alt.Text("share:Q", format=".0%")
+    )
+    chart = alt.layer(bars, text).properties(height=40 * acts["row"].nunique() + 50)
     charts.show_chart(chart, key="people_acts", select=False)
     st.caption(t("people.acts.read"))
 
@@ -95,6 +108,7 @@ for g in shown:
         tops.append(table[table["z"] > 0].nlargest(N_NAMES, "z").assign(group=g.label))
 names = pd.concat(tops) if tops else pd.DataFrame()
 st.subheader(t("people.names"))
+st.write(t("people.names.lead"))
 chosen = None
 if names.empty:
     st.info(t("reader.none"))
@@ -139,14 +153,15 @@ notes.methodology("people", min_count=stats.MIN_COUNT)
 def finding_lines() -> list[str]:
     lines = []
     for label, part in acts.groupby("group", sort=False) if not acts.empty else []:
-        share = part.set_index("set")["share"]
+        women = part[part["subject"] == t("people.subject.Fem")]
+        share = women.set_index("side")["share"]
         if len(share) == 2:
             lines.append(
                 t(
                     "people.find.acts",
                     group=label,
-                    with_=num(share[t("set.emotion")] * 100, 0),
-                    without=num(share[t("set.comparison")] * 100, 0),
+                    with_=num(share["emotion"] * 100, 0),
+                    without=num(share["comparison"] * 100, 0),
                 )
             )
     if not names.empty:

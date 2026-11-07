@@ -478,24 +478,24 @@ strings:
     - **Ellipses:** any run of two or more dots, spaced or not (.. ... . . . …), counts once.
     - **Over time:** the per-novel values of each set, averaged over the novels published within {window} years around each year; years with fewer than {min_window} novels are left out. The band is a 95 % normal interval over novels. The trend in the findings is Spearman's ρ between the year and the value with shame; |ρ| < {clear} counts as no clear trend.
   people.title: Who appears in the passages about shame
-  people.intro: 'Who the passages are about: whether women or men act in them, and
-    which names come with shame more than without it.'
-  people.acts: Who acts
-  people.acts_x: Female subjects (%)
+  people.intro: 'Two questions about the people in the passages: do women or men act
+    in them, and which names come with shame more often than without it?'
+  people.acts: Do women or men act in these passages?
+  people.acts_x: Share of past-tense verbs
   people.col.set: Passages
   people.col.n: Verbs
   people.col.name: Name
-  people.acts.read: 'How to read: in Slovene the past tense shows the gender of who
-    acts (*je rekla*, she said; *je rekel*, he said). The dots give the share of such
-    verbs with a female subject, in passages with and without shame. This is grammatical
-    gender: a few subjects are things or animals.'
-  people.names: Names that come with shame
+  people.acts.read: 'How to read: each bar is one kind of passage, split into the
+    verbs where a woman acts and those where a man acts. A longer dark part means
+    more of the action is women''s. This is grammatical gender: a few subjects are
+    things or animals, and verbs with plural or neuter subjects are left out.'
+  people.names: Which names come with shame?
   people.names.read: 'How to read: how many times more often each name occurs in passages
     with shame than without; names of people, places and God, as the language analysis
     tagged them. Click a name to read its passages.'
-  people.find.acts: '{group}: {with_} % of past-tense verbs have a female subject
-    with shame, {without} % without.'
-  people.find.names: 'Names most tied to shame: {names}.'
+  people.find.acts: '**{group}**: women do {with_} % of the action in passages with
+    shame, against {without} % in passages without shame (counted by past-tense verbs).'
+  people.find.names: 'The names most tied to shame: {names}.'
   people.methodology: |-
     - **Who acts:** CLASSLA tokens tagged as singular past-tense verbs (l-participles, VERB or AUX) with feminine or masculine gender, in the detected paragraphs and their comparison set (as on the Words page), pooled over the compared novels. Neuter and plural forms are left out. Descriptive, not tested.
     - **Names:** lemmas whose tokens are mostly proper nouns or inside a named entity, with at least {min_count} occurrences; ranked like the words (weighted log-odds), with the same rules on recurrence across novels and authors.
@@ -551,3 +551,12 @@ strings:
     Click a dot to read that group''s passages on the theme.'
   themes.find.group: '**{group}**: the themes most tied to shame, with how many times
     as common they are in its passages with shame as in its passages without: {themes}.'
+  people.acts.lead: 'Slovene shows in the past tense whether the one acting is a woman
+    or a man: *je rekla* (she said), *je rekel* (he said). Counting these verbs shows
+    how much of the action in the passages is women''s and how much men''s.'
+  people.subject.Fem: A woman acts
+  people.subject.Masc: A man acts
+  people.col.subject: Who acts
+  people.names.lead: Names of characters, places and God, as the language analysis
+    tagged them, that occur more often in passages with shame than in passages without
+    it.

@@ -79,6 +79,13 @@ def ink() -> str:
     return _INK[mode()]
 
 
+def two_shades() -> list[str]:
+    """A dark and a lighter accent, for the two parts of a bar; both carry
+    white text in either mode."""
+    ramp = _SEQUENTIAL[mode()]
+    return [ramp[6], ramp[4]] if mode() == "light" else [ramp[4], ramp[2]]
+
+
 def sequential_scale(**kwargs) -> alt.Scale:
     return alt.Scale(range=_SEQUENTIAL[mode()], **kwargs)
 
