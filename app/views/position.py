@@ -423,7 +423,10 @@ elif chart_type == "arcs":
         for a in [*tables.meta()["overview"]["arc_shapes"], "none"]
         if a in sizes
     }
-    arc_names = {a: t("position.arc", arc=s, n=sizes[a]) for a, s in shape.items()}
+    arc_names = {
+        a: t("position.arc" if sizes[a] > 1 else "position.arc_one", arc=s, n=sizes[a])
+        for a, s in shape.items()
+    }
     parts = tables.meta()["overview"]["arc_parts"]
     arcs = arcs.assign(
         position=(arcs["part"].astype(int) + 0.5) * 100 / parts,
@@ -467,15 +470,21 @@ elif chart_type == "arcs":
         )
     )
     event = charts.show_chart(chart, key="pos_arcs")
-    if split:
-        counts = arcs.drop_duplicates("novel_id").groupby("group")["arc"]
-        share = counts.value_counts(normalize=True).rename("share").reset_index()
+    per_group = arcs.drop_duplicates("novel_id").groupby("group")["arc"]
+    # With one novel per group the panels say it all: its share would be 100 %.
+    if split and per_group.size().max() > 1:
+        share = per_group.value_counts(normalize=True).rename("share").reset_index()
         share = share.assign(shape=share["arc"].map(shape))
         bars = (
             alt.Chart(share)
             .mark_bar()
             .encode(
-                y=alt.Y("shape:N", sort=list(shape.values()), title=None),
+                y=alt.Y(
+                    "shape:N",
+                    sort=list(shape.values()),
+                    title=None,
+                    axis=alt.Axis(labelLimit=300),
+                ),
                 yOffset=alt.YOffset("group:N", sort=[g.label for g in shown]),
                 x=alt.X(
                     "share:Q",
@@ -488,16 +497,19 @@ elif chart_type == "arcs":
                     alt.Tooltip("share:Q", title=t("position.arc_share"), format=".0%"),
                 ],
             )
-            .properties(height=20 * len(share) + 80)
+            # The height holds the legend and the axis too.
+            .properties(height=18 * share["shape"].nunique() * len(shown) + 110)
         )
         charts.show_chart(bars, key="pos_arc_shares", select=False)
-    per_group = arcs.drop_duplicates("novel_id").groupby("group")["arc"]
     for g in shown:
         if g.label in per_group.groups:
-            share = per_group.get_group(g.label).value_counts(normalize=True)
+            arcs_of = per_group.get_group(g.label)
+            share = arcs_of.value_counts(normalize=True)
             arc_findings.append(
                 t(
-                    "position.find.arc",
+                    "position.find.arc"
+                    if len(arcs_of) > 1
+                    else "position.find.arc_one",
                     group=g.label,
                     arc=shape[share.idxmax()],
                     share=f"{share.max():.0%}",

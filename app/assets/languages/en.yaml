@@ -667,3 +667,5 @@ strings:
   themes.about.19: 'Words, mouths, voices and tongues: what was said, a given word
     and its honour.'
   themes.col.about: What it is about
+  position.find.arc_one: '**{group}:** its course has the shape “{arc}”.'
+  position.arc_one: '{arc} · 1 novel'

@@ -650,3 +650,5 @@ strings:
   themes.about.19: 'Besede, usta, glas in jezik: kaj je bilo rečeno, dana beseda in
     njena čast.'
   themes.col.about: O čem govori
+  position.find.arc_one: '**{group}:** potek ima obliko »{arc}«.'
+  position.arc_one: '{arc} · romanov: 1'
