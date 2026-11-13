@@ -39,18 +39,34 @@ CHART_TYPES = {
     "views/words.py": ("words_type", ["cloud", "map", "dots", "network"], {}),
     "views/stylistics.py": ("style_type", ["index", "raw", "time"], {}),
 }
-MODES = ["none", "shame", "period", "gender", "authors", "rest", "novels"]
+MODES = ["shame", "period", "gender", "authors", "rest", "novels"]
 
 
 def run(page: str, lang: str, state: dict) -> AppTest:
     at = AppTest.from_file("../app/streamlit_app.py", default_timeout=120)
-    # Switch the language after the first run, as a reader would.
     at.run()
-    at.session_state["lang"] = lang
-    for key, value in state.items():
+    for key, value in {"cmp_mode": "shame", **state}.items():
         at.session_state[key] = value
     at.switch_page(page).run()
+    # Run the comparison, as a reader must before a page shows its charts.
+    run_button = [b for b in at.button if b.key == "cmp_run"]
+    if run_button:
+        run_button[0].click().run()
+    # Switch the language last: AppTest formats a selectbox's value in
+    # English, so a click after the switch would not find it.
+    if lang != "en":
+        at.session_state["lang"] = lang
+        at.run()
     return at
+
+
+def test_page_waits_until_a_comparison_is_run():
+    at = AppTest.from_file("../app/streamlit_app.py", default_timeout=120)
+    at.run()
+    at.switch_page("views/words.py").run()
+    assert not at.exception, [e.value for e in at.exception]
+    assert at.info[0].value.startswith("Choose what to compare")
+    assert not at.get("vega_lite_chart")
 
 
 @pytest.mark.parametrize("lang", ["en", "sl"])

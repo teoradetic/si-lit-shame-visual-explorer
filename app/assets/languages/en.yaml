@@ -247,12 +247,9 @@ strings:
   gender_short.M: Male
   gender_short.unknown: Unknown
   field.counted: Paragraphs counted
-  compare.header: Compare
-  compare.caption: How every chart splits the counted novels into groups.
   compare.mode: What to compare
-  compare.help: Every chart on every page is broken down by this choice. The filters
-    below choose the novels; the comparison splits them into groups.
-  compare.mode.none: 'No comparison: all selected novels'
+  compare.help: Every chart on this page is broken down by this choice. The filters
+    in the sidebar choose the novels; the comparison splits them into groups.
   compare.mode.shame: With and without shame
   compare.mode.period: Realism and Modernism
   compare.mode.gender: Female and male authors
@@ -269,16 +266,16 @@ strings:
     ({n}).
   compare.left_out.gender: Novels whose author's gender is unknown are left out of
     this comparison ({n}).
-  compare.need_two_authors: Pick two different authors in the sidebar.
+  compare.need_two_authors: Pick two different authors above.
   compare.need_groups: This needs at least {n} groups to compare; change the comparison
-    in the sidebar.
+    above.
   findings.title: Findings
-  findings.note: Computed from the novels and the comparison selected in the sidebar.
-    They describe the detected passages; only the Style page tests its differences.
+  findings.note: Computed from the novels and the comparison chosen above. They describe
+    the detected passages; only the Style page tests its differences.
   methodology.title: Methodology (technical)
   time.intro: How much shame does each novel contain, and does this change over the
     years? Choose a chart; each shows the same novels in a different way, split by
-    the comparison chosen in the sidebar.
+    the comparison you choose below.
   time.type.groups: Groups side by side
   time.axis.share: Share of paragraphs (%)
   time.axis.per_10k_words: Paragraphs per 10,000 words
@@ -315,7 +312,7 @@ strings:
     - **Findings:** the median per group, and Spearman's rank correlation ρ of the measure with the year (|ρ| < {clear} counts as no clear trend). Descriptive only: no test, and no control for confounds such as the author.
   position.intro: Does shame come early in a story, in the middle, or towards the
     end? Choose a chart; each looks at the question from a different side, split by
-    the comparison chosen in the sidebar.
+    the comparison you choose below.
   position.x: Position in the novel (%)
   position.x_down: Position (beginning at the top)
   position.y.concentration: × the novel's average
@@ -347,7 +344,7 @@ strings:
     - **Findings:** the part with the highest concentration, and the mean concentration of the first and last fifth; with *Narrative arc shape*, each group's commonest shape. Descriptive only.
   words.intro: Which words are used more often in passages about shame than in passages
     from the same novels that are not about shame? The lists are computed for the
-    novels and the comparison chosen in the sidebar.
+    novels in the sidebar and the comparison you choose below.
   words.lemmas: 'Words are counted in their dictionary form: *sramu* and *sramom*
     count as *sram*, *sramota* as a word of its own. Names are left out. The forms
     were analysed automatically, so a few are wrong, more often in old spelling.'
@@ -368,8 +365,8 @@ strings:
     the passages with shame (at least {n} sentences), by how many times as often as
     chance.'
   words.shared: Similar in all groups
-  words.map_needs_two: 'The map compares two groups: under Compare in the sidebar,
-    choose with and without shame, periods, author gender, two authors, or two novels.'
+  words.map_needs_two: 'The map compares two groups: under What to compare, choose
+    with and without shame, periods, author gender, two authors, or two novels.'
   words.map.with: Per 10,000 words, with shame
   words.map.without: Per 10,000 words, without shame
   words.map.ratio_in: 'Times more frequent with shame: {group}'
@@ -439,7 +436,7 @@ strings:
   style.intro: 'Are passages about shame written differently from other passages in
     the same novels: shorter sentences, more questions, more exclamations, more repetition?
     Each measure is compared within each novel, then summed up over the novels of
-    each group in the sidebar''s comparison.'
+    each group of the comparison you choose below.'
   style.x: Times as much with shame as without (1 = the same)
   style.read.raw: 'How to read: one small chart per measure, each with its own scale
     (its unit is in its title); plum bars are passages with shame, grey bars passages
@@ -669,3 +666,8 @@ strings:
   themes.col.about: What it is about
   position.find.arc_one: '**{group}:** its course has the shape “{arc}”.'
   position.arc_one: '{arc} · 1 novel'
+  compare.choose: Choose a comparison
+  compare.run: Run
+  compare.pending: Press Run to show the new comparison.
+  compare.start: Choose what to compare above, then press **Run**. Every chart on
+    this page is split by that comparison.

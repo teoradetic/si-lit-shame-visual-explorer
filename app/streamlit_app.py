@@ -45,8 +45,7 @@ if page in languages:
 st.session_state["last_page"] = page.url_path
 
 st.caption(t("app.title"))
-# The comparison comes first in the sidebar: it shapes every chart.
-compare.sidebar()
+compare.keep_draft()
 # The text split only changes the Words and Style pages.
 filters.sidebar(text=page.url_path in ("words", "style"))
 page.run()

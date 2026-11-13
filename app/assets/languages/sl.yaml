@@ -243,12 +243,9 @@ strings:
   gender_short.M: Moški
   gender_short.unknown: Neznan
   field.counted: Prešteti odstavki
-  compare.header: Primerjaj
-  compare.caption: Kako vsak graf razdeli štete romane v skupine.
   compare.mode: Kaj primerjati
-  compare.help: Ta izbira razdeli vsak graf na vsaki strani. Filtri spodaj izberejo
-    romane, primerjava pa jih razdeli v skupine.
-  compare.mode.none: 'Brez primerjave: vsi izbrani romani'
+  compare.help: Ta izbira razdeli vsak graf na tej strani. Filtri v stranski vrstici
+    izberejo romane, primerjava pa jih razdeli v skupine.
   compare.mode.shame: S sramom in brez njega
   compare.mode.period: Realizem in modernizem
   compare.mode.gender: Avtorice in avtorje
@@ -265,16 +262,15 @@ strings:
     ({n}).
   compare.left_out.gender: Romani avtorjev neznanega spola so iz te primerjave izpuščeni
     ({n}).
-  compare.need_two_authors: V stranski vrstici izberite dva različna avtorja.
-  compare.need_groups: Za to so potrebne vsaj {n} skupine; spremenite primerjavo v
-    stranski vrstici.
+  compare.need_two_authors: Zgoraj izberite dva različna avtorja.
+  compare.need_groups: Za to so potrebne vsaj {n} skupine; spremenite primerjavo zgoraj.
   findings.title: Ugotovitve
-  findings.note: Izračunano iz romanov in primerjave, izbranih v stranski vrstici.
-    Opisujejo zaznane odlomke; le stran Slog svoje razlike tudi testira.
+  findings.note: Izračunano iz romanov in primerjave, izbrane zgoraj. Opisujejo zaznane
+    odlomke; le stran Slog svoje razlike tudi testira.
   methodology.title: Metodologija (tehnično)
   time.intro: Koliko sramu vsebuje posamezen roman in ali se to spreminja skozi leta?
     Izberite graf; vsak pokaže iste romane na drugačen način, razdeljene po primerjavi,
-    izbrani v stranski vrstici.
+    ki jo izberete spodaj.
   time.type.groups: Skupine drugo ob drugi
   time.axis.share: Delež odstavkov (%)
   time.axis.per_10k_words: Odstavki na 10.000 besed
@@ -310,8 +306,8 @@ strings:
     - **Škatle z ročaji:** kvartili; ročaja segata do najbolj oddaljenega romana znotraj 1,5 × IQR.
     - **Ugotovitve:** mediana posamezne skupine in Spearmanov koeficient ρ med mero in letom (|ρ| < {clear} pomeni, da jasnega trenda ni). Le opisno: brez testa in brez nadzora motečih dejavnikov, kot je avtor.
   position.intro: Ali se sram pojavi zgodaj v zgodbi, v sredini ali proti koncu? Izberite
-    graf; vsak pogleda na vprašanje z druge strani, razdeljen po primerjavi, izbrani
-    v stranski vrstici.
+    graf; vsak pogleda na vprašanje z druge strani, razdeljen po primerjavi, ki jo
+    izberete spodaj.
   position.x: Mesto v romanu (%)
   position.x_down: Mesto (začetek na vrhu)
   position.y.concentration: × povprečje romana
@@ -342,8 +338,8 @@ strings:
     - **Oblike:** za vsak roman delež zaznanih odstavkov v vsaki desetini, umerjen na vsoto 1 (oblika, ne količina); roman potrebuje vsaj {arc_min} zaznanih odstavkov. Krivulja, povprečena čez tri sosednje desetine, je korelirana (Pearson) s petimi stalnimi oblikami: naraščajočo in padajočo premico, polovico sinusnega vala navzgor (vrh) in navzdol (dolina) ter kvadriranim sinusnim valom (dva vrhova). Najboljše ujemanje poimenuje obliko romana, če je korelacija vsaj {arc_fit}; sicer je roman brez jasne oblike. Oblike ohlapno sledijo zgodbenim lokom Reagana in sodelavcev (2016), le da namesto razpoloženja sledijo sramu.
     - **Ugotovitve:** del z največjo zgostitvijo ter povprečna zgostitev prve in zadnje petine; pri *Obliki pripovednega loka* najpogostejša oblika vsake skupine. Le opisno.
   words.intro: Katere besede so v odlomkih o sramu pogostejše kot v odlomkih iz istih
-    romanov, ki ne govorijo o sramu? Seznami so izračunani za romane in primerjavo,
-    izbrane v stranski vrstici.
+    romanov, ki ne govorijo o sramu? Seznami so izračunani za romane, izbrane v stranski
+    vrstici, in primerjavo, ki jo izberete spodaj.
   words.lemmas: 'Besede so štete v slovarski obliki: *sramu* in *sramom* štejeta kot
     *sram*, *sramota* pa kot samostojna beseda. Imena so izpuščena. Oblike so bile
     analizirane samodejno, zato je nekaj napak, pogosteje v starem črkopisu.'
@@ -364,8 +360,8 @@ strings:
   words.pairs.read: 'Kako brati: besede, ki si s to delijo poved v odlomkih s sramom
     (vsaj v {n} povedih), po tem, kolikokrat pogosteje kot po naključju.'
   words.shared: Podobne v vseh skupinah
-  words.map_needs_two: 'Zemljevid primerja dve skupini: v stranski vrstici pod Primerjaj
-    izberite s sramom in brez njega, obdobji, spol avtorja, dva avtorja ali dva romana.'
+  words.map_needs_two: 'Zemljevid primerja dve skupini: pod Kaj primerjati izberite
+    s sramom in brez njega, obdobji, spol avtorja, dva avtorja ali dva romana.'
   words.map.with: Na 10.000 besed, s sramom
   words.map.without: Na 10.000 besed, brez sramu
   words.map.ratio_in: 'Kolikokrat pogostejša ob sramu: {group}'
@@ -433,7 +429,7 @@ strings:
   style.intro: 'Ali so odlomki o sramu napisani drugače kot drugi odlomki v istih
     romanih: krajše povedi, več vprašanj, več vzklikov, več ponavljanja? Vsaka mera
     je primerjana znotraj vsakega romana in nato povzeta čez romane vsake skupine
-    iz primerjave v stranski vrstici.'
+    iz primerjave, ki jo izberete spodaj.'
   style.x: Kolikokrat toliko ob sramu kot brez njega (1 = enako)
   style.read.raw: 'Kako brati: za vsako mero majhen graf z lastno lestvico (enota
     je v naslovu); vijoličasti stolpci so odlomki s sramom, sivi odlomki brez njega,
@@ -652,3 +648,8 @@ strings:
   themes.col.about: O čem govori
   position.find.arc_one: '**{group}:** potek ima obliko »{arc}«.'
   position.arc_one: '{arc} · romanov: 1'
+  compare.choose: Izberite primerjavo
+  compare.run: Zaženi
+  compare.pending: Pritisnite Zaženi, da se prikaže nova primerjava.
+  compare.start: Zgoraj izberite, kaj primerjati, nato pritisnite **Zaženi**. Vsak
+    graf na tej strani je razdeljen po tej primerjavi.

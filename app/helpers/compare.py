@@ -1,4 +1,5 @@
-"""The comparison set once in the sidebar; every chart draws its groups."""
+"""The comparison, chosen and run at the top of each analysis page; every
+chart draws its groups."""
 
 from dataclasses import dataclass
 
@@ -9,8 +10,10 @@ import streamlit as st
 from helpers import charts, filters
 from helpers.language import label, lang, t
 
-MODES = ("none", "shame", "period", "gender", "authors", "rest", "novels")
+MODES = ("shame", "period", "gender", "authors", "rest", "novels")
 MAX_NOVELS = 3
+# The picker edits a draft; "Run" copies it to the comparison the pages use.
+DRAFT = ("cmp_mode", "cmp_author_a", "cmp_author_b", "cmp_author", "cmp_novels")
 
 
 @dataclass(frozen=True)
@@ -29,8 +32,25 @@ class Group:
         return "low" if self.set_name == "comparison" else "emotion"
 
 
-def mode() -> str:
-    return st.session_state.get("cmp_mode", "none")
+def _applied() -> dict:
+    return st.session_state.get("cmp_applied", {})
+
+
+def _draft() -> dict:
+    return {k: st.session_state.get(k) for k in DRAFT}
+
+
+def keep_draft() -> None:
+    """Keep the pickers' values on pages and in modes that do not draw them;
+    Streamlit drops a widget's value when the widget is not drawn."""
+    for key in DRAFT[1:]:
+        if key in st.session_state:
+            st.session_state[key] = st.session_state[key]
+
+
+def mode() -> str | None:
+    """The comparison the pages show; None until the first run."""
+    return _applied().get("cmp_mode")
 
 
 def _authors(novels: pd.DataFrame) -> list[str]:
@@ -47,50 +67,70 @@ def _keep_valid(key: str, options: list, default) -> None:
         st.session_state[key] = default
 
 
-def sidebar() -> None:
+def picker() -> None:
+    """What to compare, at the top of every analysis page."""
     novels = filters.filtered_novels()
     authors = _authors(novels)
-    with st.sidebar, st.container(border=True):
-        st.header(t("compare.header"), divider="gray")
-        st.caption(t("compare.caption"))
-        # One widget per language: a sidebar selectbox keeps showing its old
+    with st.container(border=True):
+        mode_col, pick_col = st.columns([3, 5])
+        # One widget per language: a selectbox may keep showing its old
         # label after a language switch. "cmp_mode" holds the choice.
         key = f"cmp_mode_{lang()}"
-        st.session_state[key] = mode()
-        st.selectbox(
+        draft = st.session_state.get("cmp_mode")
+        st.session_state[key] = draft
+        mode_col.selectbox(
             t("compare.mode"),
             MODES,
             format_func=lambda v: t(f"compare.mode.{v}"),
             key=key,
+            placeholder=t("compare.choose"),
             on_change=lambda: st.session_state.update(cmp_mode=st.session_state[key]),
             help=t("compare.help"),
         )
-        if not authors:
-            return
-        if mode() == "authors":
-            _keep_valid("cmp_author_a", authors, authors[0])
-            _keep_valid("cmp_author_b", authors, authors[min(1, len(authors) - 1)])
-            st.selectbox(t("compare.author_a"), authors, key="cmp_author_a")
-            st.selectbox(t("compare.author_b"), authors, key="cmp_author_b")
-        elif mode() in ("rest", "novels"):
-            _keep_valid("cmp_author", authors, authors[0])
-            st.selectbox(t("compare.author"), authors, key="cmp_author")
-        if mode() == "novels":
-            own = novels[novels["author"] == st.session_state["cmp_author"]]
-            ids = own.sort_values("year")["novel_id"].tolist()
-            chosen = [i for i in st.session_state.get("cmp_novels", []) if i in ids]
-            if not chosen:
-                top = own.nlargest(MAX_NOVELS, "n_emotion")["novel_id"]
-                chosen = [i for i in ids if i in set(top)]
-            st.session_state["cmp_novels"] = chosen
-            titles = filters.novel_titles()
-            st.multiselect(
-                t("compare.novels"),
-                ids,
-                format_func=titles.get,
-                max_selections=MAX_NOVELS,
-                key="cmp_novels",
-            )
+        if authors:
+            with pick_col:
+                _pickers(draft, novels, authors)
+        pending = _draft() != _applied()
+        mode_col.button(
+            t("compare.run"),
+            key="cmp_run",
+            type="primary",
+            icon=":material/play_arrow:",
+            disabled=draft is None or not pending,
+            on_click=lambda: st.session_state.update(cmp_applied=_draft()),
+            width="stretch",
+        )
+        if mode() and pending:
+            mode_col.caption(t("compare.pending"))
+
+
+def _pickers(draft: str | None, novels: pd.DataFrame, authors: list[str]) -> None:
+    """The authors or novels the drafted comparison needs, side by side."""
+    first, second = st.columns(2, vertical_alignment="bottom")
+    if draft == "authors":
+        _keep_valid("cmp_author_a", authors, authors[0])
+        _keep_valid("cmp_author_b", authors, authors[min(1, len(authors) - 1)])
+        first.selectbox(t("compare.author_a"), authors, key="cmp_author_a")
+        second.selectbox(t("compare.author_b"), authors, key="cmp_author_b")
+    elif draft in ("rest", "novels"):
+        _keep_valid("cmp_author", authors, authors[0])
+        first.selectbox(t("compare.author"), authors, key="cmp_author")
+    if draft == "novels":
+        own = novels[novels["author"] == st.session_state["cmp_author"]]
+        ids = own.sort_values("year")["novel_id"].tolist()
+        chosen = [i for i in st.session_state.get("cmp_novels", []) if i in ids]
+        if not chosen:
+            top = own.nlargest(MAX_NOVELS, "n_emotion")["novel_id"]
+            chosen = [i for i in ids if i in set(top)]
+        st.session_state["cmp_novels"] = chosen
+        titles = filters.novel_titles()
+        second.multiselect(
+            t("compare.novels"),
+            ids,
+            format_func=titles.get,
+            max_selections=MAX_NOVELS,
+            key="cmp_novels",
+        )
 
 
 def _short_title(row) -> str:
@@ -101,9 +141,9 @@ def groups() -> list[Group]:
     """The groups of the current comparison, in their fixed order."""
     novels = filters.filtered_novels()
     ids = frozenset(novels["novel_id"])
-    m = mode()
-    if m == "none":
-        return [Group("all", t("compare.everyone"), charts.set_color("emotion"), ids)]
+    m, a = mode(), _applied()
+    if m is None:
+        return []
     if m == "shame":
         return [
             Group("emotion", t("set.emotion"), charts.set_color("emotion"), ids),
@@ -136,9 +176,7 @@ def groups() -> list[Group]:
             for i, g in enumerate(("F", "M"))
         ]
     elif m == "authors":
-        names = dict.fromkeys(
-            [st.session_state.get("cmp_author_a"), st.session_state.get("cmp_author_b")]
-        )
+        names = dict.fromkeys([a.get("cmp_author_a"), a.get("cmp_author_b")])
         found = [
             Group(
                 a,
@@ -150,7 +188,7 @@ def groups() -> list[Group]:
         ]
     elif m == "rest":
         # By exact name: a namesake (another Cankar) falls into the rest.
-        author = st.session_state.get("cmp_author")
+        author = a.get("cmp_author")
         own = novels["author"] == author
         found = [
             Group(
@@ -164,9 +202,7 @@ def groups() -> list[Group]:
             )
         ]
     else:
-        chosen = novels.set_index("novel_id").reindex(
-            st.session_state.get("cmp_novels", [])
-        )
+        chosen = novels.set_index("novel_id").reindex(a.get("cmp_novels") or [])
         found = [
             Group(nid, _short_title(row), charts.group_color(i), frozenset([nid]))
             for i, (nid, row) in enumerate(chosen.dropna(subset=["title"]).iterrows())
@@ -176,7 +212,7 @@ def groups() -> list[Group]:
 
 def is_split() -> bool:
     """Whether the groups are different novels (not the shame mode)."""
-    return mode() not in ("none", "shame")
+    return mode() != "shame"
 
 
 def novel_groups() -> pd.Series:
@@ -218,7 +254,12 @@ def left_out_note() -> str | None:
 
 
 def require(min_groups: int = 1) -> list[Group]:
-    """The groups, or a warning and a stop when there are too few."""
+    """The groups, or a prompt, a warning and a stop when there are none or
+    too few."""
+    picker()
+    if mode() is None:
+        st.info(t("compare.start"), icon=":material/arrow_upward:")
+        st.stop()
     gs = groups()
     if mode() == "authors" and len(gs) < 2:
         st.warning(t("compare.need_two_authors"))
