@@ -90,6 +90,14 @@ def test_chart_type_renders(page, key, chart, extra, lang):
     assert not at.exception, [e.value for e in at.exception]
 
 
+@pytest.mark.parametrize("mode", ["shame", "rest"])
+@pytest.mark.parametrize(("page", "key", "chart", "extra"), CASES)
+def test_chart_type_renders_in_black_and_white(page, key, chart, extra, mode):
+    at = run(page, "en", {key: chart, "cmp_mode": mode, "bw": True, **extra})
+    assert not at.exception, [e.value for e in at.exception]
+    assert at.get("vega_lite_chart")
+
+
 @pytest.mark.parametrize("mode", MODES)
 @pytest.mark.parametrize(("page", "key", "chart", "extra"), CASES)
 def test_chart_type_renders_with_each_comparison(page, key, chart, extra, mode):

@@ -1,6 +1,7 @@
 """The shared chart colours and Altair config."""
 
 import html
+import re
 
 import altair as alt
 import numpy as np
@@ -59,6 +60,140 @@ alt.data_transformers.disable_max_rows()
 
 def mode() -> str:
     return "dark" if st.context.theme.type == "dark" else "light"
+
+
+# Black and white: for printing and grey downloads. Groups keep apart by
+# grey tone and by pattern: line dashes, point shapes, outlined bars.
+# Dark to light, by the number of groups.
+_GREYS = {
+    1: ["#1a1a1a"],
+    2: ["#1a1a1a", "#8c8c8c"],
+    3: ["#1a1a1a", "#6e6e6e", "#b3b3b3"],
+    4: ["#1a1a1a", "#5c5c5c", "#8c8c8c", "#bdbdbd"],
+}
+_DASHES = ([1, 0], [7, 3], [1.5, 2.5], [8, 3, 1.5, 3])
+_SHAPES = ("circle", "square", "triangle-up", "diamond")
+_LINES = ("line", "rule", "trail")
+_POINTS = ("point", "circle", "square")
+# Bars get an outline, so that a light grey still shows on white.
+_FILLS = ("bar", "arc")
+# White paper, grey grid, near-black text.
+_BW_CONFIG = {
+    "background": "#ffffff",
+    "axis": {
+        "gridColor": "#e0e0e0",
+        "domainColor": "#999999",
+        "tickColor": "#999999",
+        "labelColor": "#333333",
+        "titleColor": "#333333",
+    },
+    "legend": {"labelColor": "#333333", "titleColor": "#333333"},
+    "header": {"labelColor": "#333333", "titleColor": "#333333"},
+    "title": {"color": "#333333"},
+}
+
+
+# The interface in grey too; the charts are greyed in their spec, so that
+# their downloads are grey as well.
+BW_CSS = "<style>.stApp { filter: grayscale(1); }</style>"
+
+
+def bw() -> bool:
+    return st.session_state.get("bw", False)
+
+
+def _grey(color):
+    """The grey of the same lightness; other values pass through."""
+    if not (isinstance(color, str) and re.fullmatch(r"#[0-9a-fA-F]{6}", color)):
+        return color
+    r, g, b = (int(color[i : i + 2], 16) for i in (1, 3, 5))
+    level = round(0.2126 * r + 0.7152 * g + 0.0722 * b)
+    return "#" + f"{level:02x}" * 3
+
+
+def _greys(value):
+    """Every colour inside a mark or a value in grey."""
+    if isinstance(value, dict):
+        return {k: _greys(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_greys(v) for v in value]
+    return _grey(value)
+
+
+def _bw_unit(unit: dict) -> None:
+    """One mark: grey colours, and a pattern per group of its colour field."""
+    mark = unit["mark"] if isinstance(unit["mark"], dict) else {"type": unit["mark"]}
+    unit["mark"] = mark = _greys(mark)
+    encoding = unit.get("encoding", {})
+    for channel in ("fill", "stroke"):
+        if channel in encoding:
+            encoding[channel] = _greys(encoding[channel])
+    color = encoding.get("color")
+    if not isinstance(color, dict):
+        return
+    scale = color.get("scale", {})
+    if "field" not in color or color.get("type") not in ("nominal", "ordinal"):
+        encoding["color"] = _greys(color)
+        return
+    domain = scale.get("domain")
+    n = len(domain) if isinstance(domain, list) else len(scale.get("range", [])) or 4
+    n = min(max(n, 1), 4)
+    color["scale"] = {**scale, "range": _GREYS[n]}
+    pattern = {k: color[k] for k in ("field", "type", "legend", "sort") if k in color}
+    if isinstance(domain, list):
+        pattern["scale"] = {"domain": domain}
+    kind = mark["type"]
+    if kind in _LINES:
+        pattern["scale"] = {**pattern.get("scale", {}), "range": list(_DASHES[:n])}
+        encoding["strokeDash"] = pattern
+    elif kind in _POINTS:
+        pattern["scale"] = {**pattern.get("scale", {}), "range": list(_SHAPES[:n])}
+        encoding["shape"] = pattern
+        mark["type"] = "point"
+        mark.setdefault("filled", True)
+    if kind in _FILLS:
+        mark.setdefault("stroke", _GREYS[1][0])
+        mark.setdefault("strokeWidth", 0.8)
+
+
+def _bw(spec: dict) -> dict:
+    """The chart in black and white, on white paper."""
+    config = spec.setdefault("config", {})
+    for key, value in _BW_CONFIG.items():
+        config[key] = (
+            {**config.get(key, {}), **value} if isinstance(value, dict) else value
+        )
+    units = list(_units(spec))
+    for unit in units:
+        _bw_unit(unit)
+    # Where a group has both a shape and a dash, the legend shows the shape
+    # alone: a dashed square reads oddly. Vega-Lite still dashes the merged
+    # symbol's outline, so the outline goes.
+    shaped = {
+        u["encoding"]["shape"]["field"] for u in units if "shape" in u["encoding"]
+    }
+    for unit in units:
+        for channel, value in unit["encoding"].items():
+            if not (isinstance(value, dict) and value.get("field") in shaped):
+                continue
+            if channel == "strokeDash":
+                value["legend"] = None
+            elif channel in ("color", "shape") and value.get("legend", {}) is not None:
+                value["legend"] = {**value.get("legend", {}), "symbolStrokeWidth": 0}
+    return spec
+
+
+def _units(spec):
+    """Every mark of a Vega-Lite spec, however deeply layered."""
+    if not isinstance(spec, dict):
+        return
+    if "mark" in spec:
+        spec.setdefault("encoding", {})
+        yield spec
+    for key in ("layer", "hconcat", "vconcat", "concat"):
+        for part in spec.get(key, []):
+            yield from _units(part)
+    yield from _units(spec.get("spec"))
 
 
 def period_color(period: str) -> str:
@@ -226,14 +361,17 @@ def show_chart(
             labelFontSize=12, titleFontSize=13, titleFontWeight="normal", domain=False
         )
     )
-    return st.altair_chart(
-        chart,
-        key=key,
-        width="stretch" if fit else "content",
-        theme="streamlit",
-        on_select="rerun" if select else "ignore",
-        selection_mode=None,
-    )
+    options = {
+        "key": key,
+        "width": "stretch" if fit else "content",
+        "theme": "streamlit",
+        "on_select": "rerun" if select else "ignore",
+    }
+    if bw():
+        event = st.vega_lite_chart(_bw(chart.to_dict()), **options)
+    else:
+        event = st.altair_chart(chart, selection_mode=None, **options)
+    return event
 
 
 def selected(event, param: str, field: str) -> list:

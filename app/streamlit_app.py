@@ -2,7 +2,7 @@
 
 import streamlit as st
 
-from helpers import compare, filters, reader
+from helpers import charts, compare, filters, reader
 from helpers.language import LANGUAGES, lang, setting, t
 
 st.set_page_config(page_title=t("app.title"), layout="wide")
@@ -43,6 +43,8 @@ if page in languages:
     back = st.session_state.get("last_page")
     st.switch_page(next((p for p in pages if p.url_path == back), pages[0]))
 st.session_state["last_page"] = page.url_path
+if charts.bw():
+    st.html(charts.BW_CSS)
 
 st.caption(t("app.title"))
 compare.keep_draft()

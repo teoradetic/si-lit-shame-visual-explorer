@@ -671,3 +671,6 @@ strings:
   compare.pending: Press Run to show the new comparison.
   compare.start: Choose what to compare above, then press **Run**. Every chart on
     this page is split by that comparison.
+  bw.toggle: Black and white
+  bw.help: 'Grey tones and patterns instead of colours: dashed lines, point shapes
+    and outlined bars tell the groups apart, also in downloads and printouts.'

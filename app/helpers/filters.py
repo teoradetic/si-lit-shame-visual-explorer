@@ -5,7 +5,7 @@ from dataclasses import dataclass
 import pandas as pd
 import streamlit as st
 
-from helpers import tables
+from helpers import charts, tables
 from helpers.charts import GENDERS, PERIODS
 from helpers.language import label, num, t
 
@@ -85,6 +85,15 @@ def sidebar(text: bool) -> None:
         low, high = _year_bounds()
         st.slider(t("filters.years"), low, high, key="f_years")
         st.button(t("filters.reset"), on_click=_reset)
+        # The setting lives under its own key: a widget's key is dropped on
+        # runs that don't draw it.
+        st.session_state["bw_toggle"] = charts.bw()
+        st.toggle(
+            t("bw.toggle"),
+            key="bw_toggle",
+            help=t("bw.help"),
+            on_change=lambda: st.session_state.update(bw=st.session_state["bw_toggle"]),
+        )
 
         selected = filtered_novels()
         n_tagged = int(selected["n_emotion"].sum())

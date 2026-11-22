@@ -653,3 +653,6 @@ strings:
   compare.pending: Pritisnite Zaženi, da se prikaže nova primerjava.
   compare.start: Zgoraj izberite, kaj primerjati, nato pritisnite **Zaženi**. Vsak
     graf na tej strani je razdeljen po tej primerjavi.
+  bw.toggle: Črno-belo
+  bw.help: 'Sivine in vzorci namesto barv: črtkane črte, oblike točk in obrobljeni
+    stolpci ločijo skupine, tudi v prenosih in natisih.'
